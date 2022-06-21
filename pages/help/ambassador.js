@@ -2,7 +2,7 @@ import React from 'react'
 import {Flex,Text,Button,Image,Center} from '@chakra-ui/react'
 import {useRouter} from 'next/router'
 
-export default function ambassadorInfo(){
+export default function AmbassadorInfo(){
   const router = useRouter();
   return(
     <Flex direction={'column'}>
