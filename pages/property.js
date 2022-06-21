@@ -67,7 +67,10 @@ export default function PropertyView(){
                     <Carousel autoplay style={{margin:'0',}}>
                         {image.map((item)=>{
                             return(
-                                    <Image h='60vh' w='100%' objectFit={'cover'} borderRadius='10px' src={item.img} />
+                                <div key={item.id}>
+                                    <Image h='60vh' w='100%' objectFit={'cover'} borderRadius='10px' src={item.img} alt='img'/>
+
+                                </div>
                                     )
                                 })}
                     </Carousel>

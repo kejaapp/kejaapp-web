@@ -30,7 +30,9 @@ export default function Property({item}){
             <Carousel fade>
                         {image.map((item)=>{
                             return(
-                                <Image h='300px' w='100%' objectFit={'cover'} borderRadius='10px' src={item.img} alt='school photo' />
+                                <div key={item.id}>
+                                    <Image h='300px' w='100%' objectFit={'cover'} borderRadius='10px' src={item.img} alt='school photo' />
+                                </div>
                                 )
                             })}
                     </Carousel>

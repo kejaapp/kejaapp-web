@@ -35,7 +35,7 @@ function ListingIndex() {
         <Flex direction={'column'} p='4' m='0 auto'>
           {post.map((item)=>{
             return(
-                <Flex justify={'space-between'} mt='10'>
+                <Flex key={item.id} justify={'space-between'} mt='10'>
                   <Center>
                     <Text fontFamily={'Poppins-bold'}>
                       {item.title}

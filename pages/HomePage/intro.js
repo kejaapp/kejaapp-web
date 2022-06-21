@@ -44,7 +44,7 @@ export default function Intro(){
                                     <ArrowForward />
                             </Flex>
                         </Flex>  
-                <Image src='img12.webp' 
+                <Image src='img12.webp' alt='img'
                     w='50%' h='80%'  margin='10px' objectFit='cover' objectPosition='35% 50%' borderRadius='20px' boxShadow='dark-lg' />
             </Center>
     )

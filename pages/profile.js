@@ -80,7 +80,7 @@ const Personalinfo=()=>{
                 <Select bg='#eee' borderRadius='md' borderRight='1px' variant='flushed' placeholder='Gender'>
                         <option value='option1'>Male</option>
                         <option value='option2'>Female</option>
-                        <option value='option3'>I'd rather not say</option>
+                        <option value='option3'>Id rather not say</option>
                 </Select>
             </Flex>
         </Flex>
