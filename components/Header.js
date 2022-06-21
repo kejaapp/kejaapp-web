@@ -63,23 +63,23 @@ export default function Nav() {
                     </Center>
                     <br />
                     <MenuDivider />
-                    <a href="http://localhost:3000/help/listing" 
+                    <a href="/help/listing" 
                     target="_blank"
                     rel="noopener noreferrer"> 
                       <MenuItem>List an apartment</MenuItem>
                     </a>
-                    <a href="http://localhost:3000/help/listing" 
+                    <a href="/help/listing" 
                     target="_blank"
                     rel="noopener noreferrer"> 
                       <MenuItem>Refer your apartment</MenuItem>
                     </a>
-                    <a href="http://localhost:3000/help/ambassador" 
+                    <a href="/help/ambassador" 
                     target="_blank"
                     rel="noopener noreferrer"> 
                       <MenuItem>Become an Ambassador</MenuItem>
                     </a>
                     <Flex borderTop="1px solid #212222" direction='column'>
-                      <MenuItem onClick={(()=>router.push('http://localhost:3000/profile'))}>Account Settings</MenuItem>
+                      <MenuItem onClick={(()=>router.push('/profile'))}>Account Settings</MenuItem>
                       <MenuItem>Logout</MenuItem>
                     </Flex>
                   </MenuList>
