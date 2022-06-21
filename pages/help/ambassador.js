@@ -12,7 +12,7 @@ function ambassadorInfo() {
             <Text fontSize={'2rem'} fontFamily='Poppins-bold' color='#fff' textAlign={'center'}>
              Help Grow our community around institutions
             </Text>
-            <Button bg='#ffa31a' color='#fff' onClick={(()=>{router.push('http://localhost:3000/profile')})}>Get Started</Button>
+            <Button bg='#ffa31a' color='#fff' onClick={(()=>{router.push('/profile')})}>Get Started</Button>
           </Flex>
         </Center>
         {/* <Image src='https://a0.muscache.com/im/pictures/a003c1a8-0182-4b39-9e48-c6e0be6cbe11.jpg?im_w=320' alt='' objectFit='cover' boxSize={'200'} borderRadius={'5'}/> */}

@@ -247,7 +247,7 @@ const AmbassadorAccount=()=>{
                         <Text >
                             Become an Ambassador and help grow the community.
                         </Text>
-                        <a href="http://localhost:3000/help/ambassador" 
+                        <a href="/help/ambassador" 
                             target="_blank"
                             rel="noopener noreferrer"> 
                         <Text fontSize='sm' color='#ffa31a' >Learn more </Text>
@@ -362,7 +362,7 @@ const Landlords=()=>{
                 <Text >
                     Welcome, Make your property visible to thousands of students
                 </Text>
-                <a href="http://localhost:3000/help/listing" 
+                <a href="/help/listing" 
                     target="_blank"
                     rel="noopener noreferrer"> 
                 <Text fontSize='sm' color='#ffa31a' >Learn more </Text>

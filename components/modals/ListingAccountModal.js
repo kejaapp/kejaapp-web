@@ -65,29 +65,6 @@ export function ListingAccountModal({isListingModalvisible,setIsListingModalvisi
       )
 }   
 
-const Register=()=>{
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
-
-  return(
-    <Stack spacing={4}>
-      
-      <InputGroup>
-        <Input type='tel' placeholder='code' variant='flushed'/>
-      </InputGroup>
-    <Button
-            mt={4}
-            bg='#ffa31a'
-            type='submit'
-            color='#ffffff'
-            fontFamily='Poppins-bold'
-          >
-            Sign Up
-          </Button>
-    </Stack>
-  )
-}
-
 const SignIn=()=>{
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
