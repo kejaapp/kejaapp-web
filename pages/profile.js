@@ -61,19 +61,19 @@ const Personalinfo=()=>{
         <Flex w='100%' p='0' direction='column' gap='3'>
             <Flex align={'center'} gap='3'>
                 <Text>Name:</Text>
-                <Input value={'John Doe'} variant='filled' bg='#eee'/>
+                <Input  variant='filled' bg='#eee'/>
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>Email:</Text>
-                <Input value={'JohnDoe@gmail.com'} variant='filled'  bg='#eee'/>
+                <Input variant='filled'  bg='#eee'/>
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>Phone:</Text>
-                <Input value={'07########'} variant='filled'  bg='#eee'/>
+                <Input variant='filled'  bg='#eee'/>
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>School:</Text>
-                <Input value={'Jomo Kenyatta University of Agriculture and Technology'} variant='filled'  bg='#eee'/>
+                <Input  variant='filled'  bg='#eee'/>
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>Gender:</Text>
@@ -101,7 +101,7 @@ const Security=()=>{
                     <Text>
                         Password
                     </Text>
-                    <Input type='password' value={'Password'} variant='filled' bg='#eee'/>
+                    <Input type='password' variant='filled' bg='#eee'/>
                     <Stack borderTop='1px solid #212222' p='10px 0'>
                         <Text  fontFamily={'Poppins-bold'}>
                             Delete Account
