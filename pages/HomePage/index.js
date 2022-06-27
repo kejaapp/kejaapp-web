@@ -14,27 +14,10 @@ import {Flex,Text,Center} from '@chakra-ui/react'
 
 export default function Index(){
     return(
-        <StyledContainer >
-            <StyledSection inputColor="#fff">
-                <Filter/>
-            </StyledSection >
-            <StyledSection inputColor="#fff">
-                <Intro/>
-            </StyledSection>
-            <StyledSection inputColor="#212222" >
-                <About/>
-            </StyledSection>
-            <StyledSection inputColor="#fff">
-                <School/>
-            </StyledSection>
-            <StyledSection inputColor="#fff">
-                <StudSec />
-            </StyledSection>
-            <StyledSection inputColor="#fff" >
-                <Review />
-                <Footer/>
-            </StyledSection>
-        </StyledContainer>
+        <div style={{display:'flex',flexDirection:"column"}}  >
+            <Filter/>
+            
+        </div >
     )
 }
 

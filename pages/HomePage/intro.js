@@ -28,7 +28,8 @@ const theme = extendTheme({ breakpoints })
 export default function Intro(){
     const router = useRouter();
     return(
-            <Center w='100%' h='100%'>
+        <StyledDiv>
+            <Center w='100%' h='70%'>
                         <Flex direction='column' p='2'>
                             <StyledHeading className={styles.fadeInUp}>
                                 Find the right home
@@ -44,9 +45,10 @@ export default function Intro(){
                                     <ArrowForward />
                             </Flex>
                         </Flex>  
-                <Image src='img12.webp' alt='img'
+                <Image src='https://img.freepik.com/free-photo/afro-man-taking-selfies-with-phone_58466-16301.jpg?w=360&t=st=1656320965~exp=1656321565~hmac=16bed481e636a24a23f05b4b7d7adb66ae4e4bafa5c8f38a0a4879f5de12be10' alt='img'
                     w='50%' h='80%'  margin='10px' objectFit='cover' objectPosition='35% 50%' borderRadius='20px' boxShadow='dark-lg' />
             </Center>
+        </StyledDiv>
     )
 }
 
@@ -54,8 +56,10 @@ const StyledHeading = styled.h1`
     font-size: clamp(36px, 2.5vw, 64px);
     font-family: Poppins-bold; 
 `
-const StyledImageDiv = styled.div`
-    width: clamp(400px, 2.5vw, 50vw);
-    height: 90vh;
-
+const StyledDiv= styled.div`
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 `

@@ -2,6 +2,7 @@ import React from 'react';
 import {Flex,Image,Text,Button,Center} from '@chakra-ui/react'
 import styled from 'styled-components';
 import styles from '../../styles/Home.module.css'
+import {Footer} from '../index'
 
 const reviews = [
     {
@@ -16,7 +17,7 @@ const reviews = [
         name:'Nyambuzi',
         profile:'./img4.png',
         school:'Jkuat',
-        content:'Lorem ipsum dolor sit amet consectetur adipisicing elit. '
+        content:'Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit. '
     },
     {
         id:'3',
@@ -29,27 +30,25 @@ const reviews = [
 
 export default function Review(){
     return(
-        <Flex direction='column' gap='3' w='100%' p='2'>
-            <Center>
-                <StyledHeading>
-                    What student say about us?
-                </StyledHeading>
-                {/* <Button bg='#ffa31a' w='200px'>
-                        Leave us a review
-                </Button> */}
-            </Center>
-            <Center w='100%'>
-                <StyledSlider className={styles.scrollbar}>
-                    {reviews.map((reviews)=>{
-                        return(
-                            <StyledDiv key={reviews.id}>
-                                <Item  reviews={reviews}/>
-                            </StyledDiv>
-                        )
-                    })}
-                </StyledSlider>
-            </Center>
-        </Flex>
+        <StyledContainer>
+            <Flex direction='column' gap='3' w='100%' p='2' h="70vh">
+                    <StyledHeading>
+                        What student say about us?
+                    </StyledHeading>
+                <Center w='100%'>
+                    <StyledSlider className={styles.scrollbar}>
+                        {reviews.map((reviews)=>{
+                            return(
+                                <StyledDiv key={reviews.id}>
+                                    <Item  reviews={reviews}/>
+                                </StyledDiv>
+                            )
+                        })}
+                    </StyledSlider>
+                </Center>
+                <Footer/>
+            </Flex>
+        </StyledContainer>
     )
 }
 
@@ -62,7 +61,7 @@ const Item=({reviews})=>{
                     borderRadius='full' 
                     boxSize='40px'
                     src={reviews.profile}
-                    alt='profile pic'
+                    alt='pp'
                 />
                 <Flex direction='column' >
                     <Text fontFamily='Poppins-bold'>
@@ -99,4 +98,13 @@ const StyledSlider = styled.div`
     padding:10px;
     margin: 10px; 
           
+`
+const StyledContainer= styled.div`
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align:center;
+        flex-direction: column;
 `

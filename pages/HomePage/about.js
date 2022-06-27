@@ -15,7 +15,7 @@ const OurNumbers=[
     {
         id:'1',
         stats:'156',
-        title:'Students joined our community'
+        title:'Served Students'
     },
     {
         id:'2',
@@ -52,7 +52,7 @@ export default function About(){
     const [sizestate, setSizeState] = useState(false);
     const [size, setSize] = useState(500);
     if (typeof window !== 'undefined') {
-        console.log(typeof(size))
+        //console.log(typeof(size))
       }
     useEffect(()=>{
         try{
@@ -70,17 +70,32 @@ export default function About(){
     },[size])
     
     return(
-        <StyledDivContainer>
-            <StyledDivSection1 sizestate={sizestate} className={styles.mobileresp}>
-                <StyledBox sizestate={sizestate} >
+        <StyledDivContainer className={styles.mobileresp}>
                     <StyledHeading>
                         About Us
                     </StyledHeading>
-                    <StyledText w='100%'>
-                        Keja.app aims to provide an extensive list of apartments around institutions to equip students
-                        with comprehensive information to which houses offer the most advantageous options that also sideLine 
-                        with their academic, social, economic and extracurricular goals.
-                    </StyledText>
+                        <StyledText  >
+                            Keja.app aims to provide an extensive list of apartments around institutions to equip students
+                            with comprehensive information to which houses offer the most advantageous options that also sideLine 
+                            with their academic, social, economic and extracurricular goals.
+                        </StyledText>
+                    <Flex direction={'column'}>
+                        <StyledHeading>
+                            Our Numbers
+                        </StyledHeading>
+                        {OurNumbers.map((item)=>{
+                            return(
+                                <Flex key={item.id} justify='space-between'>
+                                    <Text color='#ffa31a' fontSize={'20px'}>
+                                        {item.stats}
+                                    </Text>
+                                    <Text>
+                                        {item.title}
+                                    </Text>
+                                </Flex>
+                            )
+                        })}
+                    </Flex>               
                     <Center w='100%'>
                         <StyledSlider className={styles.scrollbar}>
                             {features.map((features)=>{
@@ -91,23 +106,7 @@ export default function About(){
                                 )
                             })}
                         </StyledSlider>
-                    </Center>
-                </StyledBox>
-                <StyledOurnumbers sizestate={sizestate} className={styles.boxmobileresp}>
-                    <StyledHeading style={{marginBottom:'0'}}>
-                            Our Numbers
-                    </StyledHeading>
-                    {OurNumbers.map((item)=>{
-                        return(
-                            <Flex align='center' gap='3' m='5px' key={item.id}>
-                                    <Heading as='h5' fontFamily='Poppins-bold' color='#ffa31a'>{item.stats}</Heading>
-                                    <Spacer />
-                                <Text w='150px' fontSize='16px'>{item.title}</Text>
-                            </Flex>
-                        )
-                    })}
-                </StyledOurnumbers>
-            </StyledDivSection1>
+                    </Center>  
         </StyledDivContainer>
     )
 }
@@ -117,38 +116,23 @@ const Item=({features})=>{
             <Heading as='h5' fontSize='20px' color="#fff" fontFamily='Poppins-bold' mb='10px' textDecoration=' underline 5px solid #ffa31a'>{features.title}</Heading>
             <Center w='100%'>
                 <Text fontSize='16px' >{features.content}</Text>
-            </Center>
-                
+            </Center> 
         </Flex>
     )
 }
 
 const StyledDivContainer = styled.div`
-    height: ;
     width: 100%;
-    color: #ffffff;
-    padding: 20px
-`
-
-const StyledDivSection1 = styled.div`
+    height: 100%;
     display: flex;
-    
     justify-content: center;
-`
-const StyledBox = styled.div`
-    display:flex;
     flex-direction: column;
+    align-items: center;
+    background-color: #212222;
+    color: #fff;
+    text-align:center;
+    padding: 10% 5%;
 `
-const StyledOurnumbers = styled.div`
-    display:flex;
-    flex-direction: column;
-    border: 1px solid #fff;
-    border-radius: 10px;
-    padding: 5px;
-    text-align: center;
-    margin:0;
-`
-
 const StyledHeading = styled.h1`
     font-size: clamp(36px, 2.5vw, 64px);
     font-family: Poppins-bold; 

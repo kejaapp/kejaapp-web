@@ -34,7 +34,8 @@ const school = [
 export default function School(){
     const router = useRouter();
     return(
-        <Center w='100%' h='100%'>
+        <StyledContainer>
+
             <Flex direction='column' w='100%'>
                 <Center>
                     <StyledHeading >
@@ -59,8 +60,7 @@ export default function School(){
                     </Button>
                 </Center>
             </Flex>
-
-        </Center>
+        </StyledContainer>
 
     )
 }
@@ -110,4 +110,12 @@ const StyledSlider = styled.div`
     margin: 10px; 
     white-space:nowrap;
           
+`
+const StyledContainer= styled.div`
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2.5%;
 `

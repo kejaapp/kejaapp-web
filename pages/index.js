@@ -15,24 +15,24 @@ export default function Index(){
   return(
     <>
       <StyledContainer className={styles.scrollbar} >
-          <StyledSection inputColor="#fff">
-              <Filter/>
-          </StyledSection >
-          <StyledSection inputColor="#fff">
-              <Intro/>
-          </StyledSection>
-          <StyledSection inputColor="#212222" >
-              <About/>
-          </StyledSection>
-          <StyledSection inputColor="#fff">
-              <School/>
-          </StyledSection>
-          <StyledSection inputColor="#fff">
-              <StudSec />
-          </StyledSection>
-          <StyledSection inputColor="#fff" >
-              <Review />
-          </StyledSection>
+        <StyledSection>
+            <Filter/>
+        </StyledSection>
+        <StyledSection>
+            <Intro/>
+        </StyledSection>
+        <StyledSection>
+            <About/>
+        </StyledSection>
+        <StyledSection>
+            <School/>
+        </StyledSection>
+        <StyledSection>
+            <StudSec />
+        </StyledSection>
+        <StyledSection>
+            <Review />
+        </StyledSection>
       </StyledContainer>
     </>
   )
@@ -84,15 +84,9 @@ export const Footer=()=>{
 
 //Styled components 
 const StyledSection = styled.div`
-  background-color:   ${props => props.inputColor || "#212222"};
-  height:             100%;
-  width:              100%;
-  justify-content:    center;
-  align-items:        center;
   scroll-snap-align:  center;
-  display:            flex;
-  animation:          3s ease-in;
-  flex-direction: column;
+  animation:          5s ease-in;
+  height: 100%;
 `
 const StyledContainer = styled.div`
   height:100vh;

@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }) {
         <Flex direction='column'>
           <Header />
           <Component {...pageProps} />
-          <Footer />
+          {/* <Footer /> */}
         </Flex>
     </ChakraProvider>
   )

@@ -19,7 +19,7 @@ export default function Filter (){
     return(
         <StyledDiv >
             {/* <Header /> */}
-            <Container mt={{base:'20vh',md:'',lg:'25vh'}} >
+            <Container >
                 <Center mb='10'>
                     <Flex direction='column'>
                         <Heading className={styles.fadeInUp} as='h1' align='center' size='xl' fontFamily='Poppins-bold' textShadow='1px 2px 3px #666'>
@@ -74,4 +74,7 @@ export default function Filter (){
 const StyledDiv= styled.div`
         width: 100%;
         height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 `
