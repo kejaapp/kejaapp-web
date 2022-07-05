@@ -1,11 +1,8 @@
 import { 
     Heading,
-    Container,
     Flex,
     Text,
-    Box,
     Center,
-    Spacer,
  } from '@chakra-ui/react'
 import React,{useState,useEffect} from 'react'
 import styled from 'styled-components'

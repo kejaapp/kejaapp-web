@@ -9,27 +9,27 @@ const school = [
     {   
         id:'1',
         name:'Jomo Kenyatta University of Agriculture and technology',
-        flats: 100,
+        flats: 10,
         area:'Juja,Kiambu'
     },
-    {
-        id:'2',
-        name:'Kenyatta University',
-        flats:50,
-        area:'Ruiru,Kiambu'
-    },
-    {
-        id:'3',
-        name:'Mount Kenya University',
-        flats:40,
-        area:'Thika,Kiambu'
-    },
-    {
-        id:'4',
-        name:'University of Nairobi',
-        flats:20,
-        area:'Nairobi,Nairobi'
-    },
+    // {
+    //     id:'2',
+    //     name:'Kenyatta University',
+    //     flats:50,
+    //     area:'Ruiru,Kiambu'
+    // },
+    // {
+    //     id:'3',
+    //     name:'Mount Kenya University',
+    //     flats:40,
+    //     area:'Thika,Kiambu'
+    // },
+    // {
+    //     id:'4',
+    //     name:'University of Nairobi',
+    //     flats:20,
+    //     area:'Nairobi,Nairobi'
+    // },
 ]
 export default function School(){
     const router = useRouter();
@@ -38,9 +38,12 @@ export default function School(){
 
             <Flex direction='column' w='100%'>
                 <Center>
+                    <Flex direction='column' textAlign={'center'}>
                     <StyledHeading >
-                        Our Institutions
+                        Institutions
                     </StyledHeading>
+                    <Text>Help us get your school to our platform</Text>
+                    </Flex>
 
                 </Center>
                 <Center m='auto' w='100%'>
@@ -68,17 +71,10 @@ export default function School(){
 const Item=({item})=>{
     return(
         <Flex direction='column' w='325px' h='300px' >
-            <Image h='250px' w='325px' borderRadius='10px' src='https://a0.muscache.com/im/pictures/a003c1a8-0182-4b39-9e48-c6e0be6cbe11.jpg?im_w=320' alt='school photo' />
-            <Flex p='1'>
-                <Text fontFamily='Poppins-bold' fontSize='md' noOfLines={1}>
+            <Image h='250px' w='325px' objectFit={'cover'} borderRadius='10px' src='/JKUAT.png'/>
+            <Text fontFamily='Poppins-bold' fontSize='md' noOfLines={1} >
                     {item.name}
                 </Text>
-                <Spacer/>
-                <Flex marginRight='1'>
-                    <Home style={{fontSize:'20px'}}/>
-                    <Text>{item.flats}</Text>
-                </Flex>
-            </Flex>
             <Text fontSize='md' p='1'>
                 {item.area}
             </Text>

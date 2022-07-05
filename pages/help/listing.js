@@ -11,7 +11,9 @@ function ListingIndex() {
             <Text fontSize={'2rem'} fontFamily='Poppins-bold' color='#fff' textAlign={'center'}>
              Start Listing Apartments
             </Text>
-            <Button bg='#ffa31a' color='#fff' onClick={(()=>{router.push('/profile')})}>Get Started</Button>
+            <Button bg='#ffa31a' color='#fff' onClick={(()=>{router.push('/listing/')})}>
+            Get Started
+              </Button>
           </Flex>
         </Center>
         {/* <Image src='https://a0.muscache.com/im/pictures/a003c1a8-0182-4b39-9e48-c6e0be6cbe11.jpg?im_w=320' alt='' objectFit='cover' boxSize={'200'} borderRadius={'5'}/> */}
@@ -26,32 +28,19 @@ function ListingIndex() {
             We bring a commendable traffic of prospective tenants that visit the website every day. 
           </Text>
       </Center>
-      <Flex direction='column' >
+      {/* <Flex direction='column' >
         <Center>
           <Text textAlign='center' fontSize={'1.3rem'} fontFamily='Poppins-bold' textDecoration={'underline #ffa31a 2px'}>
             How do I post a property for rent on Keja?
           </Text>
         </Center>
-        <Flex direction={'column'} p='4' m='0 auto'>
-          {post.map((item)=>{
-            return(
-                <Flex key={item.id} justify={'space-between'} mt='10'>
-                  <Center>
-                    <Text fontFamily={'Poppins-bold'}>
-                      {item.title}
-                    </Text>
-                  </Center>
-                  <Image boxSize={250} boxShadow={'lg'} src={item.img} borderRadius='5px'/>
-                </Flex>
-            )
-          })}
-        </Flex>
+        
           <Center m='0 auto'>
             <Text textAlign={'center'}>
              Make sure you post real photos of the rental property to make the most of this free ad posting for property
             </Text>
           </Center>
-      </Flex>
+      </Flex> */}
       </Flex>
   )}
 

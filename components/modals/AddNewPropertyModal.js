@@ -13,32 +13,135 @@ import {
     Input,
     Select,
     Textarea,
+    Heading
   } from '@chakra-ui/react';
 import { useEffect,useState } from 'react';
 import {PhotoCamera, Room} from '@mui/icons-material';
+import axios from 'axios';
+import PostProperty from '../../pages/api/postproperty';
+import Loading from '../loading.js'
 
-  export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModalModalVisible}){
+export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModalModalVisible}){
+    //capture property details
+    const [name,setname]=useState('');
+    const [email,setemail]=useState('');
+    const [type,settype]=useState('');
+    const [landlordname,setlandlordname]=useState('');
+    const [code,setcode]=useState('');
+    const [mobile,setmobile]=useState('');
+    const [price,setprice]=useState('');
+    const [size,setsize]=useState('');
+    const [school,setschool]=useState('');
+    const [area,setarea]=useState('');
+    const [description,setdescription]=useState('');
+    const [amenities,setamenities]=useState('');
+    const [policies,setpolicies]=useState('');
+    const [image1,setimage1]=useState('');
+    const [image2,setimage2]=useState('');
+    const [image3,setimage3]=useState('');
+    const [image4,setimage4]=useState('');
+    const [image5,setimage5]=useState('');
+    const [propertyPosition, setPropertyPosition] = useState([]);
+
+    //handles upload form
     const { isOpen, onOpen, onClose } = useDisclosure();
-    
     const [active,setActive]=useState(false);
     const [isModalvisible,setIsModalVisible]=useState(false);
-    console.log(isAddNewPropertyModalvisible);
 
     const HandleModalOpen=()=>{
 
-      if(isAddNewPropertyModalvisible !== true){
-        console.log('damn')
-      }else{
-
+      if(isAddNewPropertyModalvisible === true){
         onOpen();
         setIsAddNewPropertyModalModalVisible(false)
+        
       }
     }
-
+    
     useEffect(()=>{
       HandleModalOpen();
+      getPropertyPosition();
     },[isAddNewPropertyModalvisible])
     
+     //upload images before submitting requests
+     //put the images into an array and loop through to upload the info
+     const images = [image1,image2,image3,image4,image5]
+     //new array captures urls to each 
+     let newimagearray = []
+     //function to upload images
+     const handleImageUpload = async () =>{
+        images.forEach(function(image){
+          try{
+            //console.log(image)
+              const data = new FormData()
+                data.append("file", image);
+                data.append('upload_preset', 'keja-web-app');
+                data.append("cloud_name","musembi77")
+                 axios.post("https://api.cloudinary.com/v1_1/musembi77/image/upload",
+                  data).then((res)=>{
+                    //console.log(res.data.url)
+                    //console.log(res.data)
+                    newimagearray.push(res.data.url)
+                    //console.log(newimagearray)
+                  }).catch((err)=>{
+                    //console.log(err)
+                  })
+                }catch(error){
+                  //console.error(error)
+                }    
+              })  
+    }
+    //console.log(newimagearray)
+
+    //get location of apartment
+    const getPropertyPosition=()=>{
+      if("geolocation" in navigator){
+        navigator.geolocation.getCurrentPosition(position=>{
+          const{latitude,longitude}=position.coords
+            //setViewport({...viewport, latitude,longitude})
+            setPropertyPosition(`${latitude},${longitude}`)
+        })
+      }
+    } 
+    // setLocation(`${propertyPosition.latitude},${propertyPosition.longitude}`)
+    //console.log(propertyPosition)
+    //create a property object
+    const property = {
+      name,
+      email,
+      type,
+      code,
+      landlordname,
+      mobile,
+      price,
+      school,
+      size,
+      area,
+      propertyPosition,
+      description,
+      amenities,
+      policies,
+      newimagearray,
+    }
+
+    //submit the form
+    const [issubmitting,setissubmitting] = useState(false)
+
+    const HandleSubmit=async()=>{
+      setissubmitting(true);
+      await handleImageUpload().then(()=>{
+        //wait for the image uploads and 
+        setTimeout(()=>{
+
+          //console.log(newimagearray)
+          PostProperty(property)
+          //console.log(property)
+          setissubmitting(false)
+        },8000)
+
+      })
+    }
+
+  //send the post request
     return (
       <>
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -47,9 +150,7 @@ import {PhotoCamera, Room} from '@mui/icons-material';
               <ModalHeader>
                 <Center>
                   <Flex>
-                      <Room  style={{color:'#ffa31a'}}/>
-                      
-                      <Text fontFamily='Poppins-bold'>keja.app</Text>
+                  <Heading fontSize='20px' fontFamily='Poppins-bold'>keja<span style={{color:'#ffa31a'}}>.app</span></Heading>
                   </Flex>
                   <Tips isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible} />
                   <Text onClick={()=>setIsModalVisible(true)} marginLeft={'10px'} color='#ffa31a' fontSize='sm' p='5px 0px'>Tips</Text>
@@ -57,53 +158,62 @@ import {PhotoCamera, Room} from '@mui/icons-material';
               </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
+              {issubmitting?
+                <Center >
+                  <Loading />
+                </Center>
+                :
+                <>
                 <Flex direction='column' gap='3'>
-                    <Input type='Email' variant='flushed' placeholder='Email'  required/>
-                    <Input type='text' variant='flushed' placeholder='House Name' required/>
-                    <Input type='text' variant='flushed' placeholder='Landlord Name' required/>
-                    <Input type='tel' variant='flushed' placeholder='Contact' required/>
-                    <Input type='text' variant='flushed' placeholder='Agent Name' required/>
-                    <Input type='text' variant='flushed' placeholder='Agent contact' required/>
-                    <Input type='number' variant='flushed' placeholder='Price' required/>
-                    <Select variant='flushed' placeholder='School'  required>
-                        <option value='option1'>Jomo Kenyatta University of Agriculture and Technology</option>
-                        <option value='option2'>Kenyatta University</option>
+                    <Input type='email' variant='flushed' placeholder='Email'  required onChange={((e)=>{setemail(e.target.value)})}/>
+                    <Input type='text' variant='flushed' placeholder='House Name' required onChange={((e)=>{setname(e.target.value)})}/>
+                    <Input type='text' variant='flushed' placeholder='Landlord Name' required onChange={((e)=>{setlandlordname(e.target.value)})}/>
+                    <Input type='tel' variant='flushed' placeholder='Contact' required onChange={((e)=>{setmobile(e.target.value)})}/>
+                    <Input type='number' variant='flushed' placeholder='Price' required onChange={((e)=>{setprice(e.target.value)})}/>
+                    <Input type='number' variant='flushed' placeholder='size in square feet' required onChange={((e)=>{setsize(e.target.value)})}/>
+                    <Select variant='flushed' placeholder='School'  required onChange={((e)=>{setschool(e.target.value)})}>
+                        <option value='JKUAT'>Jomo Kenyatta University of Agriculture and Technology</option>
+                        <option value='KenyattaUniversty'>Kenyatta University</option>
                     </Select>
-                    <Select variant='flushed' placeholder='Area'  required>
-                        <option value='option1'>Gate A</option>
-                        <option value='option2'>Gate B</option>
-                        <option value='option3'>Gate C</option>
-                        <option value='option3'>Gate D</option>
-                        <option value='option3'>Gate E</option>
-                        <option value='option3'>Gachororo</option>
+                    <Select variant='flushed' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
+                        <option value='gate A'>Gate A</option>
+                        <option value='gate B'>Gate B</option>
+                        <option value='gate C'>Gate C</option>
+                        <option value='gate D'>Gate D</option>
+                        <option value='gate E'>Gate E</option>
+                        <option value='Gachororo'>Gachororo</option>
                     </Select>
-                    <Select variant='flushed' placeholder='Property Type'  required>
-                        <option value='option1'>Bedsitter</option>
-                        <option value='option2'>Single</option>
-                        <option value='option3'>Hostel</option>
-                        <option value='option3'>One-Bedroom</option>
-                        <option value='option3'>Two-Bedroom</option>
-                        <option value='option3'>Three-Bedroom</option>
+                    <Input type='text' value={propertyPosition} variant='flushed' placeholder='location' required onChange={((e)=>{setLocation(e.target.value)})}/>
+                    <Select variant='flushed' placeholder='Property Type'  required onChange={((e)=>{settype(e.target.value)})}>
+                        <option value='bedsitter'>Bedsitter</option>
+                        <option value='single'>Single</option>
+                        <option value='hostel'>Hostel</option>
+                        <option value='onebedroom'>One-Bedroom</option>
+                        <option value='twobedroom'>Two-Bedroom</option>
+                        <option value='threebedroom'>Three-Bedroom</option>
                     </Select>
-                    <Textarea placeholder='Description' required/>
-                    <Textarea placeholder='Amenities' required/>
-                    <Textarea placeholder='Policies' required/>
+                    <Textarea placeholder='Description' required  onChange={((e)=>{setdescription(e.target.value)})}/>
+                    <Textarea placeholder='Amenities' required onChange={((e)=>{setamenities(e.target.value)})}/>
+                    <Textarea placeholder='Policies' required onChange={((e)=>{setpolicies(e.target.value)})}/>
                     {active ?
                         <Flex direction='column'>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required/>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required/>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required/>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required/>
+                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage1(e.target.files[0])})}/>
+                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage2(e.target.files[0])})}/>
+                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage3(e.target.files[0])})}/>
+                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage4(e.target.files[0])})}/>
+                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage5(e.target.files[0])})}/>
                         </Flex> 
                         :
                           <Button onClick={(()=>{setActive(true)})} bg='#eee'> <PhotoCamera/> Upload Images</Button>
                       }
-                    <Input type='text' placeholder='Refrence code' required/>
+                    <Input type='text' placeholder='referrer code' required onChange={((e)=>{setcode(e.target.value)})}/>
                   </Flex>
                   <Flex gap='2' mt='2' direction={'column'}>
-                      <Button bg='#ffa31a' color='#fff'>Add Property</Button>
+                      <Button bg='#ffa31a' color='#fff' onClick={HandleSubmit}>Add Property</Button>
                       <Button bg='#eee' color='red' border='1px solid red ' onClick={onClose}>Cancel</Button>
                   </Flex>
+                </>
+                }
             </ModalBody>
           </ModalContent>
         </Modal>
@@ -114,11 +224,11 @@ import {PhotoCamera, Room} from '@mui/icons-material';
 const Tips=({isModalvisible,setIsModalVisible})=>{
     const { isOpen, onOpen, onClose } = useDisclosure();
     
-    console.log(isModalvisible);
+    //console.log(isModalvisible);
 
     const HandleModalOpen=()=>{
       if(isModalvisible !== true){
-        console.log('damn')
+        //console.log('damn')
       }else{
 
         onOpen();

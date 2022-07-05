@@ -14,12 +14,19 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.2",
     "@mui/material": "^5.8.2",
+    "animejs": "^3.2.1",
     "antd": "^4.21.0",
+    "axios": "^0.27.2",
     "framer-motion": "^6.3.10",
+    "jwt-decode": "^3.1.2",
+    "mapbox-gl": "^2.9.1",
     "next": "12.1.6",
     "react": "18.1.0",
+    "react-cookie": "^4.1.1",
     "react-dom": "18.1.0",
-    "styled-components": "^5.3.5"
+    "react-web-share": "^1.1.6",
+    "styled-components": "^5.3.5",
+    "toastify-js": "^1.11.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.11",

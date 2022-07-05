@@ -12,7 +12,7 @@ export default function StudSec(){
                         Earn or become an Ambassador
                     </StyledHeading>
                     <Text>
-                        Earn by listing apartments or bringing on-board
+                        Earn by referring apartments or bringing on-board
                         apartments around Institutions.
                     </Text>
                     <Text>
@@ -22,16 +22,19 @@ export default function StudSec(){
                 </Flex>
                 <Center w='100%' m='0'>
                     <Flex direction='column' gap='8' w='95%'>
-                        <Button bg='#ffa31a' borderRadius='999px'> 
-                        Start Earning
+                        <a href="/help/listing" 
+                        target="_blank"
+                        rel="noopener noreferrer"> 
+                        <Button bg='#ffa31a' color='#fff' borderRadius='999px' w='100%'> 
+                        start earning
                         </Button>
+                        </a>
                         <Button bg='#212222' color='#ffffff' borderRadius='999px' >
                             <a href="/help/ambassador" 
                                 target="_blank"
-                                rel="noopener noreferrer"> 
+                                rel="noopener noreferrer" style={{color:'#fff'}}> 
                                 Become an Ambassador
                             </a>
-                            
                         </Button>
                     </Flex>
                 </Center>

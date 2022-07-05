@@ -18,6 +18,7 @@ import {
     NumberInputStepper,
     NumberIncrementStepper,
     NumberDecrementStepper,
+    Heading
   } from '@chakra-ui/react';
 import styled from 'styled-components'
 import { useEffect,useState } from 'react';
@@ -26,11 +27,11 @@ import {Room} from '@mui/icons-material'
 export default function ReviewApartment({isModalvisible,setIsModalVisible}){
     const { isOpen, onOpen, onClose } = useDisclosure();
       
-      console.log(isModalvisible);
+      //console.log(isModalvisible);
   
       const HandleModalOpen=()=>{
         if(isModalvisible !== true){
-          console.log('damn')
+          //console.log('damn')
         }else{
   
           onOpen();
@@ -50,8 +51,7 @@ export default function ReviewApartment({isModalvisible,setIsModalVisible}){
                 <ModalHeader>
                   <Center>
                     <Flex>
-                        <Room  style={{color:'#ffa31a'}}/>
-                        <Text fontFamily='Poppins-bold'>keja.app</Text>
+                    <Heading fontSize='20px' fontFamily='Poppins-bold'>keja<span style={{color:'#ffa31a'}}>.app</span></Heading>
                     </Flex>
                   </Center>
                 </ModalHeader>

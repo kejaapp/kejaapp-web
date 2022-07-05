@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from '../styles/Home.module.css'
+import React,{useEffect,useState} from 'react';
+import styles from '../../styles/Home.module.css'
 import {
     Flex,
     Image,
@@ -8,13 +8,16 @@ import {
     Button,
     Input,
     InputGroup,
-    InputRightElement,
     Stack,
 } from '@chakra-ui/react';
-import {Share}from '@mui/icons-material';
+import {Share,Flag}from '@mui/icons-material';
 import { Carousel } from 'antd';
 import styled from 'styled-components';
 import 'antd/dist/antd.css'
+import axios from 'axios';
+import {useRouter} from  'next/router';
+import { RWebShare } from "react-web-share";
+import {ReportListingModal} from '../../components/modals/ReportListingModal';
 
 const image = [
     {
@@ -58,6 +61,27 @@ const reviews = [
     },
 ]
 export default function PropertyView(){
+    const [data,setData]=useState([])
+    const router = useRouter();
+    const [isreportingModalvisible,setisreportingModalvisible]=useState(false);
+
+    const {id} = router.query;
+    // console.log(id);
+    useEffect(()=>{
+        try{
+            axios.post('https://keja--app.herokuapp.com/api/getproperty',{
+                id
+            }).then((res)=>{
+                setData(res.data)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }catch(err){
+
+        }
+    },[id])
+    const images = data?.images;
+    
     return(
         <>
             {/* Image section */}
@@ -65,11 +89,10 @@ export default function PropertyView(){
                 {/* main -70% */}
                 <Stack className={styles.boxMainImageContainer}>
                     <Carousel autoplay style={{margin:'0',}}>
-                        {image.map((item)=>{
+                        {images?.map((item)=>{
                             return(
                                 <div key={item.id}>
-                                    <Image h='60vh' w='100%' objectFit={'cover'} borderRadius='10px' src={item.img} alt='img'/>
-
+                                    <Image h='60vh' w='100%' objectFit={'cover'} borderRadius='10px' src={item} alt='img' />
                                 </div>
                                     )
                                 })}
@@ -77,10 +100,10 @@ export default function PropertyView(){
                 </Stack>
                 <Spacer />
                 <Flex className={styles.boxSideImageContainer} direction='column' gap='2' >
-                    <Image h='60%' w='100%' objectFit={'cover'} borderRadius='10px' src='https://a0.muscache.com/im/pictures/a003c1a8-0182-4b39-9e48-c6e0be6cbe11.jpg?im_w=320' alt='school photo' />
+                    <Image h='30vh' w='100%' objectFit={'cover'} borderRadius='10px' src={images? images[0] : null}/>
                     <Flex justify='space-around' height={'40%'}>
-                        <Image h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src='https://a0.muscache.com/im/pictures/a003c1a8-0182-4b39-9e48-c6e0be6cbe11.jpg?im_w=320' alt='school photo' />
-                        <Image h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src='https://a0.muscache.com/im/pictures/a003c1a8-0182-4b39-9e48-c6e0be6cbe11.jpg?im_w=320' alt='school photo' />
+                        <Image h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[1] : null}/>
+                        <Image h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[3] : null}/>
                     </Flex>    
                 </Flex>
             </Flex>
@@ -90,56 +113,58 @@ export default function PropertyView(){
                 <Flex className={styles.infoMainSection}>
                     <Flex direction="column" w='100%' p='4'>
                         <Flex direction={'column'} gap='0.4' borderBottom={'1px solid #212222'} p='10px 0px'>
-                            <Text  mb='0' fontSize='2xl' fontFamily={'Poppins-bold'}>Zawadi Apartments</Text>
-                            <Text  mb='0' fontSize='l' fontFamily={'Poppins-bold'}>Ksh 6500/month</Text>
-                            <Text f mb='0' > <span style={{fontFamily:"Poppins-bold"}}>School:</span> Jomo Kenyatta University of agriculture and technology</Text>
-                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Type:</span> Bedsitter</Text>
-                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Area:</span> Gate C</Text>
-                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Size:</span> 1800sqt</Text>
-                            <Flex gap='4'>
-                                <Button borderRadius={'0'} bg='#ffa31a' color='#fff' fontFamily={'Poppins-bold'}>
-                                    Contact Agent
-                                </Button>
-                                <Button borderRadius={'0'} bg='#ffa31a' color='#fff' fontFamily={'Poppins-bold'}>
-                                    Share <Share style={{color:"#000"}}/>
-                                </Button>
+                            <Text  mb='0' fontSize='14px' color='#e5e5e5' fontFamily={'Poppins-bold'}>apartments with a verified tag have been reviewed and accepted by our company policy </Text>
+                            <Flex align='center' justify={'space-between'}>
+                                <Text  mb='0' fontSize='2xl' fontFamily={'Poppins-bold'}>{data?.name}</Text>
+                                <Text p='1' borderRadius={'5'} bg='#eee' border='1px solid #ffa31a' fontFamily={'Poppins-bold'}>{data?.verified ? 'verified' : 'unverified'}</Text>
                             </Flex>
+                            <Text  mb='0' fontSize='l' fontFamily={'Poppins-bold'}>Ksh {data?.price}</Text>
+                            <Text f mb='0' > <span style={{fontFamily:"Poppins-bold"}}>School:</span> {data?.school}</Text>
+                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Type:</span> {data?.type}</Text>
+                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Area:</span> {data?.area}</Text>
+                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Size:</span> {data?.size}sqt</Text>
+                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Find this apartment:</span> <a href={`https://maps.google.com/?q=${data?.location}`} target="_blank"
+                            rel="noopener noreferrer">{data?.location}</a></Text>
+                            
+                            <Flex gap='4' mt='3'>
+                                <Button borderRadius={'0'} bg='#ffa31a' color='#fff' fontFamily={'Poppins-bold'}>
+                                    <a href={`tel:${data?.mobile}`}>Contact Agent</a>
+                                </Button>
+                                <RWebShare
+                                data={{
+                                text: 'Click to checkout this amazing house',
+                                url: `http://localhost:3000/property/${id}`,
+                                title: `${data?.name}`,
+                                }}
+                                onClick={() => console.log("shared successfully!")}
+                                >
+                                    <Button borderRadius={'0'} bg='#ffa31a' color='#fff' fontFamily={'Poppins-bold'}>
+                                        Share <Share style={{color:"#000"}}/>
+                                    </Button>
+                                </RWebShare>
+                            </Flex>
+                            <ReportListingModal isreportingModalvisible={isreportingModalvisible} setisreportingModalvisible={setisreportingModalvisible}/>
+                                <Button mt='2'  bg='#e5e5e5' color='red' onClick={(()=>{setisreportingModalvisible(true)})}>
+                                    <Flag /> Report this listing
+                                </Button>
                         </Flex>
                         <Flex direction={'column'} gap='0.4' borderBottom={'1px solid #212222'} p='10px 0px'>
                             <Text mb='0' fontSize='l' fontFamily={'Poppins-bold'}>Description</Text>
-                            <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                                molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                                numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                                optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-                                obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-                                nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-                                tenetur error, harum nesciunt ipsum debitis quas aliquid.</Text>
+                            <Text>{data?.description}</Text>
                         </Flex>
                         <Flex direction={'column'} gap='0.4' borderBottom={'1px solid #212222'} p='10px 0px'>
                             <Text mb='0' fontSize='l' fontFamily={'Poppins-bold'}>What we have</Text>
-                            <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                                molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                                numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                                optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-                                obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-                                nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-                                tenetur error, harum nesciunt ipsum debitis quas aliquid.</Text>
+                            <Text>{data?.amenities}</Text>
                         </Flex>
                         <Flex direction={'column'} gap='0.4' borderBottom={'1px solid #212222'} p='10px 0px'>
                             <Text mb='0' fontSize='l' fontFamily={'Poppins-bold'}>Policies</Text>
-                            <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                                molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                                numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                                optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-                                obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-                                nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-                                tenetur error, harum nesciunt ipsum debitis quas aliquid.</Text>
+                            <Text>{data?.policies}</Text>
                         </Flex>
                     </Flex>
                 </Flex>
                 {/* Contact sector  30%*/}
                 <Flex direction='column' className={styles.infoSideSection}>
-                    <Flex direction='column' m='2'>
+                    <Flex direction='column' m='2' borderTop='1px solid #212222'>
                         <Text mb='0'>Need help getting this apartment?</Text>
                         <Text mb='1'>Contact Us</Text>
                         <Stack spacing={4} bg='#eeeeee' p='2' borderRadius='5px' boxShadow={'lg'}>
@@ -163,10 +188,12 @@ export default function PropertyView(){
                                 </Button>
                             </Stack>
                     </Flex>
-                    <Flex p='2'>
-                        <Flex>
+                    <Flex p='2' direction={'column'} borderTop='1px solid grey' mt='2'>
+                    <Text fontFamily={'Poppins-bold'} fontSize={'18px'}>Reviews</Text>
+                    {
+                        reviews.length !== 0 ? 
+                        <Text> We do not have any reviews for this apartment yet</Text> :
 
-                        </Flex>
                         <StyledSlider className={styles.scrollbar}>
                             {reviews.map((reviews)=>{
                                 return(
@@ -176,6 +203,7 @@ export default function PropertyView(){
                                 )
                             })}
                         </StyledSlider>
+                    }
                     </Flex>
                 </Flex>
             </Flex>

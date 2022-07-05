@@ -7,7 +7,6 @@ import {
     ModalCloseButton,
     useDisclosure,
     Button,
-    Text,
     Flex,
     Center,
     Tab,
@@ -19,18 +18,22 @@ import {
     InputGroup,
     InputRightElement,
     Stack,
+    Heading
   } from '@chakra-ui/react';
 import { useEffect,useState } from 'react';
 import {Room,Visibility,VisibilityOff} from '@mui/icons-material'
+import signup from '../../pages/api/signup';
+import login from '../../pages/api/login';
+import { useRouter } from 'next/router';
 
 export function AccountModal({isModalvisible,setIsModalVisible}){
     const { isOpen, onOpen, onClose } = useDisclosure();
     
-    console.log(isModalvisible);
+    //console.log(isModalvisible);
 
     const HandleModalOpen=()=>{
       if(isModalvisible !== true){
-        console.log('damn')
+        //console.log('damn')
       }else{
 
         onOpen();
@@ -50,8 +53,7 @@ export function AccountModal({isModalvisible,setIsModalVisible}){
               <ModalHeader>
                 <Center>
                   <Flex>
-                      <Room  style={{color:'#ffa31a'}}/>
-                      <Text fontFamily='Poppins-bold'>keja.app</Text>
+                  <Heading fontSize='20px' fontFamily='Poppins-bold'>keja<span style={{color:'#ffa31a'}}>.app</span></Heading>
                   </Flex>
                 </Center>
               </ModalHeader>
@@ -64,10 +66,10 @@ export function AccountModal({isModalvisible,setIsModalVisible}){
                   </TabList>
                   <TabPanels>
                     <TabPanel>
-                      <Register />
+                      <Register setIsModalVisible={setIsModalVisible} onClose={onClose}/>
                     </TabPanel>
                     <TabPanel>
-                      <SignIn />
+                      <SignIn setIsModalVisible={setIsModalVisible} onClose={onClose}/>
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
@@ -78,20 +80,36 @@ export function AccountModal({isModalvisible,setIsModalVisible}){
       )
 }   
 
-const Register=()=>{
+const Register=({onClose})=>{
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
+  //get user
+  const [name,setname]=useState('');
+  const [email,setemail]=useState('');
+  const [mobile,setmobile]=useState('');
+  const [password,setpassword]=useState('');
+  //handlesignin
+  const HandleSignup=async()=>{
+    if(!(name,email,mobile,password)){
+      
+    }
+    const user = {name,email,mobile,password}
+    //console.log(user)
+    signup(user)
+    onClose()
+
+  }
   return(
     <Stack spacing={4}>
       <InputGroup>
-        <Input type='text' placeholder='Name' variant='flushed'/>
+        <Input required type='text' placeholder='Name' variant='flushed' onChange={((e)=>{setname(e.target.value)})}/>
       </InputGroup>
       <InputGroup>
-        <Input type='email' placeholder='Email' variant='flushed'/>
+        <Input required type='email' placeholder='Email' variant='flushed' onChange={((e)=>{setemail(e.target.value)})}/>
       </InputGroup>
       <InputGroup>
-        <Input type='tel' placeholder='phone number' variant='flushed'/>
+        <Input required value={mobile} type="tel" pattern="[0-7]{2}-[0-9]{3}-[0-9]{3}" placeholder='phone number' variant='flushed' onChange={((e)=>{setmobile(e.target.value)})}/>
       </InputGroup>
       <InputGroup size='md'>
         <Input
@@ -99,6 +117,8 @@ const Register=()=>{
           type={show ? 'text' : 'password'}
           placeholder='Enter password'
           variant='flushed'
+          onChange={((e)=>{setpassword(e.target.value)})}
+          required
         />
         <InputRightElement width='4.5rem'>
           <Button h='1.75rem' size='sm' onClick={handleClick} bg='#fff'>
@@ -112,6 +132,7 @@ const Register=()=>{
             type='submit'
             color='#ffffff'
             fontFamily='Poppins-bold'
+            onClick={HandleSignup}
           >
             Sign Up
           </Button>
@@ -119,13 +140,27 @@ const Register=()=>{
   )
 }
 
-const SignIn=()=>{
+const SignIn=({onClose})=>{
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const router = useRouter();
+  //get user input
+  const [email,setemail]=useState('');
+  const [password,setpassword]=useState('');
+  const [submitting,setisSubmitting]=useState(false)
+  //handlesignin
+
+  const HandleLogin=async()=>{
+    const user = {email,password}
+    console.log(user)
+    login(user)
+    onClose()
+    setisSubmitting(true)
+  }
   return(
     <Stack spacing={4}>
       <InputGroup>
-        <Input type='email' placeholder='Email' variant='flushed'/>
+        <Input type='email' placeholder='Email' variant='flushed' onChange={((e)=>{setemail(e.target.value)})}/>
       </InputGroup>
       <InputGroup size='md'>
         <Input
@@ -133,6 +168,7 @@ const SignIn=()=>{
           type={show ? 'text' : 'password'}
           placeholder='Enter password'
           variant='flushed'
+          onChange={((e)=>{setpassword(e.target.value)})}
         />
         <InputRightElement width='4.5rem'>
           <Button h='1.75rem' size='sm' onClick={handleClick} bg='#fff'>
@@ -146,6 +182,7 @@ const SignIn=()=>{
             type='submit'
             color='#ffffff'
             fontFamily='Poppins-bold'
+            onClick={HandleLogin}
           >
             Sign In
           </Button>

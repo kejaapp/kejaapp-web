@@ -1,26 +1,62 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import {Button,
         Center,
         Flex,
         Select,
         Text,
-        Container,
         Heading,
-        Circle,
         Image,
-        Box,
     } from "@chakra-ui/react";
 import {Search,ArrowDownward }from '@mui/icons-material';
 import styled from 'styled-components';
-import styles from '../../styles/Home.module.css'
-import Header from '../../components/Header'
-export default function Filter (){
+import styles from '../../styles/Home.module.css';
+import axios from 'axios';
+import {useRouter} from 'next/router'
 
+export default function Filter (){
+    const router = useRouter();
+    const [school,setschool]=useState('');
+    const [area,setarea]=useState('');
+    const [type,settype]=useState('');
+
+    const [data,setData]=useState([]);
+
+    const query = {
+        school,
+        area,
+        type
+    }
+    
+    const getproperties=()=>{
+        try{
+            axios.post('https://keja--app.herokuapp.com/api/getproperties',{
+                query
+            }).then((res)=>{
+                //console.log(res.data)
+                setData(res.data)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }catch(err){
+            console.log(err)
+        }
+    }
+    useEffect(()=>{
+        if(school === ''){
+            return setData([])
+        }
+        return getproperties(query)
+    },[school,area,type]);
+    //console.log(data.filter((item)=> item.title.includes('accusamus') && item.albumId.toString().includes('1')))
+    const uniqueAreaArray = data.filter((item)=>
+                                    item.school.includes(school)
+                                )
+                                .map(item => item.area)
+                                .filter((value, index, self)=> self.indexOf(value) === index)
+    //console.log(uniqueAreaArray)
     return(
         <StyledDiv >
-            {/* <Header /> */}
-            <Container >
-                <Center mb='10'>
+                <Center >
                     <Flex direction='column'>
                         <Heading className={styles.fadeInUp} as='h1' align='center' size='xl' fontFamily='Poppins-bold' textShadow='1px 2px 3px #666'>
                             Usichome fare ukisaka Keja
@@ -30,51 +66,92 @@ export default function Filter (){
                         </Text>
                     </Flex>
                 </Center>
-                <Center margin='2' boxShadow='lg' borderRadius='lg' bg='#eee' h='50px'>
-                    <Select p='2' focusBorderColor = "#ffa31a" borderRadius='md' borderRight='1px' margin='2' color='#ffa31a' fontFamily='Poppins-bold' variant='flushed' placeholder='School'>
-                        <option value='option1'>Jomo Kenyatta University of Agriculture</option>
-                        <option value='option2'>Kenyatta University</option>
-                        <option value='option3'>Mount Kenya University</option>
+                <Center position={'relative'} m='2' boxShadow='lg' borderRadius='lg'  h='50px'>
+                    <Select p='2' focusBorderColor = "#ffa31a" borderRadius='md' borderRight='1px' m='2' color='#ffa31a' fontFamily='Poppins-bold' variant='flushed' placeholder='School' onChange={((e)=>{setschool(e.target.value); setarea("")})}>
+                    
+                        <option value='JKUAT'>Jomo Kenyatta University of Agriculture</option>
+                        <option value='Kenyatta University'>Kenyatta University</option>
+                        <option value='Mount Kenya University'>Mount Kenya University</option>
                     </Select>
-                    <Select focusBorderColor = "#ffa31a" borderRadius='md' borderRight='1px' margin='2' fontFamily='Poppins-bold' variant='flushed' placeholder='Area'>
-                        <option value='option1'>Gate A</option>
-                        <option value='option2'>Gate B</option>
-                        <option value='option3'>Gate C</option>
-                        <option value='option3'>Gate D</option>
-                        <option value='option3'>Gate E</option>
-                        <option value='option3'>Gachororo</option>
+                    <Select focusBorderColor = "#ffa31a" borderRadius='md' borderRight='1px' m='2' fontFamily='Poppins-bold' variant='flushed' placeholder='Area' onChange={((e)=>{setarea(e.target.value)})}>
+                        
+                        {uniqueAreaArray?.map((item)=> 
+                        <option   value={item}>{item}</option>
+                            )
+                        }
+
                     </Select>
-                    <Select focusBorderColor = "#ffa31a" borderRadius='md' fontFamily='Poppins-bold' variant='flushed' placeholder='Type'>
-                        <option value='option1'>Bedsitter</option>
-                        <option value='option2'>Single</option>
-                        <option value='option3'>Hostel</option>
-                        <option value='option3'>One-Bedroom</option>
-                        <option value='option3'>Two-Bedroom</option>
-                        <option value='option3'>Three-Bedroom</option>
+                    <Select focusBorderColor = "#ffa31a" borderRadius='md' fontFamily='Poppins-bold' variant='flushed' placeholder='Type' onChange={((e)=>{settype(e.target.value)})}>
+                        <option value='bedsitter'>Bedsitter</option>
+                        <option value='single'>Single</option>
+                        <option value='hostel'>Hostel</option>
+                        <option value='onebedroom'>One-Bedroom</option>
+                        <option value='twobedroom'>Two-Bedroom</option>
+                        <option value='threebedroom'>Three-Bedroom</option>
                     </Select>
-                    <Button colorScheme='#ffa31a' bg='#ffa31a' h='100%' borderRadius='0' >
+                    <Button colorScheme='#ffa31a' bg='#ffa31a' h='100%' borderRadius='0' onClick={getproperties}>
                         <Search color='#212222'/>
                     </Button>
-                </Center>
-                <Center mt='20'>
-                        <Text  mt='10' size='md' fontFamily='Poppins-bold'>
-                            Scroll to Explore
-                        </Text>
+                    {data ? 
+                    <Center position={'absolute'} top='52px'  w='100%' bg='#fff'>
+                        <Flex direction={'column'}  borderRadius={'10px'} boxShadow='dark-lg' w='100%'>
+                            {
+                                data.slice(0,3).map((item)=>{
+                                    return(
+                                        <div key={item._id}>
+                                            <SearchModal item={item} />
+                                        </div>
+                                    )
+                                })
+                            }
+                            {data?.length === 0?
+                                null:
+                            <Center>
+                                <Text fontFamily='poppins-bold' color='#ffa31a' onClick={(()=>{router.push('explore')})}>view all</Text>
+                            </Center>
+                            }
+                        </Flex>
+                    </Center>
+                    :
+                    null
+                        }
                 </Center>
                 <Center mt='10' > 
-                    <Circle bg='#ffa31a' w='40px' h='40px' borderRadius='5px'>
-                        <ArrowDownward />
-                    </Circle>
+                    <Flex direction='column' alignItems={'center'}>
+                            <Text  mt='10' size='md' fontFamily='Poppins-bold' >
+                                Scroll to Explore
+                            </Text>
+                            <ArrowDownward />
+                    </Flex>
                 </Center>
-            </Container>
         </StyledDiv>
     )                 
 }
+
+
+const SearchModal=({item})=>{
+    const router = useRouter();
+    return(
+            <Flex m='5px' p='2' borderBottom='1px solid grey' onClick={(()=>{router.push(`/property/${item._id}`)})}>
+                <Image boxSize={70} src={item.images[0]} alt='photo' borderRadius={5}/>
+                <Flex direction={'column'} flex='1' marginLeft={5} >
+                    <Text m='0'>{item.name}</Text>
+                    <Text m='0'>Ksh {item.price}</Text>
+                    <Text m='0'>{item.type}</Text>
+                </Flex>
+            </Flex>
+        
+    )
+}
+
 
 const StyledDiv= styled.div`
         width: 100%;
         height: 100%;
         display: flex;
+        flex-direction: column; 
         justify-content: center;
         align-items: center;
+        z-index: 100;
+        
 `

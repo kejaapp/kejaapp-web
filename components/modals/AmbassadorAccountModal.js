@@ -10,11 +10,7 @@ import {
     Text,
     Flex,
     Center,
-    Tab,
-    Tabs,
-    TabPanel,
-    TabList,
-    TabPanels,
+    Heading,
     Input,
     InputGroup,
     InputRightElement,
@@ -26,11 +22,11 @@ import {Room,Visibility,VisibilityOff} from '@mui/icons-material'
 export function AmbassadorAccountModal({isCreatingAccModalvisible,setIsCreatingAccModalvisible}){
     const { isOpen, onOpen, onClose } = useDisclosure();
     
-    console.log(isCreatingAccModalvisible);
+    //console.log(isCreatingAccModalvisible);
 
     const HandleModalOpen=()=>{
       if(isCreatingAccModalvisible !== true){
-        console.log('damn')
+        //console.log('damn')
       }else{
 
         onOpen();
@@ -50,8 +46,7 @@ export function AmbassadorAccountModal({isCreatingAccModalvisible,setIsCreatingA
               <ModalHeader>
                 <Center>
                   <Flex>
-                      <Room  style={{color:'#ffa31a'}}/>
-                      <Text fontFamily='Poppins-bold'>keja.app</Text>
+                  <Heading fontSize='20px' fontFamily='Poppins-bold'>keja<span style={{color:'#ffa31a'}}>.app</span></Heading>
                   </Flex>
                 </Center>
               </ModalHeader>

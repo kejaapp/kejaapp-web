@@ -8,21 +8,21 @@ const reviews = [
     {
         id:'1',
         name:'Dennis Sammy',
-        profile:'./img2.png',
+        profile:'',
         school:'Jkuat',
         content:'Lorem ipsum dolor sit amet consectetur adipisicing elit. '
     },
     {
         id:'2',
         name:'Nyambuzi',
-        profile:'./img4.png',
+        profile:'',
         school:'Jkuat',
         content:'Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit. '
     },
     {
         id:'3',
         name:'JJ Johnson',
-        profile:'./img1.png',
+        profile:'',
         school:'Jkuat',
         content:'Lorem ipsum dolor sit amet consectetur adipisicing elit. '
     },
@@ -60,7 +60,7 @@ const Item=({reviews})=>{
                 <Image
                     borderRadius='full' 
                     boxSize='40px'
-                    src={reviews.profile}
+                    src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ic_account_circle_48px.svg/1200px-Ic_account_circle_48px.svg.png'
                     alt='pp'
                 />
                 <Flex direction='column' >

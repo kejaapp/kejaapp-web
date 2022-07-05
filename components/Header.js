@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import {
     Box,
     Flex,
@@ -12,75 +12,106 @@ import {
     Stack,
     Center,
     Heading,
-    Text
+    Text,
   } from '@chakra-ui/react';
-import {Room} from '@mui/icons-material';
+import {Room, AccountCircle} from '@mui/icons-material';
 import { AccountModal } from './modals/AccountModal';
 import {useRouter} from 'next/router'
+import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
+
 
 export default function Nav() {
   const router = useRouter();
   const [isModalvisible,setIsModalVisible]=useState(false);
-  console.log(isModalvisible);
+  const [userid,setUserId] = useState('')
+  //get usertoken
+  
+  const cookies = new Cookies();
+  let token = cookies.get('usertoken');
 
+  useEffect(()=>{
+    if(token){
+      let decoded = jwt_decode(token);
+      //console.log(decoded.id);
+      setUserId(decoded.id);
+    }
+
+    //console.log('signedin')
+  },[token])
+
+  const [isloggedin,setisLoggedin]=useState(token ? true : false);
     return (
-        <Box bg='#fff' p={3} zIndex='1'>
+        <Box bg='#fff' p={3} zIndex='1' m='0'>
           <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
             <Flex onClick={(()=>router.push('/'))}>
-                <Room  style={{color:'#ffa31a'}}/>
-                <Heading fontSize='20px' fontFamily='Poppins-bold'>keja.app</Heading>
+                {/* <Room  style={{color:'#ffa31a'}}/> */}
+                <Heading fontSize='20px' fontFamily='Poppins-bold'>keja<span style={{color:'#ffa31a'}}>.app</span></Heading>
             </Flex>
   
             <Flex alignItems={'center'} gap='4'>
               <AccountModal isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
               <Stack direction={'row'} spacing={3}>
                 <Menu >
-                  <Button bg='#ffa31a' onClick={()=>setIsModalVisible(true)}>
-                    Sign In
-                  </Button>
+                <a href="/listing" 
+                        target="_blank"
+                        rel="noopener noreferrer"> 
+                    <Button bg='#ffa31a' color='#fff'>
+                          <Text m='0'>List Apartment</Text>
+                    </Button>
+                        </a>
                   <MenuButton
                     as={Button}
                     rounded={'full'}
                     variant={'link'}
                     cursor={'pointer'}
                     minW={0}>
-                    <Avatar
-                      size={'sm'}
-                      src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    <AccountCircle
+                      style={{fontSize:'38px'}}
                     />
                   </MenuButton>
                   <MenuList alignItems={'center'} >
                     <br />
                     <Center>
-                      <Avatar
-                        size={'2xl'}
-                        src={'https://avatars.dicebear.com/api/male/username.svg'}
+                      <AccountCircle
+                        style={{fontSize:'72px'}}
                       />
-                    </Center>
-                    <br />
-                    <Center>
-                      <Text>John Doe</Text>
                     </Center>
                     <br />
                     <MenuDivider />
                     <a href="/help/listing" 
                     target="_blank"
                     rel="noopener noreferrer"> 
-                      <MenuItem>List an apartment</MenuItem>
+                      <MenuItem m='0'>List an apartment</MenuItem>
                     </a>
                     <a href="/help/listing" 
                     target="_blank"
                     rel="noopener noreferrer"> 
-                      <MenuItem>Refer your apartment</MenuItem>
+                      <MenuItem m='0'>Refer your apartment</MenuItem>
                     </a>
-                    <a href="/help/ambassador" 
+                    {/* <a href="/help/ambassador" 
                     target="_blank"
                     rel="noopener noreferrer"> 
-                      <MenuItem>Become an Ambassador</MenuItem>
-                    </a>
+                      <MenuItem m='0'>Become an Ambassador</MenuItem>
+                    </a> */}
                     <Flex borderTop="1px solid #212222" direction='column'>
-                      <MenuItem onClick={(()=>router.push('/profile'))}>Account Settings</MenuItem>
-                      <MenuItem>Logout</MenuItem>
+                      {isloggedin ?
+                        <MenuItem onClick={(()=>router.push(`/profile/${userid}`))} m='0'>Account Settings</MenuItem>
+                        :
+                        null
+                      }
+                      {isloggedin ?
+                        <MenuItem 
+                          onClick={(()=>{cookies.remove('usertoken'); 
+                          setTimeout(()=>{
+                            router.push('/');
+                          },5000)
+                          })} 
+                          m='0'>
+                            Logout</MenuItem>
+                        :
+                        <MenuItem onClick={(()=>{setIsModalVisible(true)})} m='0'>Signin</MenuItem>
+                      }
                     </Flex>
                   </MenuList>
                 </Menu>

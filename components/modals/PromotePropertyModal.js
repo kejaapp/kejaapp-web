@@ -10,7 +10,8 @@ import {
     Text,
     Flex,
     Center,
-    Image
+    Image,
+    Heading
   } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import {Room} from '@mui/icons-material';
@@ -18,11 +19,11 @@ import {Room} from '@mui/icons-material';
   export function PromoteProperty({isModalvisible,setIsModalVisible}){
     const { isOpen, onOpen, onClose } = useDisclosure();
     
-    console.log(isModalvisible);
+    //console.log(isModalvisible);
 
     const HandleModalOpen=()=>{
       if(isModalvisible !== true){
-        console.log('damn')
+        //console.log('damn')
       }else{
 
         onOpen();
@@ -42,8 +43,7 @@ import {Room} from '@mui/icons-material';
               <ModalHeader>
                 <Center>
                   <Flex>
-                      <Room  style={{color:'#ffa31a'}}/>
-                      <Text fontFamily='Poppins-bold'>keja.app</Text>
+                  <Heading fontSize='20px' fontFamily='Poppins-bold'>keja<span style={{color:'#ffa31a'}}>.app</span></Heading>
                   </Flex>
                 </Center>
               </ModalHeader>
