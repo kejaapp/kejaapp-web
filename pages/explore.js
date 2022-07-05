@@ -41,12 +41,12 @@ export default function Explore(){
         //console.log(data)
     },[school,area,type]);
     //console.log(data.filter((item)=> item.title.includes('accusamus') && item.albumId.toString().includes('1')))
-    const uniqueAreaArray = data.filter((item)=>
-                                    item.school.includes(school)
-                                )
-                                .map(item => item.area)
-                                .filter((value, index, self)=> self.indexOf(value) === index)
-    //console.log(uniqueAreaArray)
+    // const uniqueAreaArray = data.filter((item)=>
+    //                                 item.school.includes(school)
+    //                             )
+    //                             .map(item => item.area)
+    //                             .filter((value, index, self)=> self.indexOf(value) === index)
+    // //console.log(uniqueAreaArray)
     return (
         <Stack>
             
@@ -59,10 +59,10 @@ export default function Explore(){
                         <option value='Mount Kenya University'>Mount Kenya University</option>
                         </Select>
                         <Select focusBorderColor = "#ffa31a" borderRadius='md' borderRight='1px' m='2' fontFamily='Poppins-bold' variant='flushed' placeholder='Area' onChange={((e)=>{setarea(e.target.value)})}>
-                            {uniqueAreaArray?.map((item)=> 
-                                <option value={item}>{item}</option>
-                                )
-                            }
+                            <option value='gate A'>Jomo Kenyatta University of Agriculture</option>
+                            <option value='gate B'>Kenyatta University</option>
+                            <option value='gate C'>Mount Kenya University</option>
+                            <option value='gate D'>Mount Kenya University</option>
                         </Select>
                         <Select focusBorderColor = "#212222" borderRadius='0' fontFamily='Poppins-bold' variant='flushed' placeholder='Type' onChange={((e)=>{settype(e.target.value)})}>
                         <option value='bedsitter'>Bedsitter</option>
