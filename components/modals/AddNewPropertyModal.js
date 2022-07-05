@@ -74,9 +74,9 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
             //console.log(image)
               const data = new FormData()
                 data.append("file", image);
-                data.append('upload_preset', 'keja-web-app');
-                data.append("cloud_name","musembi77")
-                 axios.post("https://api.cloudinary.com/v1_1/musembi77/image/upload",
+                data.append('upload_preset', 'kejaapp');
+                data.append("cloud_name","www-keja-app")
+                 axios.post("https://api.cloudinary.com/v1_1/www-keja-app/image/upload",
                   data).then((res)=>{
                     //console.log(res.data.url)
                     //console.log(res.data)
