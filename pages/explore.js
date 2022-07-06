@@ -39,7 +39,7 @@ export default function Explore(){
     useEffect(()=>{
         getproperties(query)
         //console.log(data)
-    },[school,area,type]);
+    },[school,area,type,price]);
     //console.log(data.filter((item)=> item.title.includes('accusamus') && item.albumId.toString().includes('1')))
     // const uniqueAreaArray = data.filter((item)=>
     //                                 item.school.includes(school)
@@ -55,14 +55,16 @@ export default function Explore(){
                     <Flex align={'center'} gap='1'>
                         <Select p='2' focusBorderColor = "#212222" borderRadius='0' borderRight='1px' color='#ffa31a' fontFamily='Poppins-bold' variant='flushed' placeholder='School' onChange={((e)=>{setschool(e.target.value); setarea("")})}>
                         <option value='JKUAT'>Jomo Kenyatta University of Agriculture</option>
-                        <option value='Kenyatta University'>Kenyatta University</option>
-                        <option value='Mount Kenya University'>Mount Kenya University</option>
+                        {/* <option value='Kenyatta University'>Kenyatta University</option>
+                        <option value='Mount Kenya University'>Mount Kenya University</option> */}
                         </Select>
-                        <Select focusBorderColor = "#ffa31a" borderRadius='md' borderRight='1px' m='2' fontFamily='Poppins-bold' variant='flushed' placeholder='Area' onChange={((e)=>{setarea(e.target.value)})}>
-                            <option value='gate A'>Jomo Kenyatta University of Agriculture</option>
-                            <option value='gate B'>Kenyatta University</option>
-                            <option value='gate C'>Mount Kenya University</option>
-                            <option value='gate D'>Mount Kenya University</option>
+                        <Select variant='flushed' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
+                            <option value='gate A'>Gate A</option>
+                            <option value='gate B'>Gate B</option>
+                            <option value='gate C'>Gate C</option>
+                            <option value='gate D'>Gate D</option>
+                            <option value='gate E'>Gate E</option>
+                            <option value='Gachororo'>Gachororo</option>
                         </Select>
                         <Select focusBorderColor = "#212222" borderRadius='0' fontFamily='Poppins-bold' variant='flushed' placeholder='Type' onChange={((e)=>{settype(e.target.value)})}>
                         <option value='bedsitter'>Bedsitter</option>

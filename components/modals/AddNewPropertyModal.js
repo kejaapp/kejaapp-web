@@ -173,7 +173,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                     <Input type='number' variant='flushed' placeholder='size in square feet' required onChange={((e)=>{setsize(e.target.value)})}/>
                     <Select variant='flushed' placeholder='School'  required onChange={((e)=>{setschool(e.target.value)})}>
                         <option value='JKUAT'>Jomo Kenyatta University of Agriculture and Technology</option>
-                        <option value='KenyattaUniversty'>Kenyatta University</option>
+                        {/* <option value='KenyattaUniversty'>Kenyatta University</option> */}
                     </Select>
                     <Select variant='flushed' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
                         <option value='gate A'>Gate A</option>
