@@ -56,7 +56,7 @@ export default function PropertyView(){
         let decoded = jwt_decode(token);
           //console.log(decoded.id);
         setEmail(decoded.email);
-    },[id]);
+    },[id,]token);
 
     const images = data?.images;
     const reviews = data?.reviews
@@ -99,7 +99,7 @@ export default function PropertyView(){
                         {images?.map((item)=>{
                             return(
                                 <div key={item.id}>
-                                    <Image h='60vh' w='100%' objectFit={'cover'} borderRadius='10px' src={item} alt='img' />
+                                    <Image h='60vh' w='100%' alt='image' objectFit={'cover'} borderRadius='10px' src={item} alt='img' />
                                 </div>
                                     )
                                 })}
@@ -109,8 +109,8 @@ export default function PropertyView(){
                 <Flex className={styles.boxSideImageContainer} direction='column' gap='2' >
                     <Image h='30vh' w='100%' objectFit={'cover'} borderRadius='10px' src={images? images[0] : null}/>
                     <Flex justify='space-around' height={'40%'}>
-                        <Image h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[1] : null}/>
-                        <Image h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[3] : null}/>
+                        <Image alt='image' h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[1] : null}/>
+                        <Image alt='image' h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[3] : null}/>
                     </Flex>    
                 </Flex>
             </Flex>

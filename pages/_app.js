@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
       },4000)
     }
     
-  },[])
+  },[cookies])
   return (
     <ChakraProvider >
       <Head>

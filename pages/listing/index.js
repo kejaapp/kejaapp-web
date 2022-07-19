@@ -192,7 +192,7 @@ const Property=({item,value})=>{
         <Flex direction='column' w='200px' position={'relative'}>
             <EditProperty isPropertyEditingModalvisible={isPropertyEditingModalvisible} setisPropertyEditingModalvisible={setisPropertyEditingModalvisible} item={item}/>
             <PromoteProperty isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
-            <Image h='150px' w='100%' borderRadius='10px' objectFit={'cover'} src={item.images[0]} />
+            <Image h='150px' w='100%' borderRadius='10px' objectFit={'cover'} src={item.images[0]} alt='photo'/>
             <Flex position='absolute' top='10px' right={'5px'} direction='column'>
                 {item.sponsored === true ? 
                 <BookmarkAdded style={{color:'#ffa31a'}}/>

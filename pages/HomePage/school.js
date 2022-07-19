@@ -71,7 +71,7 @@ export default function School(){
 const Item=({item})=>{
     return(
         <Flex direction='column' w='325px' h='300px' >
-            <Image h='250px' w='325px' objectFit={'cover'} borderRadius='10px' src='/JKUAT.png'/>
+            <Image h='250px' w='325px' objectFit={'cover'} alt='Banner Photo' borderRadius='10px' src='/JKUAT.png'/>
             <Text fontFamily='Poppins-bold' fontSize='md' noOfLines={1} >
                     {item.name}
                 </Text>

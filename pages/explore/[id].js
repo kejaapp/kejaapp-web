@@ -57,7 +57,7 @@ export default function Explore(){
     const { isOpen, onOpen, onClose } = useDisclosure();
     useEffect(()=>{
         getproperties(query)
-    },[onClose]);
+    },[onClose,query]);
 
     return (
         <Stack>
@@ -80,7 +80,7 @@ export default function Explore(){
                 <Flex flexWrap='wrap' justify={'space-around'}>
                     {data.length === 0 && !isquerrying ? 
                     <Flex align='center' justify='center' direction='column' mt='20%'>
-                        <Text fontFamily='Poppins-bold' w='80%'>We could not find the apartments you are looking for. Contact us by whatsapp @ <a href="https://wa.me/0771712005" target="_blank" style={{color:"#ffa31a",fontFamily:"Poppins-bold"}}>0771712005</a> or call us at <a href='tel:0771712005' rel="noreferrer" target="_blank" style={{color:"#ffa31a",fontFamily:"Poppins-bold"}}>0771712005</a> so that we can assist you.</Text>
+                        <Text fontFamily='Poppins-bold' w='80%'>We could not find the apartments you are looking for. Contact us by whatsapp @ <a href="https://wa.me/0771712005" rel="noreferrer" target="_blank" style={{color:"#ffa31a",fontFamily:"Poppins-bold"}}>0771712005</a> or call us at <a href='tel:0771712005' rel="noreferrer" target="_blank" style={{color:"#ffa31a",fontFamily:"Poppins-bold"}}>0771712005</a> so that we can assist you.</Text>
                         <Image  src='https://cdn-icons.flaticon.com/png/512/2959/premium/2959090.png?token=exp=1658251960~hmac=05821d9d53f69d3df345fdcd97120aa4' alt='no image found' w='200px' h='200px'/>
                     </Flex>:
                     <>
