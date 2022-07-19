@@ -99,7 +99,7 @@ export default function PropertyView(){
                         {images?.map((item)=>{
                             return(
                                 <div key={item.id}>
-                                    <Image h='60vh' w='100%' alt='image' objectFit={'cover'} borderRadius='10px' src={item} alt='img' />
+                                    <Image h='60vh' w='100%' alt='image' objectFit={'cover'} borderRadius='10px' src={item} />
                                 </div>
                                     )
                                 })}
