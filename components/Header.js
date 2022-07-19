@@ -13,13 +13,14 @@ import {
     Center,
     Heading,
     Text,
+    Circle
   } from '@chakra-ui/react';
 import {Room, AccountCircle} from '@mui/icons-material';
 import { AccountModal } from './modals/AccountModal';
 import {useRouter} from 'next/router'
 import Cookies from 'universal-cookie';
 import jwt_decode from "jwt-decode";
-
+import Script from 'next/script'
 
 export default function Nav() {
   const router = useRouter();
@@ -41,12 +42,17 @@ export default function Nav() {
   },[token])
 
   const [isloggedin,setisLoggedin]=useState(token ? true : false);
+  const randomHex = () => `#${Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")}`;
+
+// console.log(randomHex());
     return (
-        <Box bg='#fff' p={3} zIndex='1' m='0'>
+        <Box bg='#fff' p={3} zIndex='1' m='0' position='sticky'>
           <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
             <Flex onClick={(()=>router.push('/'))}>
                 {/* <Room  style={{color:'#ffa31a'}}/> */}
-                <Heading fontSize='20px' fontFamily='Poppins-bold'>keja<span style={{color:'#ffa31a'}}>.app</span></Heading>
+                <Heading fontSize='20px' fontFamily='Poppins-bold'>
+                  keja<span style={{color:'#ffa31a'}}>.app</span>
+                </Heading>
             </Flex>
   
             <Flex alignItems={'center'} gap='4'>
@@ -60,22 +66,42 @@ export default function Nav() {
                           <Text m='0'>List Apartment</Text>
                     </Button>
                         </a>
+                        {isloggedin ? 
+                          
+                          <MenuButton
+                    rounded={'full'}
+                    variant={'link'}
+                    cursor={'pointer'}>
+                    <Circle  bg={`${randomHex()}`}  w='35px' h='35px' alignItems='center'>
+                            <AccountCircle />
+                          </Circle>
+                  </MenuButton>
+                        :
                   <MenuButton
                     as={Button}
                     rounded={'full'}
                     variant={'link'}
                     cursor={'pointer'}
                     minW={0}>
-                    <AccountCircle
-                      style={{fontSize:'38px'}}
-                    />
-                  </MenuButton>
+                    <lord-icon
+                                src="https://cdn.lordicon.com/dklbhvrt.json"
+trigger="loop"
+                                    delay="2000"
+                                style={{width:'40px',height:"40px",}}
+                                >
+                            </lord-icon>
+                  </MenuButton>}
                   <MenuList alignItems={'center'} >
                     <br />
                     <Center>
-                      <AccountCircle
-                        style={{fontSize:'72px'}}
-                      />
+                      <Script src="https://cdn.lordicon.com/xdjxvujz.js"></Script>
+                    <lord-icon
+                                src="https://cdn.lordicon.com/dklbhvrt.json"
+trigger="loop"
+                                    delay="7000"
+                                style={{marginTop:'20px',width:'70px',height:"70px",}}
+                                >
+                            </lord-icon>
                     </Center>
                     <br />
                     <MenuDivider />
@@ -84,7 +110,7 @@ export default function Nav() {
                     rel="noopener noreferrer"> 
                       <MenuItem m='0'>List an apartment</MenuItem>
                     </a>
-                    <a href="/help/listing" 
+                    <a href="/help/refer" 
                     target="_blank"
                     rel="noopener noreferrer"> 
                       <MenuItem m='0'>Refer your apartment</MenuItem>
@@ -101,16 +127,17 @@ export default function Nav() {
                         null
                       }
                       {isloggedin ?
-                        <MenuItem 
-                          onClick={(()=>{cookies.remove('usertoken'); 
+                          <Button bg='#212222' color='#fff' m='3' fontFamily='Poppins-bold' onClick={(()=>{cookies.remove('usertoken'); 
                           setTimeout(()=>{
-                            router.push('/');
-                          },5000)
-                          })} 
-                          m='0'>
-                            Logout</MenuItem>
+                            router.reload();
+                          },2000)
+                          })}>
+                            Logout
+                          </Button>
                         :
-                        <MenuItem onClick={(()=>{setIsModalVisible(true)})} m='0'>Signin</MenuItem>
+                        <Button bg='#ffa31a' color='#212222' m='3' fontFamily='Poppins-bold' onClick={(()=>{setIsModalVisible(true)})}>
+                          Signin
+                        </Button>
                       }
                     </Flex>
                   </MenuList>

@@ -13,13 +13,15 @@ import {
     Input,
     InputGroup,Heading,
     Stack,
+    useToast
   } from '@chakra-ui/react';
 import { useEffect,useState } from 'react';
 import {Room,Visibility,VisibilityOff} from '@mui/icons-material'
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
 
-export function ListingAccountModal({isListingModalvisible,setIsListingModalvisible}){
+export function ListingAccountModal({isListingModalvisible,setIsListingModalvisible,setActive}){
     const { isOpen, onOpen, onClose } = useDisclosure();
     
     //console.log(isListingModalvisible);
@@ -53,7 +55,7 @@ export function ListingAccountModal({isListingModalvisible,setIsListingModalvisi
               </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <SignIn />
+              <SignIn setActive={setActive}/>
             </ModalBody>
           </ModalContent>
         </Modal>
@@ -61,47 +63,61 @@ export function ListingAccountModal({isListingModalvisible,setIsListingModalvisi
       )
 }   
 
-const SignIn=()=>{
-  // const [show, setShow] = useState(false);
-  // const handleClick = () => setShow(!show);
+const SignIn=({setActive})=>{
   const [email,setemail] = useState('');
+  const [useremail, setuseremail] = useState('');
   const cookies = new Cookies();
+  const toast = useToast()
   // const [password, setpassword] = useState('')
+  //https://keja--app.herokuapp.com/api/createlistingaccount
   const CreateListingAccount = async()=>{
+    const token = cookies.get('usertoken')
+    if(token){
+      let decoded = jwt_decode(token);
+      //console.log(decoded.id);
+      console.log(decoded.email);
+      setuseremail(decoded.email)
+    }
+    if(useremail !== email){
+      return toast({
+        title: 'The email provided does not match your current user account, register or sign in and try again.',
+        status: 'error',
+        isClosable: true,
+      })
+    }
     try{
-      await axios.post('https://keja--app.herokuapp.com/api/createlitingaccount',{
+      await axios.post('http://localhost:5000/api/createlistingaccount',{
         email
       }).then((res)=>{
-        console.log(res.status);
-        cookies.set('listingemail', email, { path: '/' });
+            console.log(res.status);
+            if(res.status === 201){
+              return toast({
+                title: res.data,
+                status: 'error',
+                isClosable: true,
+              })
+            }
+            toast({
+              title: res.data,
+              status: 'success',
+              isClosable: true,
+            })
+            return setActive(true)
           }).catch((err)=>{
             console.log(err);
           })
         }catch(err){
           console.log(err);
         }
+    
   }
 
   return(
     <Stack spacing={4}>
-      <Text>Confirm Details to start your listing journey</Text>
+      <Text>Confirm Email to start your listing journey</Text>
       <InputGroup>
         <Input type='email' placeholder='Email' variant='flushed' onChange={((e)=>{setemail(e.target.value)})}/>
       </InputGroup>
-      {/* <InputGroup size='md'>
-        <Input
-          pr='4.5rem'
-          type={show ? 'text' : 'password'}
-          placeholder='Enter password'
-          variant='flushed'
-          onChange={((e)=>setpassword(e.target.))}
-        />
-        <InputRightElement width='4.5rem'>
-          <Button h='1.75rem' size='sm' onClick={handleClick} bg='#fff'>
-            {show ? <VisibilityOff/> : <Visibility/>}
-          </Button>
-        </InputRightElement>
-    </InputGroup> */}
     <Button
             mt={4}
             bg='#ffa31a'

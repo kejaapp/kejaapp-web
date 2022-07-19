@@ -7,6 +7,7 @@ import {
     Button,
     Center,
     Image,
+    useToast
 } from '@chakra-ui/react';
 import { AddBox, BookmarkAdded, BookmarkBorder, Delete } from '@mui/icons-material';
 
@@ -17,6 +18,7 @@ import { ListingAccountModal } from '../../components/modals/ListingAccountModal
 
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
 
 function Landlords(){
     //modals
@@ -27,28 +29,53 @@ function Landlords(){
 
     const [active,setActive]=useState(false);
     const [data,setData] = useState([]);
-
+    const [email,setEmail] = useState('')
     const cookies = new Cookies();
-
+    const toast = useToast();
     const login=async()=>{
-            let email = cookies.get('listingemail');
+            let token = cookies.get('usertoken');
+
+            if(token){
+                let decoded = jwt_decode(token);
+                //console.log(decoded.id);
+                setEmail(decoded.email);
+            };
+            // let email = decoded.email
+
+            console.log(email)
             if(!email){
                 return console.log('please provide an email')
             }
-        try{
-            await axios.post('https://keja--app.herokuapp.com/api/listinglogin',{
-                email
-            }).then((res)=>{
-                if(res.status === 200){
-                    cookies.set('listingstatus', 'active', { path: '/' });
-                   return setActive(true)
-                }
-                return console.log('login failed')
-            })
+            //'https://keja--app.herokuapp.com/api/listinglogin'
+            try{
+                await axios.post('https://keja--app.herokuapp.com/api/listinglogin',{
+                 email
+                    }).then((res)=>{
+                        if(res.status === 200){
+                            // cookies.set('listingstatus', 'active', { path: '/' });
+                            toast({
+                                title: '',
+                                description: "Login Successful",
+                                status: 'success',
+                                duration: 9000,
+                                isClosable: true,
+                            });
+                        return setActive(true);
+
+                        }
+                        return toast({
+                            title: 'Log in Failed',
+                            description: 'You need to create a listing account to use start listing',
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                          });
+                    })
         }catch(err){
             console.log(err)
         }
     }
+
     const getProperties=async()=>{
         try{
             let email = cookies.get('listingemail');
@@ -68,11 +95,9 @@ function Landlords(){
     return(
         <>
         {active ? 
-        <Flex direction='column'>
+        <Flex direction='column' p='3'>
+            <Image src='https://img.freepik.com/free-photo/hand-presenting-model-house-home-loan-campaign_53876-104970.jpg?t=st=1657636442~exp=1657637042~hmac=a1c8c9e89f9dc13505d0f61596848aa491ff59f31c3a84b3106f48100b520882&w=740' h='400px' mb='3' borderRadius={'5'} objectFit={'cover'} alt='cover'/>
             <AddNewItem isAddNewPropertyModalvisible={isAddNewPropertyModalvisible} setIsAddNewPropertyModalModalVisible={setIsAddNewPropertyModalModalVisible}/>
-            
-            
-
             <Flex gap='3'>
                 <Button bg='#212222' flex='1' color='#fff' fontFamily={'Poppins-bold'} onClick={(()=>{setIsAddNewPropertyModalModalVisible(true)})}><AddBox/>Add Property</Button>
                 <Button onClick={(()=>setActive(false))} bg='#eee' >Logout</Button>
@@ -134,7 +159,7 @@ function Landlords(){
                         rel="noopener noreferrer"> 
                     <Text fontSize='sm' color='#ffa31a' >Learn more </Text>
                     </a>
-                    <ListingAccountModal isListingModalvisible={isListingModalvisible} setIsListingModalvisible={setIsListingModalvisible}/>
+                    <ListingAccountModal setActive={setActive} isListingModalvisible={isListingModalvisible} setIsListingModalvisible={setIsListingModalvisible}/>
                     <Button bg='#ffa31a' fontFamily={'Poppins-bold'} color='#fff' onClick={(()=>{setIsListingModalvisible(true)})}>Create a Listing account </Button>
                     <Button bg='#212222' fontFamily={'Poppins-bold'} color='#fff' onClick={login}>Log in</Button>
                 </Flex>

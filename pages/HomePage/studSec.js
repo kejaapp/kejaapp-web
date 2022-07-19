@@ -22,7 +22,7 @@ export default function StudSec(){
                 </Flex>
                 <Center w='100%' m='0'>
                     <Flex direction='column' gap='8' w='95%'>
-                        <a href="/help/listing" 
+                        <a href="/help/refer" 
                         target="_blank"
                         rel="noopener noreferrer"> 
                         <Button bg='#ffa31a' color='#fff' borderRadius='999px' w='100%'> 

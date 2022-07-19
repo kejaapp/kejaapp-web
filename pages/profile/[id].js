@@ -37,6 +37,7 @@ export default function Profile(){
                 router.push('/')
                 return console.log('no token found, please sign in')
             }
+            //https://keja--app.herokuapp.com/api/getuser
             await axios.post('https://keja--app.herokuapp.com/api/getuser',{
                 token
             }).then((res)=>{

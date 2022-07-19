@@ -4,41 +4,58 @@ import {
     Input,
     Text,
     Button,
-    Stack
+    Stack,
+    useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router';
-
+import Loading from '../loading.js'
 function Security({data}){
     const [deleted,setDeleted]=useState(false);
+    const [isdeleting,setIsdeleting]=useState(false);
     const cookies = new Cookies();
     let token = cookies.get('usertoken');
     const router = useRouter();
-
+    const toast = useToast();
     const HandleDelete = async()=>{
         console.log('deleting account')
-        try{
-            await axios.post('https://keja--app.herokuapp.com/api/deleteuser',{
-                token
-            }).then((res)=>{
-                cookies.remove('usertoken');
-                if(res.status === 200){
-                    setTimeout(() => {
-                        router.reload()
-                        router.push('/')
-                    }, 3000);
-                }
-            }).catch((err)=>{
+        toast({
+            title: 'Deleting Account',
+            description: "We are sad to see you leave us. We hope to see you back soon.",
+            status: 'error',
+            duration: 10000,
+            isClosable: true,
+          })
+        setTimeout(async()=>{
+            setIsdeleting(true)
+            try{
+                await axios.post('https://keja--app.herokuapp.com/api/deleteuser',{
+                    token
+                }).then((res)=>{
+                    cookies.remove('usertoken');
+                    if(res.status === 200){
+                        setTimeout(() => {
+                            router.reload()
+                            router.push('/')
+                        }, 3000);
+                    }
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }catch(err){
                 console.log(err)
-            })
-        }catch(err){
-            console.log(err)
-        }
+            }
+        },10000)
+        
     }
     return(
         <>
         <Flex w='100%' p='0' direction='column' gap='3'>
+            {isdeleting ? 
+                <Loading />
+                :
+                <>
                     <Text>
                         Password
                     </Text>
@@ -51,6 +68,10 @@ function Security({data}){
                             Delete Account
                         </Button>
                     </Stack>
+                </>
+                
+            }
+                    
                 </Flex>
         </>
         )

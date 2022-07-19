@@ -10,6 +10,7 @@ import {
     Flex,
     Center,
     Tab,
+    Text,
     Tabs,
     TabPanel,
     TabList,
@@ -18,13 +19,17 @@ import {
     InputGroup,
     InputRightElement,
     Stack,
-    Heading
+    Heading,
+    useToast
   } from '@chakra-ui/react';
+
 import { useEffect,useState } from 'react';
 import {Room,Visibility,VisibilityOff} from '@mui/icons-material'
-import signup from '../../pages/api/signup';
-import login from '../../pages/api/login';
+//import signup from '../../pages/api/signup';
+//import login from '../../pages/api/login';
 import { useRouter } from 'next/router';
+import Cookies from 'universal-cookie';
+import axios from 'axios';
 
 export function AccountModal({isModalvisible,setIsModalVisible}){
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,7 +49,7 @@ export function AccountModal({isModalvisible,setIsModalVisible}){
     useEffect(()=>{
       HandleModalOpen();
     },[isModalvisible])
-    
+  
     return (
       <>
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -59,17 +64,18 @@ export function AccountModal({isModalvisible,setIsModalVisible}){
               </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <Tabs isFitted variant='enclosed' colorScheme="brand">
+                <Tabs  isFitted variant='enclosed' colorScheme="brand" >
                   <TabList mb='1em' fontFamily={'Poppins-bold'}>
-                    <Tab>Register</Tab>
                     <Tab>Log In</Tab>
+                    <Tab>Register</Tab>
                   </TabList>
                   <TabPanels>
-                    <TabPanel>
-                      <Register setIsModalVisible={setIsModalVisible} onClose={onClose}/>
-                    </TabPanel>
+                    
                     <TabPanel>
                       <SignIn setIsModalVisible={setIsModalVisible} onClose={onClose}/>
+                    </TabPanel>
+                    <TabPanel>
+                      <Register setIsModalVisible={setIsModalVisible} onClose={onClose}/>
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
@@ -84,19 +90,61 @@ const Register=({onClose})=>{
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
+  const toast = useToast();
   //get user
   const [name,setname]=useState('');
   const [email,setemail]=useState('');
   const [mobile,setmobile]=useState('');
   const [password,setpassword]=useState('');
+  const [alert,setAlert]=useState('');
+
   //handlesignin
   const HandleSignup=async()=>{
     if(!(name,email,mobile,password)){
-      
+      toast({
+        title: 'Account Registration Failed, try Again',
+        description: "All inputs are required",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     }
     const user = {name,email,mobile,password}
-    //console.log(user)
-    signup(user)
+    const cookies = new Cookies();
+    //'https://keja--app.herokuapp.com/api/signup' || 
+    try{
+      axios.post('http://localhost:5000/api/signup',{
+          user
+      }).then((res)=>{
+          console.log(res.status)
+          if(res.status === 201){
+            return toast({
+                      title: 'Acoount Registration Failed,',
+                      description: res.data,
+                      status: 'error',
+                      duration: 9000,
+                      isClosable: true,
+                    })
+          }
+          cookies.set('usertoken', res.data, { path: '/' });
+          toast({
+            title: 'Account registered.',
+            description: 'We have created your account for you check your email to verify your account.',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          });
+          setTimeout(()=>{
+            window.location.reload()
+          },2000)
+          //console.log(res.data)
+      }).catch((err)=>{
+          console.log(err)
+      })
+  }catch(err){
+      console.log('signup failed',err)
+  }
+    
     onClose()
 
   }
@@ -136,6 +184,12 @@ const Register=({onClose})=>{
           >
             Sign Up
           </Button>
+          <Text fontSize={'11px'}>By Signing up you agree to our 
+                    <a href="help/terms&conditions" 
+                        target="_blank"
+                        rel="noopener noreferrer" style={{color:'#ffa31a'}}> terms&conditions</a > and our <a href="help/privacypolicy" 
+                        target="_blank"
+                        rel="noopener noreferrer" style={{color:'#ffa31a'}}>privacy policy</a>.</Text>
     </Stack>
   )
 }
@@ -149,11 +203,40 @@ const SignIn=({onClose})=>{
   const [password,setpassword]=useState('');
   const [submitting,setisSubmitting]=useState(false)
   //handlesignin
-
+  const cookies = new Cookies();
+  const toast = useToast();
+//https://keja--app.herokuapp.com/api/login
   const HandleLogin=async()=>{
     const user = {email,password}
-    console.log(user)
-    login(user)
+    //console.log(user)
+    await axios.post('http://localhost:5000/api/login',{
+            user
+        }).then((res)=>{
+            console.log(res.status)
+            if(res.status === 201){
+              return toast({
+                        title: 'Log in Failed,',
+                        description: res.data,
+                        status: 'error',
+                        duration: 9000,
+                        isClosable: true,
+                      })
+            }
+            cookies.set('usertoken', res.data, { path: '/' });
+            toast({
+              title: '',
+              description: 'Successfully Logged in',
+              status: 'success',
+              duration: 9000,
+              isClosable: true,
+            });
+            setTimeout(()=>{
+              window.location.reload()
+            },2000)
+          }).catch((err)=>{
+            console.log(err)
+        })
+    //login(user)
     onClose()
     setisSubmitting(true)
   }

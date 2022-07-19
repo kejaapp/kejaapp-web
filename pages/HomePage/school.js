@@ -42,7 +42,7 @@ export default function School(){
                     <StyledHeading >
                         Institutions
                     </StyledHeading>
-                    <Text>Help us get your school to our platform</Text>
+                    <Text>Want to get your school to our platform? - <span style={{color:'#ffa31a'}}>contact us</span></Text>
                     </Flex>
 
                 </Center>
@@ -58,7 +58,7 @@ export default function School(){
                     </StyledSlider>
                 </Center>
                 <Center mt='20px'>
-                    <Button bg='#ffa31a' onClick={(()=>{router.push('explore')})}>
+                    <Button bg='#ffa31a' onClick={(()=>{router.push('explore/all')})}>
                         Explore More
                     </Button>
                 </Center>

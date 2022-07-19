@@ -45,31 +45,3 @@ function ListingIndex() {
   )}
 
 export default ListingIndex;
-
-const post=[
-  {
-    id:'1',
-    title:"Go to Account Settings",
-    img:"../gotosettings.png"
-  },
-  {
-    id:'2',
-    title:"select Listing account",
-    img:"../gotoListinacc.png"
-  },
-  {
-    id:'3',
-    title:"Select Add Property",
-    img:"../addproperty.png"
-  },
-  {
-    id:'4',
-    title:"Fill in details",
-    img:"../filldetails.png"
-  },
-  {
-    id:'5',
-    title:"Complete and submit the form",
-    img:"../completeForm.png"
-  },
-]

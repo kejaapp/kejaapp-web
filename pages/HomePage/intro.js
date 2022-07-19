@@ -14,17 +14,17 @@ import {ArrowForward }from '@mui/icons-material';
 export default function Intro(){
     const router = useRouter();
     return(
-        <StyledDiv>
+        <StyledDiv >
             <Center w='100%' h='70%'>
                         <Flex direction='column' p='2'>
-                            <StyledHeading className={styles.fadeInUp}>
-                                Find the right home
+                            <StyledHeading>
+                                Are you looking for a house? 
                             </StyledHeading>
-                            <Text fontFamily='Poppins-regular' w={{sm:'90%',lg:'400px'}} mt='20px' fontSize={{sm:'18px',lg:'24px'}} >
-                                We help students get access to apartments around their institutions & colleges, helping them make the right choice
-                                in finding their next home.
+                            <Text className={styles.fadeInUp} fontFamily='Poppins-regular' w={{sm:'90%',lg:'400px'}} mt='10px' mb='10%' fontSize={'18px'} >
+                                Get access to a list of houses fast, easy and at a click away. <span style={{textDecoration:"underline 1px solid #ffa31a",fontFamily:"Poppins-bold"}}>No more walking</span> , <span style={{textDecoration:"underline 1px solid #ffa31a",fontFamily:"Poppins-bold"}}>No more hustle</span> , <span style={{textDecoration:"underline 1px solid #ffa31a",fontFamily:"Poppins-bold"}}>no more extra & unnecessary fees</span> , find your next <span style={{color:'#ffa31a',fontFamily:"Poppins-bold"}}>Home</span> right here .
+                                
                             </Text>
-                            <Button bg='#ffa31a' onClick={(()=>router.push('explore'))}> 
+                            <Button bg='#ffa31a' onClick={(()=>router.push('explore/all'))}> 
                                     Get Started <ArrowForward />
                                 
                             </Button>
@@ -46,4 +46,5 @@ const StyledDiv= styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: #eee
 `

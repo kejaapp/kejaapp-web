@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import styles from '../../styles/Home.module.css';
 import axios from 'axios';
 import {useRouter} from 'next/router'
+import Script from 'next/script'
 
 export default function Filter (){
     const router = useRouter();
@@ -26,10 +27,11 @@ export default function Filter (){
         area,
         type
     }
-    
+    //www.keja.app
     const getproperties=()=>{
+        
         try{
-            axios.post('https://keja--app.herokuapp.com/api/getproperties',{
+            axios.post( `https://keja--app.herokuapp.com/api/getproperties`,{
                 query
             }).then((res)=>{
                 //console.log(res.data)
@@ -59,10 +61,10 @@ export default function Filter (){
                 <Center >
                     <Flex direction='column'>
                         <Heading className={styles.fadeInUp} as='h1' align='center' size='xl' fontFamily='Poppins-bold' textShadow='1px 2px 3px #666'>
-                            Usichome fare ukisaka Keja
+                           No more hassle, ukisaka keja...
                         </Heading>
                         <Text size='xs' align='center' fontFamily='Poppins-regular'>
-                            Find a home around your institution/school
+                            Find a home around your institution or school
                         </Text>
                     </Flex>
                 </Center>
@@ -107,7 +109,7 @@ export default function Filter (){
                             {data?.length === 0?
                                 null:
                             <Center>
-                                <Text fontFamily='poppins-bold' color='#ffa31a' onClick={(()=>{router.push('explore')})}>view all</Text>
+                                <Text fontFamily='poppins-bold' color='#ffa31a' onClick={(()=>{router.push('explore/all')})}>view all</Text>
                             </Center>
                             }
                         </Flex>
@@ -121,7 +123,14 @@ export default function Filter (){
                             <Text  mt='10' size='md' fontFamily='Poppins-bold' >
                                 Scroll to Explore
                             </Text>
-                            <ArrowDownward />
+                            <Script src='https://cdn.lordicon.com/xdjxvujz.js'></Script>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/xhdhjyqy.json"
+                                  trigger="loop"
+                                    delay="2000"
+                                style={{marginTop:'20px',width:'50px',height:"50px"}}
+                                >
+                            </lord-icon>
                     </Flex>
                 </Center>
         </StyledDiv>
@@ -133,7 +142,7 @@ const SearchModal=({item})=>{
     const router = useRouter();
     return(
             <Flex m='5px' p='2' borderBottom='1px solid grey' onClick={(()=>{router.push(`/property/${item._id}`)})}>
-                <Image boxSize={70} src={item.images[0]} alt='photo' borderRadius={5}/>
+                <Image boxSize={70} src={item.images[0]} alt='photo' objectFit='cover' borderRadius={5}/>
                 <Flex direction={'column'} flex='1' marginLeft={5} >
                     <Text m='0'>{item.name}</Text>
                     <Text m='0'>Ksh {item.price}</Text>

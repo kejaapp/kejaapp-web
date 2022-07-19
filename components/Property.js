@@ -10,7 +10,7 @@ export default function Property({item}){
     const images = item.images;
 
     return(
-        <Flex direction='column' w='350px' h='' onClick={(()=>{router.push(`property/${item._id}`)})}>
+        <Flex direction='column' w='350px' h='' onClick={(()=>{router.push(`/property/${item._id}`)})}>
             <Carousel fade>
                         {images.map((item)=>{
                             return(

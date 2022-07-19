@@ -13,18 +13,20 @@ import {
     Input,
     Select,
     Textarea,
-    Heading
+    Heading,
+    useToast
   } from '@chakra-ui/react';
 import { useEffect,useState } from 'react';
 import {PhotoCamera, Room} from '@mui/icons-material';
 import axios from 'axios';
 import PostProperty from '../../pages/api/postproperty';
 import Loading from '../loading.js'
+import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
 
 export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModalModalVisible}){
     //capture property details
     const [name,setname]=useState('');
-    const [email,setemail]=useState('');
     const [type,settype]=useState('');
     const [landlordname,setlandlordname]=useState('');
     const [code,setcode]=useState('');
@@ -37,10 +39,6 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
     const [amenities,setamenities]=useState('');
     const [policies,setpolicies]=useState('');
     const [image1,setimage1]=useState('');
-    const [image2,setimage2]=useState('');
-    const [image3,setimage3]=useState('');
-    const [image4,setimage4]=useState('');
-    const [image5,setimage5]=useState('');
     const [propertyPosition, setPropertyPosition] = useState([]);
 
     //handles upload form
@@ -56,19 +54,35 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
         
       }
     }
-    
+    const toast = useToast();
+
+    const cookies = new Cookies();
+    let token = cookies.get('usertoken');
+    const [uemail,setuemail]=useState('')
+
     useEffect(()=>{
       HandleModalOpen();
       getPropertyPosition();
-    },[isAddNewPropertyModalvisible])
+      if(token){
+      let decoded = jwt_decode(token);
+      //console.log(decoded.id);
+      setuemail(decoded.email);
+      console.log()
+    }
+    },[isAddNewPropertyModalvisible,propertyPosition])
+    
     
      //upload images before submitting requests
      //put the images into an array and loop through to upload the info
-     const images = [image1,image2,image3,image4,image5]
+     //const images = [image1,image2,image3,image4,image5]
+     const images = [...image1]
+     // const {...images} = image1
+     //console.log(images)
      //new array captures urls to each 
      let newimagearray = []
      //function to upload images
      const handleImageUpload = async () =>{
+      console.log('start')
         images.forEach(function(image){
           try{
             //console.log(image)
@@ -81,12 +95,13 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                     //console.log(res.data.url)
                     //console.log(res.data)
                     newimagearray.push(res.data.url)
-                    //console.log(newimagearray)
+                    console.log(newimagearray)
+                    return 1;
                   }).catch((err)=>{
-                    //console.log(err)
+                    console.log(err)
                   })
                 }catch(error){
-                  //console.error(error)
+                  console.error(error)
                 }    
               })  
     }
@@ -107,7 +122,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
     //create a property object
     const property = {
       name,
-      email,
+      email:uemail,
       type,
       code,
       landlordname,
@@ -127,18 +142,65 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
     const [issubmitting,setissubmitting] = useState(false)
 
     const HandleSubmit=async()=>{
-      setissubmitting(true);
-      await handleImageUpload().then(()=>{
-        //wait for the image uploads and 
-        setTimeout(()=>{
-
-          //console.log(newimagearray)
-          PostProperty(property)
-          //console.log(property)
-          setissubmitting(false)
-        },8000)
-
-      })
+      console.log(property)
+      //check if location exists
+      if(property.propertyPosition.length === 0){
+        return toast({ 
+          title: '',
+          description: "allow location fetaure, location of each property is required",
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        })
+      }
+//upload images
+      handleImageUpload()
+      console.log(newimagearray)
+      setTimeout(()=>{
+        if(property.newimagearray !== 0 ){ 
+          //initiate listing func.
+          toast({
+            title: '',
+            description: "Wait as we verify and upload your property, it could take a 30secs to 1-min",
+            status: 'info',
+            duration: 2000,
+            isClosable: true,
+          })
+          //make request to server to start listing
+            setissubmitting(true)
+              axios.post("http://localhost:5000/api/postproperty",{
+                property
+              }).then((res)=>{
+                //check if listing req failed
+                if(res.status === 201 ){
+                  setissubmitting(false)
+                    return toast({
+                        title: res.data,
+                        status: 'error',
+                        isClosable: true,
+                      })
+                }
+                //success listing
+                setissubmitting(false);
+                return toast({
+                  title: '',
+                  description: "Your property has been uploaded successful",
+                  status: 'success',
+                  duration: 9000,
+                  isClosable: true,
+                })
+          }).catch((err)=>{
+            console.log(err)
+          })
+        }
+        return toast({
+                    title: 'We could not upload you images, please try again',
+                    status: 'error',
+                    isClosable: true,
+                  })
+      },7000)
+      //exit out of listing
+      
     }
 
   //send the post request
@@ -165,7 +227,6 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                 :
                 <>
                 <Flex direction='column' gap='3'>
-                    <Input type='email' variant='flushed' placeholder='Email'  required onChange={((e)=>{setemail(e.target.value)})}/>
                     <Input type='text' variant='flushed' placeholder='House Name' required onChange={((e)=>{setname(e.target.value)})}/>
                     <Input type='text' variant='flushed' placeholder='Landlord Name' required onChange={((e)=>{setlandlordname(e.target.value)})}/>
                     <Input type='tel' variant='flushed' placeholder='Contact' required onChange={((e)=>{setmobile(e.target.value)})}/>
@@ -197,11 +258,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                     <Textarea placeholder='Policies' required onChange={((e)=>{setpolicies(e.target.value)})}/>
                     {active ?
                         <Flex direction='column'>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage1(e.target.files[0])})}/>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage2(e.target.files[0])})}/>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage3(e.target.files[0])})}/>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage4(e.target.files[0])})}/>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage5(e.target.files[0])})}/>
+                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage1(e.target.files)})} multiple/>
                         </Flex> 
                         :
                           <Button onClick={(()=>{setActive(true)})} bg='#eee'> <PhotoCamera/> Upload Images</Button>
@@ -209,6 +266,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                     <Input type='text' placeholder='referrer code' required onChange={((e)=>{setcode(e.target.value)})}/>
                   </Flex>
                   <Flex gap='2' mt='2' direction={'column'}>
+                  <Button onClick={handleImageUpload}>handleImageUpload</Button>
                       <Button bg='#ffa31a' color='#fff' onClick={HandleSubmit}>Add Property</Button>
                       <Button bg='#eee' color='red' border='1px solid red ' onClick={onClose}>Cancel</Button>
                   </Flex>

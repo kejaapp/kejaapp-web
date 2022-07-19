@@ -25,7 +25,7 @@ function Personalinfo({data}){
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>Phone:</Text>
-                <Text>{data?.mobile}</Text>
+                <Text>0{data?.mobile}</Text>
                 {/* <Input value= variant='filled'  bg='#eee'/> */}
             </Flex>
             <Flex align={'center'} gap='3'>
@@ -56,12 +56,12 @@ function Personalinfo({data}){
                 null
                 :
                     <Flex align={'center'} gap='3'>
-                        <Text>Tokens</Text>
+                        <Text>Tokens:</Text>
                         <Text>{data?.referredcount * 20}</Text>
                         {/* <Input value= variant='filled'  bg='#eee'/> */}
                     </Flex>
             }
-            <Button bg='#212222' fontFamily={'Poppins-bold'} color='#fff' onClick={(()=>{cookies.remove('usertoken'); router.push('/')})}>Log Out</Button>
+            <Button bg='#212222' fontFamily={'Poppins-bold'} color='#fff' onClick={(()=>{cookies.remove('usertoken'); router.reload(); router.replace('/')})}>Log Out</Button>
         </Flex>
     )
 }

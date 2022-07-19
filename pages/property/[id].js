@@ -9,6 +9,7 @@ import {
     Input,
     InputGroup,
     Stack,
+    Textarea,
 } from '@chakra-ui/react';
 import {Share,Flag}from '@mui/icons-material';
 import { Carousel } from 'antd';
@@ -18,70 +19,76 @@ import axios from 'axios';
 import {useRouter} from  'next/router';
 import { RWebShare } from "react-web-share";
 import {ReportListingModal} from '../../components/modals/ReportListingModal';
+import { AddReviewModal } from '../../components/modals/addReviewModal';
+import {AccountCircle} from '@mui/icons-material';
 
-const image = [
-    {
-        img:'https://a0.muscache.com/im/pictures/prohost-api/Hosting-48729525/original/f62e1b1a-d6af-438b-82ce-95c51a4e0ca1.jpeg?im_w=720'
-    },
-    {
-        img:'https://a0.muscache.com/im/pictures/prohost-api/Hosting-48729525/original/f62e1b1a-d6af-438b-82ce-95c51a4e0ca1.jpeg?im_w=720'
-    },
-    {
-        img:'https://a0.muscache.com/im/pictures/prohost-api/Hosting-48729525/original/f62e1b1a-d6af-438b-82ce-95c51a4e0ca1.jpeg?im_w=720'
-    },
-    {
-        img:'https://a0.muscache.com/im/pictures/prohost-api/Hosting-48729525/original/f62e1b1a-d6af-438b-82ce-95c51a4e0ca1.jpeg?im_w=720'
-    },
-    {
-        img:'https://a0.muscache.com/im/pictures/prohost-api/Hosting-48729525/original/f62e1b1a-d6af-438b-82ce-95c51a4e0ca1.jpeg?im_w=720'
-    }
-]
+import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
 
-const reviews = [
-    {
-        id:'1',
-        name:'Dennis Sammy',
-        profile:'./img2.png',
-        school:'Jkuat',
-        content:'Lorem ipsum dolor sit amet consectetur adipisicing elit. '
-    },
-    {
-        id:'2',
-        name:'Nyambuzi',
-        profile:'./img4.png',
-        school:'Jkuat',
-        content:'Lorem ipsum dolor sit amet consectetur adipisicing elit. '
-    },
-    {
-        id:'3',
-        name:'JJ Johnson',
-        profile:'./img1.png',
-        school:'Jkuat',
-        content:'Lorem ipsum dolor sit amet consectetur adipisicing elit. '
-    },
-]
 export default function PropertyView(){
     const [data,setData]=useState([])
     const router = useRouter();
     const [isreportingModalvisible,setisreportingModalvisible]=useState(false);
-
+    const [isaddingreviewModalvisible,setisaddingreviewModalvisible]=useState(false);
+    const [name,setName]=useState('');
+    const [body,setBody]=useState('');
+    const [mobile,setMobile]=useState('');
+    const [email,setEmail]=useState('');
+    
     const {id} = router.query;
-    // console.log(id);
+    // console.log(id);https://keja--app.herokuapp.com
+    const cookies = new Cookies();
+    let token = cookies.get('usertoken');
+
     useEffect(()=>{
         try{
             axios.post('https://keja--app.herokuapp.com/api/getproperty',{
                 id
             }).then((res)=>{
                 setData(res.data)
+
             }).catch((err)=>{
                 console.log(err)
             })
         }catch(err){
 
         }
-    },[id])
+        let decoded = jwt_decode(token);
+          //console.log(decoded.id);
+        setEmail(decoded.email);
+    },[id]);
+
     const images = data?.images;
+    const reviews = data?.reviews
+    //console.log(data)
     
+    
+    
+
+    const request = {
+        name,
+        email,
+        mobile,
+        body,
+        Hid:id,
+        date:new Date()
+    }
+    const BookApartMent=()=>{
+        
+        console.log(request)
+        try{
+            axios.post('http://localhost:5000/api/bookapartment',{
+                request
+            }).then((res)=>{
+                setData(res.data)
+
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }catch(err){
+            console.log(err)
+        }
+    }
     return(
         <>
             {/* Image section */}
@@ -113,7 +120,7 @@ export default function PropertyView(){
                 <Flex className={styles.infoMainSection}>
                     <Flex direction="column" w='100%' p='4'>
                         <Flex direction={'column'} gap='0.4' borderBottom={'1px solid #212222'} p='10px 0px'>
-                            <Text  mb='0' fontSize='14px' color='#e5e5e5' fontFamily={'Poppins-bold'}>apartments with a verified tag have been reviewed and accepted by our company policy </Text>
+                            <Text  mb='3' fontSize='14px' color='grey' fontFamily={'Poppins-bold'}>apartments with a verified tag have been reviewed and accepted by our company policy </Text>
                             <Flex align='center' justify={'space-between'}>
                                 <Text  mb='0' fontSize='2xl' fontFamily={'Poppins-bold'}>{data?.name}</Text>
                                 <Text p='1' borderRadius={'5'} bg='#eee' border='1px solid #ffa31a' fontFamily={'Poppins-bold'}>{data?.verified ? 'verified' : 'unverified'}</Text>
@@ -123,8 +130,8 @@ export default function PropertyView(){
                             <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Type:</span> {data?.type}</Text>
                             <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Area:</span> {data?.area}</Text>
                             <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Size:</span> {data?.size}sqt</Text>
-                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Find this apartment:</span> <a href={`https://maps.google.com/?q=${data?.location}`} target="_blank"
-                            rel="noopener noreferrer">{data?.location}</a></Text>
+                            <Text mt='5' ><a href={`https://maps.google.com/?q=${data?.location}`} target="_blank" style={{color:" #ffa31a", fontFamily:"Poppins-bold", padding:'10px', border:'1px solid #000'}}
+                            rel="noopener noreferrer">Find this apartment:</a></Text>
                             
                             <Flex gap='4' mt='3'>
                                 <Button borderRadius={'0'} bg='#ffa31a' color='#fff' fontFamily={'Poppins-bold'}>
@@ -133,7 +140,7 @@ export default function PropertyView(){
                                 <RWebShare
                                 data={{
                                 text: 'Click to checkout this amazing house',
-                                url: `http://localhost:3000/property/${id}`,
+                                url: `https:www.keja.app/property/${id}`,
                                 title: `${data?.name}`,
                                 }}
                                 onClick={() => console.log("shared successfully!")}
@@ -143,8 +150,10 @@ export default function PropertyView(){
                                     </Button>
                                 </RWebShare>
                             </Flex>
-                            <ReportListingModal isreportingModalvisible={isreportingModalvisible} setisreportingModalvisible={setisreportingModalvisible}/>
-                                <Button mt='2'  bg='#e5e5e5' color='red' onClick={(()=>{setisreportingModalvisible(true)})}>
+                            <ReportListingModal isreportingModalvisible={isreportingModalvisible} setisreportingModalvisible={setisreportingModalvisible} id={id}/>
+                                <Button mt='2'  bg='#e5e5e5' color='red' 
+                                onClick={(()=>{setisreportingModalvisible(true)})}
+                                >
                                     <Flag /> Report this listing
                                 </Button>
                         </Flex>
@@ -169,33 +178,47 @@ export default function PropertyView(){
                         <Text mb='1'>Contact Us</Text>
                         <Stack spacing={4} bg='#eeeeee' p='2' borderRadius='5px' boxShadow={'lg'}>
                             <InputGroup>
-                                <Input type='text' placeholder='Name' variant='flushed'/>
+                                <Input type='text' onChange={((e)=>{setName(e.target.value)})} placeholder='Name' variant='flushed'/>
                             </InputGroup>
                             <InputGroup>
-                                <Input type='email' placeholder='Email' variant='flushed'/>
+                                <Input type='tel' onChange={((e)=>{setMobile(e.target.value)})} placeholder='phone number' variant='flushed'/>
                             </InputGroup>
-                            <InputGroup>
-                                <Input type='tel' placeholder='phone number' variant='flushed'/>
-                            </InputGroup>
+                            <Textarea placeholder='Any special requests we should consider' maxlength="100" h="100" onChange={((e)=>{setBody(e.target.value)})}/>
                             <Button
                                     mt={4}
                                     bg='#ffa31a'
                                     type='submit'
                                     color='#ffffff'
                                     fontFamily='Poppins-bold'
+                                    onClick={BookApartMent}
                                 >
-                                    Submit
+                                    Submit Request
                                 </Button>
                             </Stack>
                     </Flex>
                     <Flex p='2' direction={'column'} borderTop='1px solid grey' mt='2'>
+                    <AddReviewModal isaddingreviewModalvisible={isaddingreviewModalvisible} setisaddingreviewModalvisible={setisaddingreviewModalvisible} id={id}/>
                     <Text fontFamily={'Poppins-bold'} fontSize={'18px'}>Reviews</Text>
                     {
-                        reviews.length !== 0 ? 
-                        <Text> We do not have any reviews for this apartment yet</Text> :
-
-                        <StyledSlider className={styles.scrollbar}>
-                            {reviews.map((reviews)=>{
+                        reviews?.length === 0 ? 
+                        <>
+                        <Text> We do not have any reviews for this apartment yet</Text> 
+                            <Button mt='2' mb='2'  bg='#ffa31a' 
+                                onClick={(()=>{setisaddingreviewModalvisible(true)})}
+                                >
+                                    Add a review
+                                </Button>
+                        
+                        </>
+                        :
+                        <Flex direction='column' gap='3'>
+                            <Button mt='2' mb='2'  bg='#ffa31a' 
+                                onClick={(()=>{setisaddingreviewModalvisible(true)})}
+                                >
+                                    Add a review
+                                </Button>
+                            <StyledSlider className={styles.scrollbar}>
+                            {reviews?.slice(0,3).map((reviews)=>{
                                 return(
                                     <StyledDiv key={reviews.id}>
                                         <Item  reviews={reviews}/>
@@ -203,6 +226,8 @@ export default function PropertyView(){
                                 )
                             })}
                         </StyledSlider>
+                        </Flex>
+                        
                     }
                     </Flex>
                 </Flex>
@@ -215,15 +240,10 @@ const Item=({reviews})=>{
     return(
         <Flex p='2' gap='3' borderRadius='10px' direction='column' w='250px' h='200px' bg='#212222' color='#fff'>
             <Flex gap='3'>
-                <Image
-                    borderRadius='full' 
-                    boxSize='40px'
-                    src={reviews.profile}
-                    alt='profile pic'
-                />
+                <AccountCircle style={{width:"40px",height:"40px"}}/>
                 <Flex direction='column' >
-                    <Text mb='0' fontFamily='Poppins-bold'>
-                        {reviews.name}
+                    <Text mb='0' fontFamily='Poppins-bold' fontSize='12px' w='90%'>
+                        {reviews.email}
                     </Text>
                     <Text mb='0' fontSize='12px'>
                         {reviews.school}
@@ -231,7 +251,7 @@ const Item=({reviews})=>{
                 </Flex>
             </Flex>
             <Text mb='0' fontSize='14px' w='100%' overflow='wrap'>
-                {reviews.content}
+                {reviews.body}
             </Text>
         </Flex>
     )

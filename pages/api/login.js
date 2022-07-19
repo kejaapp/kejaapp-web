@@ -12,7 +12,7 @@ const Login=(user)=>{
             console.log(res.status)
             cookies.set('usertoken', res.data, { path: '/' });
         }).then(()=>{
-            window.location.reload()
+            window.location.reload();
         }).catch((err)=>{
             console.log(err)
         })

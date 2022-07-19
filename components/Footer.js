@@ -1,33 +1,25 @@
 import React from 'react';
 import styled from "styled-components";
-import Filter from "./filter";
-import Intro from   "./intro";
-import About from './about';
-import School from './school';
-import StudSec from './studSec';
-import Review from './Review';
 
 import {Room,Instagram,Twitter} from '@mui/icons-material';
 
-import {Flex,Text,Center} from '@chakra-ui/react'
+import {Flex,Text,Center,Heading} from '@chakra-ui/react'
+import Script from 'next/script'
 
-
-export default function Index(){
-    return(
-        <div style={{display:'flex',flexDirection:"column"}}  >
-            <Filter/>
-        </div >
-    )
-}
-
-const Footer=()=>{
+export default function Footer(){
     return(
         <Flex direction='column' mt='20px'>
             <Center>
-                <Flex>
-                    <Room style={{color:'#ffa31a'}}/>
-                    <Text fontFamily='Poppins-bold'>keja.app</Text>
-                </Flex>
+                <Heading fontSize='20px' fontFamily='Poppins-bold'>
+                  keja<span style={{color:'#ffa31a'}}>.app</span>
+                  <Script src="https://cdn.lordicon.com/xdjxvujz.js"></Script>
+                    <lord-icon
+ src="https://cdn.lordicon.com/zzcjjxew.json"
+    colors="primary:#212222,secondary:#ffa31a"
+                                style={{width:'35px',height:"35px",}}
+                                >
+                            </lord-icon>
+                </Heading>
             </Center>
             <Center m='10px'>
                 <Flex gap='3'>
@@ -57,7 +49,6 @@ const Footer=()=>{
         </Flex>
     )
 }
-
 //Styled components 
 const StyledSection = styled.div`
     background-color:   ${props => props.inputColor || "#212222"};

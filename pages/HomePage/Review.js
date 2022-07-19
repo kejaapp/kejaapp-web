@@ -2,7 +2,6 @@ import React from 'react';
 import {Flex,Image,Text,Button,Center} from '@chakra-ui/react'
 import styled from 'styled-components';
 import styles from '../../styles/Home.module.css'
-import {Footer} from '../index'
 
 const reviews = [
     {
@@ -46,7 +45,6 @@ export default function Review(){
                         })}
                     </StyledSlider>
                 </Center>
-                <Footer/>
             </Flex>
         </StyledContainer>
     )

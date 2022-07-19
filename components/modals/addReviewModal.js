@@ -14,48 +14,73 @@ import {
     Input,
     InputGroup,Heading,
     Stack,
+    useToast
   } from '@chakra-ui/react';
 import { useEffect,useState } from 'react';
 import {Room} from '@mui/icons-material'
 import axios from 'axios'
+import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
 
-export function ReportListingModal({id,isreportingModalvisible,setisreportingModalvisible}){
+export function AddReviewModal({id,isaddingreviewModalvisible,setisaddingreviewModalvisible}){
     const { isOpen, onOpen, onClose } = useDisclosure();
     
-    //console.log(isreportingModalvisible);
+    //console.log(isaddingreviewgModalvisible);
 
     const HandleModalOpen=()=>{
-      if(isreportingModalvisible !== true){
+      if(isaddingreviewModalvisible !== true){
         //console.log('damn')
       }else{
 
         onOpen();
-        setisreportingModalvisible(false)
+        setisaddingreviewModalvisible(false)
       }
     }
+    const cookies = new Cookies();
+    let token = cookies.get('usertoken');
+    const toast = useToast();
+    const [useremail,setuseremail]=useState('')
 
     useEffect(()=>{
       HandleModalOpen();
-    },[isreportingModalvisible])
+      if(token){
+      let decoded = jwt_decode(token);
+      //console.log(decoded.id);
+        setuseremail(decoded.email);
+    }
 
-    const [email,setEmail]=useState('')
+    },[isaddingreviewModalvisible,token])
+
     const [body,setBody]=useState('')
-    const [mobile, setMobile]=useState('');
 
-    const report = {
-        email:email,
-        mobile:mobile,
-        date: new Date(),
+    const review = {
+        email:useremail,
         Hid: id,
         body:body
     }
-
-    const ReportListing=async()=>{
-      console.log(report)
-        await axios.post('http://localhost:5000/api/reportproperty',{
-            report
+    const AddReview=async()=>{
+      console.log(review.email)
+        await axios.post('http://localhost:5000/api/addreview',{
+            review
         }).then((res)=>{
-            console.log(res.data)
+            if(res.status === 200){
+                setisaddingreviewModalvisible(false)
+                return toast({
+                    title: 'Review added successfully.',
+                    description: 'We appreciate you reviewing this apartment',
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
+            return toast({
+                    title: 'Review failed.',
+                    description: res.data,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                });
+            // console.log(res.data)
         }).catch((err)=>{
             console.log(err)
         })
@@ -76,22 +101,16 @@ export function ReportListingModal({id,isreportingModalvisible,setisreportingMod
             <ModalBody>
             <Stack spacing={4}>
                 {/* <Text>Confirm Details to start this great journey</Text> */}
-                <InputGroup>
-                    <Input type='email' placeholder='Email' variant='flushed' onChange={((e)=>{setEmail(e.target.value)})}/>
-                </InputGroup>
-                <InputGroup>
-                    <Input type='text' placeholder='Phone Number' variant='flushed' onChange={((e)=>{setMobile(e.target.value)})}/>
-                </InputGroup>
-                <Textarea placeholder='reason for your complaint' required  maxlength="100" onChange={((e)=>{setBody(e.target.value)})}/>
+                <Textarea maxlength="100" placeholder='Review this apartment to help your peers' h="100" onChange={((e)=>{setBody(e.target.value)})}/>
                 <Button
                         mt={4}
                         bg='#ffa31a'
                         type='submit'
                         color='#ffffff'
                         fontFamily='Poppins-bold'
-                    onClick={ReportListing}
+                    onClick={AddReview}
                     >
-                        Submit complaint
+                        Submit review
                     </Button>
                 </Stack>
                         </ModalBody>

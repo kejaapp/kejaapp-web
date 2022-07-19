@@ -1,11 +1,14 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Flex,Text,Button,Image,Center} from '@chakra-ui/react'
 import {useRouter} from 'next/router'
 
 export default function AmbassadorInfo(){
   const router = useRouter();
+  const [ active, setActive] = useState(false);
   return(
-    <Flex direction={'column'}>
+    <>
+    {active ? 
+      <Flex direction={'column'}>
       <Flex w='100%' justify={'space-around'}>
         <Center bg='#212222' w='100%' h='60vh'>
           <Flex direction={'column'} p='2' gap='2'>
@@ -52,4 +55,13 @@ export default function AmbassadorInfo(){
         </Text>
       </Center>
       </Flex>
+      
+      :
+      <>
+      <Center>
+        <Text>This Program is not available at the moment, Kindly be tuned.</Text>
+      </Center>
+      </>
+    }
+    </>
   )}
