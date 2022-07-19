@@ -57,7 +57,7 @@ export default function Explore(){
     const { isOpen, onOpen, onClose } = useDisclosure();
     useEffect(()=>{
         getproperties(query)
-    },[onClose,query]);
+    },[onClose]);
 
     return (
         <Stack>
