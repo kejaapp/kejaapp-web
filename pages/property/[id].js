@@ -37,7 +37,7 @@ export default function PropertyView(){
     const [isfetching,setisfetching]=useState(true);
 
     const {id} = router.query;
-    console.log(router.query)
+    console.log(router.query);
     // console.log(id);https://keja--app.herokuapp.com
     const cookies = new Cookies();
     let token = cookies.get('usertoken');
@@ -61,10 +61,10 @@ export default function PropertyView(){
             }    
         }
         console.log('loading')
-        if (token){
+        if(token){
            let decoded = jwt_decode(token);
           //console.log(decoded.id);
-        setEmail(decoded.email 
+            setEmail(decoded.email 
         }
         return setisfetching(false)
         
