@@ -56,7 +56,7 @@ export default function PropertyView(){
         let decoded = jwt_decode(token);
           //console.log(decoded.id);
         setEmail(decoded.email);
-    },[id,token]);
+    },[id]);
 
     const images = data?.images;
     const reviews = data?.reviews
