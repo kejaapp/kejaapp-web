@@ -34,7 +34,7 @@ export default function PropertyView(){
     const [body,setBody]=useState('');
     const [mobile,setMobile]=useState('');
     const [email,setEmail]=useState('');
-    const [isfetching,setisfetching]=useState(true);
+    const [isfetching,setisfetching]=useState(false);
 
     const {id} = router.query;
     console.log(router.query);
@@ -45,21 +45,25 @@ export default function PropertyView(){
     useEffect(()=>{
         setisfetching(true)
         console.log(id)
-        if(id && id !== undefined){
-            setisfetching(true)
-            try{
-                axios.post('https://keja--app.herokuapp.com/api/getproperty',{
-                    id
-                }).then((res)=>{
-                   return setData(res.data)
-                    
-                }).catch((err)=>{
+        setTimeout(()=>{
+               if(id && id !== undefined){
+                console.log(`started with ${id}`)
+                setisfetching(true)
+                try{
+                    axios.post('https://keja--app.herokuapp.com/api/getproperty',{
+                        id
+                    }).then((res)=>{
+                       return setData(res.data)
+                        
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }catch(err){
                     console.log(err)
-                })
-            }catch(err){
-                console.log(err)
-            }    
-        }
+                }    
+            } 
+        },2000)
+        
         console.log('loading')
         if(token){
            let decoded = jwt_decode(token);
