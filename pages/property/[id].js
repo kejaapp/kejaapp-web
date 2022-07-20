@@ -42,15 +42,13 @@ export default function PropertyView(){
     const cookies = new Cookies();
     let token = cookies.get('usertoken');
 
-    useEffect(()=>{
+    const getPropertyid=async()=>{
         setisfetching(true)
-        console.log(id)
-        setTimeout(()=>{
-               if(id && id !== undefined){
+        if(id && id !== undefined){
                 console.log(`started with ${id}`)
                 setisfetching(true)
                 try{
-                    axios.post('https://keja--app.herokuapp.com/api/getproperty',{
+                   await axios.post('https://keja--app.herokuapp.com/api/getproperty',{
                         id
                     }).then((res)=>{
                        return setData(res.data)
@@ -62,8 +60,12 @@ export default function PropertyView(){
                     console.log(err)
                 }    
             } 
-        },2000)
-        
+
+    }
+    useEffect(()=>{
+        setTimeout(()=>{
+            getPropertyid()
+        },3000)
         console.log('loading')
         if(token){
            let decoded = jwt_decode(token);
@@ -72,7 +74,7 @@ export default function PropertyView(){
         }
         return setisfetching(false)
         
-    });
+    },[id]);
 
     const images = data?.images;
     const reviews = data?.reviews
