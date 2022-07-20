@@ -72,7 +72,7 @@ export default function PropertyView(){
         }
         return setisfetching(false)
         
-    },[id]);
+    });
 
     const images = data?.images;
     const reviews = data?.reviews
