@@ -68,7 +68,7 @@ export default function PropertyView(){
         if(token){
            let decoded = jwt_decode(token);
           //console.log(decoded.id);
-            setEmail(decoded.email 
+            setEmail(decoded.email) 
         }
         return setisfetching(false)
         
