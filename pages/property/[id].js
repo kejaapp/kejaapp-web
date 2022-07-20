@@ -51,8 +51,8 @@ export default function PropertyView(){
                    await axios.post('https://keja--app.herokuapp.com/api/getproperty',{
                         id
                     }).then((res)=>{
-                       return setData(res.data)
-                        
+                       setData(res.data)
+                        setisfetching(false)
                     }).catch((err)=>{
                         console.log(err)
                     })
