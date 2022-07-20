@@ -21,7 +21,7 @@ import { RWebShare } from "react-web-share";
 import {ReportListingModal} from '../../components/modals/ReportListingModal';
 import { AddReviewModal } from '../../components/modals/addReviewModal';
 import {AccountCircle} from '@mui/icons-material';
-
+import Loading from '../../components/loading.js'
 import Cookies from 'universal-cookie';
 import jwt_decode from "jwt-decode";
 
@@ -34,25 +34,31 @@ export default function PropertyView(){
     const [body,setBody]=useState('');
     const [mobile,setMobile]=useState('');
     const [email,setEmail]=useState('');
-    
+    const [isfetching,setisfetching]=useState(true);
+
     const {id} = router.query;
     // console.log(id);https://keja--app.herokuapp.com
     const cookies = new Cookies();
     let token = cookies.get('usertoken');
 
     useEffect(()=>{
-        try{
-            axios.post('https://keja--app.herokuapp.com/api/getproperty',{
-                id
-            }).then((res)=>{
-                setData(res.data)
+        if(!id){
+            setisfetching(true)
+            try{
+                axios.post('https://keja--app.herokuapp.com/api/getproperty',{
+                    id
+                }).then((res)=>{
+                    setData(res.data)
+                    
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }catch(err){
 
-            }).catch((err)=>{
-                console.log(err)
-            })
-        }catch(err){
-
+            }    
         }
+        setisfetching(false)
+        console.log('loading')
         let decoded = jwt_decode(token);
           //console.log(decoded.id);
         setEmail(decoded.email);
@@ -90,6 +96,11 @@ export default function PropertyView(){
         }
     }
     return(
+        <>
+        {isfetching ? 
+            <Loading />
+                :
+        
         <>
             {/* Image section */}
             <Flex>
@@ -232,6 +243,9 @@ export default function PropertyView(){
                     </Flex>
                 </Flex>
             </Flex>
+        </>
+
+        }
         </>
     )
 }

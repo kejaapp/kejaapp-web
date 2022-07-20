@@ -209,7 +209,7 @@ const SignIn=({onClose})=>{
   const HandleLogin=async()=>{
     const user = {email,password}
     //console.log(user)
-    await axios.post('https://keja--app.herokuapp.com/api/signup',{
+    await axios.post('https://keja--app.herokuapp.com/api/login',{
             user
         }).then((res)=>{
             console.log(res.status)
