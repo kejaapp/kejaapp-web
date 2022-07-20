@@ -113,7 +113,7 @@ const Register=({onClose})=>{
     const cookies = new Cookies();
     //'https://keja--app.herokuapp.com/api/signup' || 
     try{
-      axios.post('http://localhost:5000/api/signup',{
+      axios.post('https://keja--app.herokuapp.com/api/signup',{
           user
       }).then((res)=>{
           console.log(res.status)
@@ -209,7 +209,7 @@ const SignIn=({onClose})=>{
   const HandleLogin=async()=>{
     const user = {email,password}
     //console.log(user)
-    await axios.post('http://localhost:5000/api/login',{
+    await axios.post('https://keja--app.herokuapp.com/api/signup',{
             user
         }).then((res)=>{
             console.log(res.status)
