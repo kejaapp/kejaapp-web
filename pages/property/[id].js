@@ -42,26 +42,30 @@ export default function PropertyView(){
     let token = cookies.get('usertoken');
 
     useEffect(()=>{
-        if(!id){
+        console.log(id)
+        if(id !== undefined){
             setisfetching(true)
             try{
                 axios.post('https://keja--app.herokuapp.com/api/getproperty',{
                     id
                 }).then((res)=>{
-                    setData(res.data)
+                   return setData(res.data)
                     
                 }).catch((err)=>{
                     console.log(err)
                 })
             }catch(err){
-
+                console.log(err)
             }    
         }
-        setisfetching(false)
         console.log('loading')
-        let decoded = jwt_decode(token);
+        if (token){
+           let decoded = jwt_decode(token);
           //console.log(decoded.id);
-        setEmail(decoded.email);
+        setEmail(decoded.email 
+        }
+        return setisfetching(false)
+        
     },[id]);
 
     const images = data?.images;
