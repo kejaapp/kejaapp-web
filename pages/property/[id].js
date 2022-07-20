@@ -45,7 +45,7 @@ export default function PropertyView(){
     useEffect(()=>{
         setisfetching(true)
         console.log(id)
-        if(!id && id === undefined){
+        if(id && id !== undefined){
             setisfetching(true)
             try{
                 axios.post('https://keja--app.herokuapp.com/api/getproperty',{
