@@ -37,13 +37,15 @@ export default function PropertyView(){
     const [isfetching,setisfetching]=useState(true);
 
     const {id} = router.query;
+    console.log(router.query)
     // console.log(id);https://keja--app.herokuapp.com
     const cookies = new Cookies();
     let token = cookies.get('usertoken');
 
     useEffect(()=>{
+        setisfetching(true)
         console.log(id)
-        if(id !== undefined){
+        if(!id && id === undefined){
             setisfetching(true)
             try{
                 axios.post('https://keja--app.herokuapp.com/api/getproperty',{
