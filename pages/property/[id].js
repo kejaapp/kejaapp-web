@@ -95,7 +95,7 @@ export default function PropertyView(){
         
         console.log(request)
         try{
-            axios.post('http://localhost:5000/api/bookapartment',{
+            axios.post('https://keja--app.herokuapp.com/api/bookapartment',{
                 request
             }).then((res)=>{
                 setData(res.data)
