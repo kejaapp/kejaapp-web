@@ -168,7 +168,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
           })
           //make request to server to start listing
             setissubmitting(true)
-              axios.post("http://localhost:5000/api/postproperty",{
+             axios.post("https://keja--app.herokuapp.com/api/postproperty",{
                 property
               }).then((res)=>{
                 //check if listing req failed

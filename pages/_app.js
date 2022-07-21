@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Keja.App</title>
         <meta name="description" content="Apartments for univeristy and campus students in Jomo Kenyatta University, Mount Kenya university, Kenyatta University " />
-        <link rel="icon" href="http://res.cloudinary.com/www-keja-app/image/upload/v1657104669/a8uwwg8mtnjutti2bzqh.jpg" />
+        <link rel="icon" href="/Keja.jpg" />
       </Head>
         <Flex direction='column'>
           <Header />
