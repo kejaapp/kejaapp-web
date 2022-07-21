@@ -193,6 +193,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
             console.log(err)
           })
         }
+        setissubmitting(false)
         return toast({
                     title: 'We could not upload you images, please try again',
                     status: 'error',

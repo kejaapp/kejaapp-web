@@ -79,12 +79,17 @@ function Landlords(){
     const getProperties=async()=>{
         try{
             let email = cookies.get('listingemail');
-            await axios.post('https://keja--app.herokuapp.com/api/getlistedproperties',{
-                email
-            }).then((res)=>{
-                console.log(res.data)
-                return setData(res.data)
-            })
+            if(email){
+                await axios.post('https://keja--app.herokuapp.com/api/getlistedproperties',{
+                    email
+                }).then((res)=>{
+                    console.log(res.data)
+                    return setData(res.data)
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }
+            console.log('could not get properties')
         }catch(err){
             console.log(err)
         }
