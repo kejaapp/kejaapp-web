@@ -194,7 +194,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
           })
         }
         setissubmitting(false)
-        return toast({
+        toast({
                     title: 'We could not upload you images, please try again',
                     status: 'error',
                     isClosable: true,
