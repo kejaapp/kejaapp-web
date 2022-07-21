@@ -5,8 +5,10 @@ import {Room,Instagram,Twitter} from '@mui/icons-material';
 
 import {Flex,Text,Center,Heading} from '@chakra-ui/react'
 import Script from 'next/script'
+import {useRouter} from 'next/router'
 
 export default function Footer(){
+    const router = useRouter();
     return(
         <Flex direction='column' mt='20px'>
             <Center>
@@ -23,19 +25,20 @@ export default function Footer(){
             </Center>
             <Center m='10px'>
                 <Flex gap='3'>
-                    <Instagram />
-                    <Twitter />
+                <a href="https://www.instagram.com/keja_app/" target="_blank" rel="noopener noreferrer" style={{color:'#ffa31a'}}><Instagram /></a>
+                    
+                <a href="https://twitter.com/Keja_app" target="_blank" rel="noopener noreferrer" style={{color:'#ffa31a'}}><Twitter /></a>
                 </Flex>
             </Center>
             <Center>
                 <Flex gap='2' >
-                    <Text fontFamily='Poppins-bold' fontSize='sm'>
+                    <Text fontFamily='Poppins-bold' fontSize='sm' >
                         Help
                     </Text>
-                    <Text fontFamily='Poppins-bold' fontSize='sm'>
+                    <Text fontFamily='Poppins-bold' fontSize='sm' onClick={(()=>{router.push('help/terms&conditions')})}>
                         Terms&Conditions
                     </Text>
-                    <Text fontFamily='Poppins-bold' fontSize='sm'>
+                    <Text fontFamily='Poppins-bold' fontSize='sm' onClick={(()=>{router.push('help/terms&conditions')})}>
                         Privacy Policy
                     </Text>
                 </Flex>

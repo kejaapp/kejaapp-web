@@ -105,8 +105,6 @@ function Landlords(){
     useEffect(()=>{
         if(email){
             setActive(true)
-        }else{
-            to
         }
         getProperties();
     },[email])
