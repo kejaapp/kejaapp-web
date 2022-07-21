@@ -144,15 +144,15 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
     const HandleSubmit=async()=>{
       console.log(property)
       //check if location exists
-      if(property.propertyPosition.length === 0){
-        return toast({ 
-          title: '',
-          description: "allow location fetaure, location of each property is required",
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        })
-      }
+      // if(property.propertyPosition.length === 0){
+      //   return toast({ 
+      //     title: '',
+      //     description: "allow location fetaure, location of each property is required",
+      //     status: 'error',
+      //     duration: 2000,
+      //     isClosable: true,
+      //   })
+      // }
 //upload images
       handleImageUpload()
       console.log(newimagearray)
@@ -267,7 +267,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                     <Input type='text' placeholder='referrer code' required onChange={((e)=>{setcode(e.target.value)})}/>
                   </Flex>
                   <Flex gap='2' mt='2' direction={'column'}>
-                  <Button onClick={handleImageUpload}>handleImageUpload</Button>
+                  
                       <Button bg='#ffa31a' color='#fff' onClick={HandleSubmit}>Add Property</Button>
                       <Button bg='#eee' color='red' border='1px solid red ' onClick={onClose}>Cancel</Button>
                   </Flex>

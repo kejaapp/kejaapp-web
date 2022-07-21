@@ -82,7 +82,7 @@ function Landlords(){
             await axios.post('https://keja--app.herokuapp.com/api/getlistedproperties',{
                 email
             }).then((res)=>{
-                //console.log(res.data)
+                console.log(res.data)
                 return setData(res.data)
             })
         }catch(err){
