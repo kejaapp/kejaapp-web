@@ -39,7 +39,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
     const [amenities,setamenities]=useState('');
     const [policies,setpolicies]=useState('');
     const [image1,setimage1]=useState('');
-    const [propertyPosition, setPropertyPosition] = useState([]);
+    const [propertyPosition, setPropertyPosition] = useState('');
 
     //handles upload form
     const { isOpen, onOpen, onClose } = useDisclosure();
