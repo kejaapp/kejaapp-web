@@ -113,9 +113,12 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
         navigator.geolocation.getCurrentPosition(position=>{
           const{latitude,longitude}=position.coords
             //setViewport({...viewport, latitude,longitude})
-            setPropertyPosition(`${latitude},${longitude}`)
+            return setPropertyPosition(`${latitude},${longitude}`)
         })
+      }else{
+        setPropertyPosition('')
       }
+
     } 
     // setLocation(`${propertyPosition.latitude},${propertyPosition.longitude}`)
     //console.log(propertyPosition)
@@ -246,7 +249,6 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                         <option value='Gachororo'>Gachororo</option>
                     </Select>
                     <Button onClick={getPropertyPosition}> Allow Location </Button>
-                    
                     <Select variant='flushed' placeholder='Property Type'  required onChange={((e)=>{settype(e.target.value)})}>
                         <option value='bedsitter'>Bedsitter</option>
                         <option value='single'>Single</option>
