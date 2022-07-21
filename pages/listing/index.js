@@ -32,6 +32,7 @@ function Landlords(){
     const [email,setEmail] = useState('')
     const cookies = new Cookies();
     const toast = useToast();
+
     const login=async()=>{
             let token = cookies.get('usertoken');
 
@@ -78,7 +79,6 @@ function Landlords(){
 
     const getProperties=async()=>{
         try{
-            let email = cookies.get('listingemail');
             if(email){
                 await axios.post('https://keja--app.herokuapp.com/api/getlistedproperties',{
                     email
@@ -96,7 +96,7 @@ function Landlords(){
     }
     useEffect(()=>{
         getProperties();
-    },[])
+    },[email])
     return(
         <>
         {active ? 
