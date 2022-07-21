@@ -244,7 +244,8 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                         <option value='gate E'>Gate E</option>
                         <option value='Gachororo'>Gachororo</option>
                     </Select>
-                    <Input type='text' value={propertyPosition} variant='flushed' placeholder='location' required onChange={((e)=>{setLocation(e.target.value)})}/>
+                    <Button onClick={getPropertyPosition}> Allow Location </Button>
+                    
                     <Select variant='flushed' placeholder='Property Type'  required onChange={((e)=>{settype(e.target.value)})}>
                         <option value='bedsitter'>Bedsitter</option>
                         <option value='single'>Single</option>
