@@ -128,7 +128,7 @@ export default function Filter (){
                                 src="https://cdn.lordicon.com/xhdhjyqy.json"
                                   trigger="loop"
                                     delay="2000"
-                                style={{marginTop:'20px',width:'50px',height:"50px"}}
+                                style={{marginTop:'20px',width:'50px',height:"50px",zIndex:"-1"}}
                                 >
                             </lord-icon>
                     </Flex>

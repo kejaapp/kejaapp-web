@@ -40,7 +40,15 @@ function Landlords(){
                 let decoded = jwt_decode(token);
                 //console.log(decoded.id);
                 setEmail(decoded.email);
-            };
+            }else{
+                return toast({
+                            title: 'Could not log in ',
+                            description: 'You need to sign in first',
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                          });
+            }
             // let email = decoded.email
 
             console.log(email)
@@ -97,6 +105,8 @@ function Landlords(){
     useEffect(()=>{
         if(email){
             setActive(true)
+        }else{
+            to
         }
         getProperties();
     },[email])
