@@ -40,7 +40,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="description" content="Apartments for univeristy and campus students in Jomo Kenyatta University, Mount Kenya university, Kenyatta University " />
         <link rel="icon" href="/Keja.jpg" />
       </Head>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
+        {/*
+          //<!-- Global site tag (gtag.js) - Google Analytics -->
+        */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=UA-235249968-1">
         </Script>
         <Script>
