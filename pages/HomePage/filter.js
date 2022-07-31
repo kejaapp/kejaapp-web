@@ -64,8 +64,6 @@ export default function Filter (){
                 <Center bg='#fff' position={'relative'} m='2' boxShadow='lg' borderRadius='lg'  h='50px'>
                     <Select p='2'  m='2' color='#ffa31a' fontFamily='Poppins-bold' variant='unstyled' placeholder='School' onChange={((e)=>{setschool(e.target.value); setarea("")})}>
                         <option value='JKUAT'>Jomo Kenyatta University of Agriculture</option>
-                        // {/* <option value='Kenyatta University'>Kenyatta University</option>
-                        // <option value='Mount Kenya University'>Mount Kenya University</option> */}
                     </Select>
                     <Select variant='unstyled' fontFamily='Poppins-bold' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
                         <option value='gate A'>Gate A</option>
