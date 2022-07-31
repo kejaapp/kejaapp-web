@@ -59,8 +59,16 @@ export function AddReviewModal({id,isaddingreviewModalvisible,setisaddingreviewM
         body:body
     }
     const AddReview=async()=>{
-      console.log(review.email)
-        await axios.post('http://localhost:5000/api/addreview',{
+      //console.log(review.email)
+      if(!token){
+        return toast({
+                    title: 'You need to login to review this apartment.',
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                })
+      }
+        await axios.post('https://keja--app.herokuapp.com/api/addreview',{
             review
         }).then((res)=>{
             if(res.status === 200){

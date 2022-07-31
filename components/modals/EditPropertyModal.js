@@ -13,7 +13,8 @@ import {
     Input,
     Select,
     Textarea,
-    Heading
+    Heading,
+    useToast
   } from '@chakra-ui/react';
 import { useEffect,useState } from 'react';
 import {Room} from '@mui/icons-material';
@@ -52,7 +53,8 @@ export function EditProperty({isPropertyEditingModalvisible,setisPropertyEditing
     
     //submit the form
     const [issubmitting,setissubmitting] = useState(false)
-    
+    const toast = useToast();
+
     const HandleSubmit=async()=>{
       //create a property object
       const editedproperty = {
@@ -73,8 +75,16 @@ export function EditProperty({isPropertyEditingModalvisible,setisPropertyEditing
               editedproperty
             }).then((res)=>{
               if(res.status === 200){
-                return setissubmitting(false)
+
+                setissubmitting(false)
+                return toast({
+                        title: 'successfly edited your property',
+                        status: 'success',
+                        duration: 9000,
+                        isClosable: true,
+                      })
               }
+              setissubmitting(false)
               return console.log(res.status)
             })
         }catch(err){

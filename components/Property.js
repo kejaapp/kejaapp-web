@@ -8,9 +8,11 @@ export default function Property({item}){
     const router = useRouter();
     // console.log(item.name)
     const images = item.images;
-
+    const HandleView=()=>{
+        window.open(`/property/${item._id}`, '_blank');
+    }
     return(
-        <Flex direction='column' w='350px' h='' onClick={(()=>{router.push(`/property/${item._id}`)})}>
+        <Flex direction='column' w='350px' h='' onClick={HandleView}>
             <Carousel fade>
                         {images.map((item)=>{
                             return(

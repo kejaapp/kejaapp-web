@@ -13,24 +13,19 @@ import styles from '../styles/Home.module.css'
 
 export default function Index(){
   return(
-    <>
       <StyledContainer className={styles.scrollbar} >
-      <Filter />
-      <Intro/>
-      <About/>
-      <School/>
-      <StudSec />
-      <Review />
+        <Filter />
+        <Intro/>
+        <About/>
+        <School/>
+        <StudSec />
       </StyledContainer>
-    </>
   )
 }
 
 //Styled components 
 
 const StyledContainer = styled.div`
-  height:100vh;
   width: 100vw;
-  
-  overflow-y: scroll;
+  overflow-y: ;
 `

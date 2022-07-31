@@ -17,18 +17,6 @@
     -webkit-transform: none;
     transform: none;
     }
-    }
-    @keyframes fadeInUp {
-    0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    }
-    100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-    }
   }
   .boxMainImageContainer{
     width: 70%;
@@ -92,7 +80,30 @@
       transform: translate3d(0, -1rem, 0);
     }
   }
-
+  .paginationbtns{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 auto;
+  }
+  .paginationbtns a{
+    text-decoration: none;
+    color: #000000;
+    font-size: 1.1rem;
+    margin: 0 10px;
+  }
+  .paginationbtnActive a{
+    margin: 15px;
+    text-decoration: none;
+    color: #000000
+  }
+  .previousbtns {
+    margin-top: 10px; 
+  }
+  .nextbtns {
+    margin-top: 10px; 
+  }
   @media screen and (max-width: 48em) {
     .decoration {
       display: none;

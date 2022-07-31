@@ -2,17 +2,18 @@ import React,{useEffect,useState} from 'react';
 import styles from '../../styles/Home.module.css'
 import {
     Flex,
-    Image,
     Spacer,
+    Image,
     Text,
     Button,
     Input,
     InputGroup,
     Stack,
     Textarea,
+    useToast,
 } from '@chakra-ui/react';
 import {Share,Flag}from '@mui/icons-material';
-import { Carousel } from 'antd';
+import { Carousel} from 'antd';
 import styled from 'styled-components';
 import 'antd/dist/antd.css'
 import axios from 'axios';
@@ -37,7 +38,7 @@ export default function PropertyView(){
     const [isfetching,setisfetching]=useState(false);
 
     const {id} = router.query;
-    console.log(router.query);
+    //console.log(router.query);
     // console.log(id);https://keja--app.herokuapp.com
     const cookies = new Cookies();
     let token = cookies.get('usertoken');
@@ -45,7 +46,7 @@ export default function PropertyView(){
     const getPropertyid=async()=>{
         setisfetching(true)
         if(id && id !== undefined){
-                console.log(`started with ${id}`)
+                //console.log(`started with ${id}`)
                 setisfetching(true)
                 try{
                    await axios.post('https://keja--app.herokuapp.com/api/getproperty',{
@@ -65,8 +66,9 @@ export default function PropertyView(){
     useEffect(()=>{
         setTimeout(()=>{
             getPropertyid()
+            getRecommendProperties()
         },3000)
-        console.log('loading')
+        //console.log('loading')
         if(token){
            let decoded = jwt_decode(token);
           //console.log(decoded.id);
@@ -91,21 +93,50 @@ export default function PropertyView(){
         Hid:id,
         date:new Date()
     }
+  const toast = useToast()
     const BookApartMent=()=>{
         
-        console.log(request)
+        //console.log(request)
         try{
             axios.post('https://keja--app.herokuapp.com/api/bookapartment',{
                 request
             }).then((res)=>{
                 setData(res.data)
-
+                toast({
+                    title: res.data,
+                    status: 'success',
+                    isClosable: true,
+                  })
             }).catch((err)=>{
                 console.log(err)
             })
         }catch(err){
             console.log(err)
         }
+    }
+
+    const [recData, setrecData]=useState([])
+    const param = {
+        school:data?.school,
+        type:data?.type
+    }
+//https://keja--app.herokuapp.com
+    const getRecommendProperties=async(query)=>{
+        try{
+            await axios.post('https://keja--app.herokuapp.com/api/recommendproperty',{
+                param
+            }).then((res)=>{
+                console.log(res.data)
+                setTimeout(()=>{
+                    setrecData(res.data)
+                },4000)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }catch(err){
+            console.log(err)
+        }
+        
     }
     return(
         <>
@@ -148,17 +179,17 @@ export default function PropertyView(){
                                 <Text  mb='0' fontSize='2xl' fontFamily={'Poppins-bold'}>{data?.name}</Text>
                                 <Text p='1' borderRadius={'5'} bg='#eee' border='1px solid #ffa31a' fontFamily={'Poppins-bold'}>{data?.verified ? 'verified' : 'unverified'}</Text>
                             </Flex>
-                            <Text  mb='0' fontSize='l' fontFamily={'Poppins-bold'}>Ksh {data?.price}</Text>
+                            <Text  mb='0' fontSize='l'><span style={{fontFamily:"Poppins-bold"}}>Monthly rent:</span>Ksh {data?.price}</Text>
                             <Text f mb='0' > <span style={{fontFamily:"Poppins-bold"}}>School:</span> {data?.school}</Text>
-                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Type:</span> {data?.type}</Text>
+                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Property Type:</span> {data?.type}</Text>
                             <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Area:</span> {data?.area}</Text>
-                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Size:</span> {data?.size}sqt</Text>
+                            <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Size:</span> {data?.size}sq.ft</Text>
                             <Text mt='5' ><a href={`https://maps.google.com/?q=${data?.location}`} target="_blank" style={{color:" #ffa31a", fontFamily:"Poppins-bold", padding:'10px', border:'1px solid #000'}}
                             rel="noopener noreferrer">Find this apartment:</a></Text>
                             
                             <Flex gap='4' mt='3'>
-                                <Button borderRadius={'0'} bg='#ffa31a' color='#fff' fontFamily={'Poppins-bold'}>
-                                    <a href={`tel:${data?.mobile}`}>Contact Agent</a>
+                                <Button borderRadius={'0'} bg='#ffa31a' fontFamily={'Poppins-bold'}>
+                                    <a style={{color:'#fff'}}href={`tel:${data?.mobile}`}>Contact Agent</a>
                                 </Button>
                                 <RWebShare
                                 data={{
@@ -173,12 +204,6 @@ export default function PropertyView(){
                                     </Button>
                                 </RWebShare>
                             </Flex>
-                            <ReportListingModal isreportingModalvisible={isreportingModalvisible} setisreportingModalvisible={setisreportingModalvisible} id={id}/>
-                                <Button mt='2'  bg='#e5e5e5' color='red' 
-                                onClick={(()=>{setisreportingModalvisible(true)})}
-                                >
-                                    <Flag /> Report this listing
-                                </Button>
                         </Flex>
                         <Flex direction={'column'} gap='0.4' borderBottom={'1px solid #212222'} p='10px 0px'>
                             <Text mb='0' fontSize='l' fontFamily={'Poppins-bold'}>Description</Text>
@@ -192,13 +217,36 @@ export default function PropertyView(){
                             <Text mb='0' fontSize='l' fontFamily={'Poppins-bold'}>Policies</Text>
                             <Text>{data?.policies}</Text>
                         </Flex>
+                        {
+                        recData?.length === 0 ? 
+                        <>
+                            <Text m='0 10px'> We could not find an apartment to recommend to you yet.</Text> 
+                        </>
+                        :
+                        <Flex direction='column' gap='3'>
+                            <Text m='0px' fontFamily='Poppins-bold' fontSize='16px' textDecoration='underline solid 2px #ffa31a'> We have more options for you </Text>
+                            <StyledSlider className={styles.scrollbar} style={{padding:'10px 0'}}>
+                                {recData?.map((item)=>{
+                                    return(
+                                        <StyledDiv key={item.id}>
+                                            <Property  item={item}/>
+                                        </StyledDiv>
+                                    )
+                                })}
+                            </StyledSlider>
+                            
+                        </Flex>
+                        
+                    }
                     </Flex>
                 </Flex>
+                
                 {/* Contact sector  30%*/}
                 <Flex direction='column' className={styles.infoSideSection}>
+
                     <Flex direction='column' m='2' borderTop='1px solid #212222'>
-                        <Text mb='0'>Need help getting this apartment?</Text>
-                        <Text mb='1'>Contact Us</Text>
+                        <Text mb='0'>Need help getting this apartment? We can help you.</Text>
+                        <Text mb='1' color='#ffa31a'>Contact Us by Filling the form below.</Text>
                         <Stack spacing={4} bg='#eeeeee' p='2' borderRadius='5px' boxShadow={'lg'}>
                             <InputGroup>
                                 <Input type='text' onChange={((e)=>{setName(e.target.value)})} placeholder='Name' variant='flushed'/>
@@ -235,11 +283,7 @@ export default function PropertyView(){
                         </>
                         :
                         <Flex direction='column' gap='3'>
-                            <Button mt='2' mb='2'  bg='#ffa31a' 
-                                onClick={(()=>{setisaddingreviewModalvisible(true)})}
-                                >
-                                    Add a review
-                                </Button>
+                            
                             <StyledSlider className={styles.scrollbar}>
                             {reviews?.slice(0,3).map((reviews)=>{
                                 return(
@@ -249,9 +293,21 @@ export default function PropertyView(){
                                 )
                             })}
                         </StyledSlider>
+                        <Button mt='2' mb='2'  bg='#ffa31a' 
+                                onClick={(()=>{setisaddingreviewModalvisible(true)})}
+                                >
+                                    Add a review
+                                </Button>
                         </Flex>
                         
                     }
+                    <ReportListingModal isreportingModalvisible={isreportingModalvisible} setisreportingModalvisible={setisreportingModalvisible} id={id}/>
+                                <Button mt='2'  bg='#e5e5e5' color='red' 
+                                onClick={(()=>{setisreportingModalvisible(true)})}
+                                >
+                                    <Flag /> Report this listing
+                                </Button>
+                                
                     </Flex>
                 </Flex>
             </Flex>
@@ -264,7 +320,7 @@ export default function PropertyView(){
 
 const Item=({reviews})=>{
     return(
-        <Flex p='2' gap='3' borderRadius='10px' direction='column' w='250px' h='200px' bg='#212222' color='#fff'>
+        <Flex p='2' gap='3' borderRadius='10px' direction='column' w='250px' h='200px' bg='#eee' color='#212222'>
             <Flex gap='3'>
                 <AccountCircle style={{width:"40px",height:"40px"}}/>
                 <Flex direction='column' >
@@ -283,13 +339,32 @@ const Item=({reviews})=>{
     )
 }
 
+const Property=({item})=>{
+    const images = item?.images;
+    const router=useRouter();
+    return(
+        <Flex position='relative' direction='column' w='200px' h='200px' onClick={(()=>{window.open(`/property/${item._id}`, '_blank');})}>
+            <Image zIndex='-1'  w='250px' h='200px' borderRadius='10px' src={images? images[0] : null} alt='property'/>
+            <Flex bg='grey' h='45x' p='0px 3px' w='100%' opacity='0.88' borderRadius='0px 0px 10px 10px' direction='column' position={'absolute'} bottom='0px' left='0px' zIndex='1'>
+                <Text color='#ffa31a' fontFamily='Poppins-bold' m='0'>
+                    Ksh {item.price}
+                </Text>
+                <Text m='0' fontFamily='Poppins-bold'>
+                    {item.area}
+                </Text>
+            </Flex>
+        </Flex>
+    )
+}
+
 const StyledDiv = styled.div`
     box-shadow:
     2px 10.9px 10px rgba(0, 0, 0, 0.075),
     16px 87px 80px rgba(0, 0, 0, 0.15)
     ;
     display: flex;
-    margin: 10px
+    margin: 0 10px;
+    border-radius: 10px
 `
 const StyledHeading = styled.h1`
     font-size: clamp(36px, 2.5vw, 64px);
@@ -298,8 +373,6 @@ const StyledHeading = styled.h1`
 `
 const StyledSlider = styled.div`
     display: flex;
-    overflow: auto;
-    padding:10px;
-    margin: 10px; 
-          
+    overflow: auto;  
+    padding: 10px;        
 `

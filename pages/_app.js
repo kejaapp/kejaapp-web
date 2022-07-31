@@ -36,9 +36,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider >
       <Head>
-        <title>Keja.App</title>
+        <title>Keja.App || Student housing</title>
         <meta name="description" content="Apartments for univeristy and campus students in Jomo Kenyatta University, Mount Kenya university, Kenyatta University " />
-        <link rel="icon" href="/Keja.jpg" />
+        <link rel="icon" href="/brunch.png" />
       </Head>
         <Flex direction='column'>
           <Header />

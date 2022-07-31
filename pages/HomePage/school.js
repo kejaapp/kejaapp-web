@@ -42,7 +42,7 @@ export default function School(){
                     <StyledHeading >
                         Institutions
                     </StyledHeading>
-                    <Text>Want to get your school to our platform? - <span style={{color:'#ffa31a'}}>contact us</span></Text>
+                    <Text>Want to get your school to our platform? - <a href="tel:0771712005" style={{color:'#ffa31a'}}>contact us</a></Text>
                     </Flex>
 
                 </Center>
@@ -108,8 +108,8 @@ const StyledSlider = styled.div`
           
 `
 const StyledContainer= styled.div`
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;

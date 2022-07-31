@@ -34,7 +34,7 @@ export default function Nav() {
   useEffect(()=>{
     if(token){
       let decoded = jwt_decode(token);
-      //console.log(decoded.id);
+      console.log(decoded.id);
       setUserId(decoded.id);
     }
 
@@ -128,9 +128,11 @@ trigger="loop"
                       }
                       {isloggedin ?
                           <Button bg='#212222' color='#fff' m='3' fontFamily='Poppins-bold' onClick={(()=>{cookies.remove('usertoken'); 
+                          
                           setTimeout(()=>{
                             router.reload();
-                          },2000)
+                            router.replace('/');
+                          },5000)
                           })}>
                             Logout
                           </Button>

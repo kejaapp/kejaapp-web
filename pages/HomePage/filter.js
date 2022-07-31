@@ -49,33 +49,25 @@ export default function Filter (){
         }
         return getproperties(query)
     },[school,area,type]);
-    //console.log(data.filter((item)=> item.title.includes('accusamus') && item.albumId.toString().includes('1')))
-    // const uniqueAreaArray = data.filter((item)=>
-    //                                 item.school.includes(school)
-    //                             )
-    //                             .map(item => item.area)
-    //                             .filter((value, index, self)=> self.indexOf(value) === index)
-    // //console.log(uniqueAreaArray)
     return(
         <StyledDiv >
                 <Center >
                     <Flex direction='column'>
-                        <Heading className={styles.fadeInUp} as='h1' align='center' size='xl' fontFamily='Poppins-bold' textShadow='1px 2px 3px #666'>
-                           No more hassle, ukisaka keja...
+                        <Heading as='h1' align='center' fontSize='42px' fontWeight='bold' fontFamily='Poppins-bold' >
+                          Find the <span style={{color:"#ffa31a",textDecoration:'2px underline solid #212222',backgroundColor:"rgb(0,0,0,0.4) ",padding:"5px"}}>Perfect</span> home.
                         </Heading>
-                        <Text size='xs' align='center' fontFamily='Poppins-regular'>
+                        <Text mt='2' size='xs' align='center' fontFamily='Poppins-regular'>
                             Find a home around your institution or school
                         </Text>
                     </Flex>
                 </Center>
-                <Center position={'relative'} m='2' boxShadow='lg' borderRadius='lg'  h='50px'>
-                    <Select p='2' focusBorderColor = "#ffa31a" borderRadius='md' borderRight='1px' m='2' color='#ffa31a' fontFamily='Poppins-bold' variant='flushed' placeholder='School' onChange={((e)=>{setschool(e.target.value); setarea("")})}>
-                    
+                <Center bg='#fff' position={'relative'} m='2' boxShadow='lg' borderRadius='lg'  h='50px'>
+                    <Select p='2'  m='2' color='#ffa31a' fontFamily='Poppins-bold' variant='unstyled' placeholder='School' onChange={((e)=>{setschool(e.target.value); setarea("")})}>
                         <option value='JKUAT'>Jomo Kenyatta University of Agriculture</option>
-                        {/* <option value='Kenyatta University'>Kenyatta University</option>
-                        <option value='Mount Kenya University'>Mount Kenya University</option> */}
+                        // {/* <option value='Kenyatta University'>Kenyatta University</option>
+                        // <option value='Mount Kenya University'>Mount Kenya University</option> */}
                     </Select>
-                    <Select variant='flushed' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
+                    <Select variant='unstyled' fontFamily='Poppins-bold' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
                         <option value='gate A'>Gate A</option>
                         <option value='gate B'>Gate B</option>
                         <option value='gate C'>Gate C</option>
@@ -83,7 +75,7 @@ export default function Filter (){
                         <option value='gate E'>Gate E</option>
                         <option value='Gachororo'>Gachororo</option>
                     </Select>
-                    <Select focusBorderColor = "#ffa31a" borderRadius='md' fontFamily='Poppins-bold' variant='flushed' placeholder='Type' onChange={((e)=>{settype(e.target.value)})}>
+                    <Select focusBorderColor = "#ffa31a" borderRadius='md' fontFamily='Poppins-bold' variant='unstyled' placeholder='Type' onChange={((e)=>{settype(e.target.value)})}>
                         <option value='bedsitter'>Bedsitter</option>
                         <option value='single'>Single</option>
                         <option value='hostel'>Hostel</option>
@@ -92,10 +84,10 @@ export default function Filter (){
                         <option value='threebedroom'>Three-Bedroom</option>
                     </Select>
                     <Button colorScheme='#ffa31a' bg='#ffa31a' h='100%' borderRadius='0' onClick={getproperties}>
-                        <Search color='#212222'/>
+                        <Search color='#212222'/>                        
                     </Button>
                     {data ? 
-                    <Center position={'absolute'} top='52px'  w='100%' bg='#fff'>
+                    <Center position={'absolute'} top='52px'  w='100%' bg='#fff' zIndex='999px'>
                         <Flex direction={'column'}  borderRadius={'10px'} boxShadow='dark-lg' w='100%'>
                             {
                                 data.slice(0,3).map((item)=>{
@@ -118,7 +110,7 @@ export default function Filter (){
                     null
                         }
                 </Center>
-                <Center mt='10' > 
+                <Center mt='10' zIndex='0px'> 
                     <Flex direction='column' alignItems={'center'}>
                             <Text  mt='10' size='md' fontFamily='Poppins-bold' >
                                 Scroll to Explore
@@ -128,7 +120,7 @@ export default function Filter (){
                                 src="https://cdn.lordicon.com/xhdhjyqy.json"
                                   trigger="loop"
                                     delay="2000"
-                                style={{marginTop:'20px',width:'50px',height:"50px",zIndex:"-1"}}
+                                style={{marginTop:'20px',width:'50px',height:"50px",zIndex:"0"}}
                                 >
                             </lord-icon>
                     </Flex>
@@ -144,7 +136,7 @@ const SearchModal=({item})=>{
             <Flex m='5px' p='2' borderBottom='1px solid grey' onClick={(()=>{router.push(`/property/${item._id}`)})}>
                 <Image boxSize={70} src={item.images[0]} alt='photo' objectFit='cover' borderRadius={5}/>
                 <Flex direction={'column'} flex='1' marginLeft={5} >
-                    <Text m='0'>{item.name}</Text>
+                    <Text m='0' fontFamily='Poppins-bold'>{item.name}</Text>
                     <Text m='0'>Ksh {item.price}</Text>
                     <Text m='0'>{item.type}</Text>
                 </Flex>
@@ -155,12 +147,15 @@ const SearchModal=({item})=>{
 
 
 const StyledDiv= styled.div`
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         display: flex;
         flex-direction: column; 
         justify-content: center;
         align-items: center;
         z-index: 100;
-        
+        background-image: url("https://img.freepik.com/free-vector/silhouette-skyline-illustration_53876-78786.jpg?w=740&t=st=1658941275~exp=1658941875~hmac=224e4ec9abb37db60c8f242fdcc22b8c04f4c720087106e23bb8d39df219f5cf");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
 `

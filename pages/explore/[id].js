@@ -15,10 +15,16 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-    Box
+    Box,
+    HStack,
+    useNumberInput
   } from '@chakra-ui/react';
 import Script from 'next/script'
-import Loading from '../../components/loading.js'
+import Loading from '../../components/loading.js';
+import ReactPaginate from 'react-paginate';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+
 export default function Explore(){
     const router = useRouter();
     const [school,setschool]=useState('');
@@ -29,9 +35,20 @@ export default function Explore(){
     const [data,setData]=useState([]);
     const [query,setQuery]=useState({})
     const [isquerrying,setisQuerrying]=useState(false)
+
+    //handle number of pages
+    const [pageNumber, setPageNumber]=useState(0)
+    const propertyPerPage= 7;
+    const pagesVisted = pageNumber * propertyPerPage;
+
+    const pageCount = Math.ceil(data.length/propertyPerPage)
+    const handlePageClick = ({selected})=>{
+        setPageNumber(selected)
+    }
     //https://keja--app.herokuapp.com/
     const getproperties=async(query)=>{
         setisQuerrying(true)
+        //https://keja--app.herokuapp.com
         try{
             await axios.post('https://keja--app.herokuapp.com/api/getproperties',{
                 query
@@ -81,7 +98,7 @@ export default function Explore(){
                     {data.length === 0 && !isquerrying ? 
                     <Flex align='center' justify='center' direction='column' mt='20%'>
                         <Text fontFamily='Poppins-bold' w='80%'>We could not find the apartments you are looking for. Contact us by whatsapp @ <a href="https://wa.me/0771712005" rel="noreferrer" target="_blank" style={{color:"#ffa31a",fontFamily:"Poppins-bold"}}>0771712005</a> or call us at <a href='tel:0771712005' rel="noreferrer" target="_blank" style={{color:"#ffa31a",fontFamily:"Poppins-bold"}}>0771712005</a> so that we can assist you.</Text>
-                        <Image  src='https://cdn-icons.flaticon.com/png/512/2959/premium/2959090.png?token=exp=1658251960~hmac=05821d9d53f69d3df345fdcd97120aa4' alt='no image found' w='200px' h='200px'/>
+                        <Image  src='/failed.png' alt='no image found' w='200px' h='200px'/>
                     </Flex>:
                     <>
                         {
@@ -89,22 +106,38 @@ export default function Explore(){
 
                             <Flex align='center' justify='center' direction='column' mt='-15%'>
                                 <Loading />
-                    </Flex>
+                            </Flex>
                     :
                             <>
-{data.map((item)=>{
-                        return(
-                            <StyledDiv key={item._id}>
-                                <Property item={item}/>                        
-                            </StyledDiv>
-                        )
-                    })}
+                                {data?.slice(pagesVisted, pagesVisted + propertyPerPage).map((item)=>{
+                                                        return(
+                                                            <StyledDiv key={item._id}>
+                                                                <Property item={item}/>                        
+                                                            </StyledDiv>
+                                                        )
+                                                    })}
                             </>
                         }
                         
                     </>
                     }
                 </Flex>
+            </Center>
+            <Center >
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel=<NavigateNextIcon style={{margin:"-5px",border:"1.5px solid #ffa31a",borderRadius:"99px"}}/>
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel=<NavigateBeforeIcon style={{margin:"-5px",border:"1.5px solid #ffa31a",borderRadius:"99px"}}/>
+                    renderOnZeroPageCount={null}
+                    containerClassName={styles.paginationbtns}
+                    previousLinkClassName={styles.previousbtns}
+                    nextLinkClassName={styles.nextbtns}
+                    disabledClassName={styles.paginationDisabled}
+                    activeClassName={styles.paginationActive}
+                />           
             </Center>
         </Stack>
     )
@@ -137,27 +170,47 @@ const Filter=({onOpen,onClose,isOpen,getproperties})=>{
         {name:'gate E'},
         {name:'Gachororo'},
     ]
+    
 
     const [schoolv,setschool]=useState('JKUAT');
     const [areav,setarea]=useState('');
     const [typev,settype]=useState('');
-    const [pricev,setPrice]=useState('');
-
+    const [value,setValue]=useState('');
+    
     let active = true;
 
-    const query = {
-        school:schoolv !== '' ? schoolv : '',
-        area:areav !== '' ? areav : '',
-        type:typev !== '' ? typev : '',
-        price:pricev !== '' ? pricev : ''
-    }
+    
 
-    const router= useRouter()
+    const router= useRouter();
+    const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
+            useNumberInput({
+              step: 100,
+              defaultValue: 6500,
+            })
+
+          const inc = getIncrementButtonProps()
+          const dec = getDecrementButtonProps()
+          const input = getInputProps()
     const handleSubmitFilter=()=>{
-         getproperties(query)
+        
+          const query = {
+            school:schoolv !== '' ? schoolv : '',
+            area:areav !== '' ? areav : '',
+            type:typev !== '' ? typev : '',
+            value:value !== '' ? value : '',
+            price:input.value !== '' ? input.value : '',
+        }
+        setTimeout(()=>{
+            getproperties(query)
          onClose()
+        },3000)
+         
     }
     const handleClearFilter=()=>{
+        setschool('')
+        setarea('')
+        settype('')
+        setValue('')
          onClose()
     }
   return (
@@ -171,7 +224,12 @@ const Filter=({onOpen,onClose,isOpen,getproperties})=>{
           <ModalCloseButton />
           <ModalBody>
           <Flex align={'center'} gap='1' direction='column'>
-                        <Input focusBorderColor = "#212222" borderRadius='0' placeholder='price' />
+                        <Input focusBorderColor = "#212222" borderRadius='0' placeholder='search name of apartment' onChange={((e)=>{setValue(e.target.value)})}/>
+                        <HStack maxW='400px'>
+                          <Button {...inc}>+</Button>
+                          <Input {...input} />
+                          <Button {...dec}>-</Button>
+                        </HStack>
                         <Flex direction='column' w='100%'>
                             <Text m='0' fontFamily='Poppins-bold'>School</Text>
                                 <StyledSlider className={styles.scrollbar}>
@@ -186,7 +244,7 @@ const Filter=({onOpen,onClose,isOpen,getproperties})=>{
                         </Flex>
 
                         <Flex direction='column' w='100%'>
-                            <Text m='0' fontFamily='Poppins-bold'>School</Text>
+                            <Text m='0' fontFamily='Poppins-bold'>Area  |  Location</Text>
                                 <StyledSlider className={styles.scrollbar}>
                                     {areas.map((item)=>{
                                         return(

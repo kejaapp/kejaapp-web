@@ -67,7 +67,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
       let decoded = jwt_decode(token);
       //console.log(decoded.id);
       setuemail(decoded.email);
-      console.log()
+      //console.log()
     }
     },[isAddNewPropertyModalvisible,propertyPosition])
     
@@ -82,7 +82,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
      let newimagearray = []
      //function to upload images
      const handleImageUpload = async () =>{
-      console.log('start')
+      //console.log('start')
         images.forEach(function(image){
           try{
             //console.log(image)
@@ -95,7 +95,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                     //console.log(res.data.url)
                     //console.log(res.data)
                     newimagearray.push(res.data.url)
-                    console.log(newimagearray)
+                    //console.log(newimagearray)
                     return 1;
                   }).catch((err)=>{
                     console.log(err)
@@ -145,7 +145,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
     const [issubmitting,setissubmitting] = useState(false)
 
     const HandleSubmit=async()=>{
-      console.log(property)
+      //console.log(property)
       //check if location exists
       // if(property.propertyPosition.length === 0){
       //   return toast({ 
@@ -158,7 +158,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
       // }
 //upload images
       handleImageUpload()
-      console.log(newimagearray)
+      //console.log(newimagearray)
       setTimeout(()=>{
         if(property.newimagearray !== 0 ){ 
           //initiate listing func.
@@ -169,7 +169,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
             duration: 2000,
             isClosable: true,
           })
-          //make request to server to start listing
+          //make request to server to start listinghttps://keja--app.herokuapp.com
             setissubmitting(true)
              axios.post("https://keja--app.herokuapp.com/api/postproperty",{
                 property
@@ -202,7 +202,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                     status: 'error',
                     isClosable: true,
                   })
-      },7000)
+      },10000)
       //exit out of listing
       
     }
@@ -230,17 +230,22 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                 </Center>
                 :
                 <>
-                <Flex direction='column' gap='3'>
-                    <Input type='text' variant='flushed' placeholder='House Name' required onChange={((e)=>{setname(e.target.value)})}/>
-                    <Input type='text' variant='flushed' placeholder='Landlord Name' required onChange={((e)=>{setlandlordname(e.target.value)})}/>
-                    <Input type='tel' variant='flushed' placeholder='Contact' required onChange={((e)=>{setmobile(e.target.value)})}/>
-                    <Input type='number' variant='flushed' placeholder='Price' required onChange={((e)=>{setprice(e.target.value)})}/>
-                    <Input type='number' variant='flushed' placeholder='size in square feet' required onChange={((e)=>{setsize(e.target.value)})}/>
-                    <Select variant='flushed' placeholder='School'  required onChange={((e)=>{setschool(e.target.value)})}>
+                  <Flex direction='column' gap='3'>
+                    <Text>Property Name:</Text>
+                    <Input type='text' variant='filled' placeholder='e.g Keja Homes' required onChange={((e)=>{setname(e.target.value)})}/>
+                    <Text>Phone Number:</Text>
+                    <Input type='tel' variant='filled' placeholder='number to be used by interested tenants' required onChange={((e)=>{setmobile(e.target.value)})}/>
+                    <Text>Price:</Text>
+                    <Input type='number' variant='filled' placeholder='Price of apartment per month' required onChange={((e)=>{setprice(e.target.value)})}/>
+                    <Text>Size of house (in square feet):</Text>
+                    <Input type='number' variant='filled' placeholder='Approximate size of house in square feet' required onChange={((e)=>{setsize(e.target.value)})}/>
+                    <Text>Nearest School Your House is in:</Text>
+                    <Select variant='filled' placeholder='Nearest School Your House is in'  required onChange={((e)=>{setschool(e.target.value)})}>
                         <option value='JKUAT'>Jomo Kenyatta University of Agriculture and Technology</option>
                         {/* <option value='KenyattaUniversty'>Kenyatta University</option> */}
                     </Select>
-                    <Select variant='flushed' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
+                    <Text>Area your apartment is located:</Text>
+                    <Select variant='filled' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
                         <option value='gate A'>Gate A</option>
                         <option value='gate B'>Gate B</option>
                         <option value='gate C'>Gate C</option>
@@ -248,8 +253,10 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                         <option value='gate E'>Gate E</option>
                         <option value='Gachororo'>Gachororo</option>
                     </Select>
-                    <Button onClick={getPropertyPosition}> Allow Location </Button>
-                    <Select variant='flushed' placeholder='Property Type'  required onChange={((e)=>{settype(e.target.value)})}>
+                    <Text>Location :</Text>
+                    <Input type='text' variant='filled' placeholder='Paste Link to your apartment' required onChange={((e)=>{setlocation(e.target.value)})}/>
+                    <Text>Property Type:</Text>
+                    <Select variant='filled' placeholder='Property Type'  required onChange={((e)=>{settype(e.target.value)})}>
                         <option value='bedsitter'>Bedsitter</option>
                         <option value='single'>Single</option>
                         <option value='hostel'>Hostel</option>
@@ -257,12 +264,17 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                         <option value='twobedroom'>Two-Bedroom</option>
                         <option value='threebedroom'>Three-Bedroom</option>
                     </Select>
-                    <Textarea placeholder='Description' required  onChange={((e)=>{setdescription(e.target.value)})}/>
-                    <Textarea placeholder='Amenities' required onChange={((e)=>{setamenities(e.target.value)})}/>
-                    <Textarea placeholder='Policies' required onChange={((e)=>{setpolicies(e.target.value)})}/>
+                    <Text>Property Description:</Text>
+                    <Textarea placeholder='Give a description that will attract tenants to your apartment' required  onChange={((e)=>{setdescription(e.target.value)})}/>
+                    <Text>Amenities:</Text>
+                    <Textarea placeholder='i.e What to your property offers e.g WIFI, CCTV, Parking' required onChange={((e)=>{setamenities(e.target.value)})}/>
+                    <Text>Rules and policies:</Text>
+                    <Textarea placeholder='Policies or Rules of the apartment' required onChange={((e)=>{setpolicies(e.target.value)})}/>
                     {active ?
                         <Flex direction='column'>
-                            <Input type='file' accept='.jpg,.jpeg,.png' variant='flushed' required onChange={((e)=>{setimage1(e.target.files)})} multiple/>
+                            <Text fontSize='14px' m='10px 0'>We recommend Uploading quality images of the house with enough lighting.</Text>
+                            <Text fontSize='14px' m='10px 0'>You can Select Multiple Images for this listing.</Text>
+                            <Input placeholder="You can Select Multiple Images for this listing" type='file' accept='.jpg,.jpeg,.png' variant='filled' required onChange={((e)=>{setimage1(e.target.files)})} multiple/>
                         </Flex> 
                         :
                           <Button onClick={(()=>{setActive(true)})} bg='#eee'> <PhotoCamera/> Upload Images</Button>
@@ -270,7 +282,6 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                     <Input type='text' placeholder='referrer code' required onChange={((e)=>{setcode(e.target.value)})}/>
                   </Flex>
                   <Flex gap='2' mt='2' direction={'column'}>
-                  
                       <Button bg='#ffa31a' color='#fff' onClick={HandleSubmit}>Add Property</Button>
                       <Button bg='#eee' color='red' border='1px solid red ' onClick={onClose}>Cancel</Button>
                   </Flex>

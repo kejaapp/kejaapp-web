@@ -116,7 +116,7 @@ const Register=({onClose})=>{
       axios.post('https://keja--app.herokuapp.com/api/signup',{
           user
       }).then((res)=>{
-          console.log(res.status)
+          //console.log(res.status)
           if(res.status === 201){
             return toast({
                       title: 'Acoount Registration Failed,',
@@ -212,7 +212,7 @@ const SignIn=({onClose})=>{
     await axios.post('https://keja--app.herokuapp.com/api/login',{
             user
         }).then((res)=>{
-            console.log(res.status)
+            //console.log(res.status)
             if(res.status === 201){
               return toast({
                         title: 'Log in Failed,',

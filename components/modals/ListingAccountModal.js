@@ -75,10 +75,11 @@ const SignIn=({setActive})=>{
     if(token){
       let decoded = jwt_decode(token);
       //console.log(decoded.id);
-      console.log(decoded.email);
+      //console.log(decoded.email);
       setuseremail(decoded.email)
     }
     if(useremail !== email){
+      console.log(useremail,email)
       return toast({
         title: 'The email provided does not match your current user account, register or sign in and try again.',
         status: 'error',
@@ -86,10 +87,10 @@ const SignIn=({setActive})=>{
       })
     }
     try{
-      await axios.post('http://localhost:5000/api/createlistingaccount',{
+      await axios.post('https://keja--app.herokuapp.com/api/createlistingaccount',{
         email
       }).then((res)=>{
-            console.log(res.status);
+            //console.log(res.status);
             if(res.status === 201){
               return toast({
                 title: res.data,

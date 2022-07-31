@@ -7,49 +7,84 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import Cookies from 'universal-cookie';
-
+import {useState} from 'react'
+import axios from 'axios';
 function Personalinfo({data}){
+    const [editname,seteditname]=useState(data.name);
+    const [editmobile,seteditmobile]=useState(data.mobile);
+    const [editemail,seteditemail]=useState(data.email);
+    const [editgender,seteditgender]=useState(data.gender);
+    const [editschool,seteditschool]=useState(data.school);
+
+    const [active,setactive]=useState(false);
+
+    const editProfile = async()=>{  
+        const edituser = {
+            name: editname,
+            mobile: editmobile,
+            gender: editgender,
+            school: editschool,
+            email: editemail,
+        }
+        //console.log(edituser)
+        try{
+            await axios.post("https://keja--app.herokuapp.com/api/editprofile",{edituser}).then((res)=>{
+                    setactive(true)
+                    //console.log(res.data)
+                    if(res.status === 200){
+                       return setTimeout(()=>{
+                            alert(res.data)
+                            router.reload()
+                        },3000) 
+                    }
+                    return alert(res.data)
+                })
+        }catch(err){
+            console.log(err)
+        }
+    }
     const cookies = new Cookies();
     const router = useRouter();
     return(
         <Flex w='100%' p='0' direction='column' gap='3'>
             <Flex align={'center'} gap='3'>
                 <Text>Name:</Text>
-                <Text>{data?.name}</Text>
-                {/* <Input  value= variant='filled' bg='#eee'/> */}
+                {active ? <Input variant='filled' value={editname} bg='#eee' onChange={((e)=>{seteditname(e.target.value)})}/> :  <Text>{data?.name}</Text>  }
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>Email:</Text>
-                <Text>{data?.email}</Text>
-                {/* <Input value= variant='filled'  bg='#eee'/> */}
+                { active ? <Input  variant='filled' value={editemail} bg='#eee' onChange={((e)=>{seteditemail(e.target.value)})}/> : <Text>{data?.email}</Text> }
+                
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>Phone:</Text>
-                <Text>0{data?.mobile}</Text>
-                {/* <Input value= variant='filled'  bg='#eee'/> */}
+                { active ? <Input  variant='filled' value={editmobile} bg='#eee' onChange={((e)=>{seteditmobile(e.target.value)})}/> : <Text>0{data?.mobile}</Text> }
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>School:</Text>
-                {/* <Text>Name:</Text> */}
-                <Select  bg='#eee' borderRadius='md' borderRight='1px' variant='flushed' placeholder='School'>
-                        <option value='option1'>Jomo Kenyatta University of Agriculture and Technology</option>
-                        <option value='option2'>Kenyatta University</option>
-                        <option value='option3'>Mount Kenya University</option>
-                </Select>
+                { active ?
+                    <Select  value={editschool} bg='#eee' borderRadius='md' borderRight='1px' variant='flushed' placeholder='School' onChange={((e)=>{seteditschool(e.target.value)})}>
+                        <option value='Jomo Kenyatta University of Agriculture and Technology'>Jomo Kenyatta University of Agriculture and Technology</option>
+                        <option value='Kenyatta University'>Kenyatta University</option>
+                        <option value='Mount Kenya University'>Mount Kenya University</option>
+                    </Select> 
+                : <Text>{data?.school}</Text> 
+            }
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>Gender:</Text>
-                {/* <Text>Name:</Text> */}
-                <Select  bg='#eee' borderRadius='md' borderRight='1px' variant='flushed' placeholder='Gender'>
-                        <option value='option1'>Male</option>
-                        <option value='option2'>Female</option>
-                        <option value='option3'>Id rather not say</option>
-                </Select>
+                { active ? 
+                    <Select  value={editgender} bg='#eee' borderRadius='md' borderRight='1px' variant='flushed' placeholder='Gender' onChange={((e)=>{seteditgender(e.target.value)})}>
+                        <option value='Male'>Male</option>
+                        <option value='Female'>Female</option>
+                        <option value='Id rather not say'>Id rather not say</option>
+                    </Select>
+                    : <Text>{data?.gender}</Text> 
+                }
             </Flex>
             <Flex align={'center'} gap='3'>
                 <Text>Referral code:</Text>
                 <Text>{data?.code}</Text>
-                {/* <Input value= variant='filled'  bg='#eee'/> */}
             </Flex>
             {
                 data?.referredcount === 0 ?
@@ -58,10 +93,18 @@ function Personalinfo({data}){
                     <Flex align={'center'} gap='3'>
                         <Text>Tokens:</Text>
                         <Text>{data?.referredcount * 20}</Text>
-                        {/* <Input value= variant='filled'  bg='#eee'/> */}
+                        {/* <Input variant='filled'  value={} bg='#eee'/> */}
                     </Flex>
             }
-            <Button bg='#212222' fontFamily={'Poppins-bold'} color='#fff' onClick={(()=>{cookies.remove('usertoken'); router.reload(); router.replace('/')})}>Log Out</Button>
+            <Flex gap='2'>
+                {active === true ? <Button bg='#eeeee' fontFamily={'Poppins-bold'} flex='1' color='#212222' onClick={editProfile}>Update Profile</Button> : <Button flex='1' bg='#ffa31a' fontFamily={'Poppins-bold'} color='#212222' onClick={(()=>{setactive(true)})}>Edit Profile</Button> }
+            <Button bg='#212222' fontFamily={'Poppins-bold'} color='#fff' onClick={(()=>{cookies.remove('usertoken'); 
+                        setTimeout(()=>{
+                            router.reload();
+                            router.replace('/');
+                          },5000)})}>Log Out</Button>
+            </Flex>
+            
         </Flex>
     )
 }

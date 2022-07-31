@@ -56,8 +56,7 @@ export default function Profile(){
         }
     }
     useEffect(()=>{
-        getUser(id);
-        //console.log(data?.name)
+        getUser();
     },[id])
     
 

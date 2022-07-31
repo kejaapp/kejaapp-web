@@ -7,7 +7,7 @@ import {
     Button,
     Center,
     Image,
-    useToast
+    useToast,Heading,Container
 } from '@chakra-ui/react';
 import { AddBox, BookmarkAdded, BookmarkBorder, Delete } from '@mui/icons-material';
 
@@ -51,7 +51,7 @@ function Landlords(){
             }
             // let email = decoded.email
 
-            console.log(email)
+            //console.log(email)
             if(!email){
                 return console.log('please provide an email')
             }
@@ -91,42 +91,49 @@ function Landlords(){
                 await axios.post('https://keja--app.herokuapp.com/api/getlistedproperties',{
                     email
                 }).then((res)=>{
-                    console.log(res.data)
+                    //console.log(res.data)
                     return setData(res.data)
                 }).catch((err)=>{
                     console.log(err)
                 })
             }
-            console.log('could not get properties')
+            //console.log('could not get properties')
         }catch(err){
             console.log(err)
         }
     }
+
     useEffect(()=>{
         if(email){
-            setActive(true);
+            login()
         }
         getProperties();
     },[email])
+
     return(
         <>
         {active ? 
         <Flex direction='column' p='3'>
-            <Image src='https://img.freepik.com/free-photo/hand-presenting-model-house-home-loan-campaign_53876-104970.jpg?t=st=1657636442~exp=1657637042~hmac=a1c8c9e89f9dc13505d0f61596848aa491ff59f31c3a84b3106f48100b520882&w=740' h='400px' mb='3' borderRadius={'5'} objectFit={'cover'} alt='cover'/>
+        
+            <StyledContainer  >
+            <Center bg='rgb(0,0,0,0.30)' h='100%' p='4'>
+                <Heading as='h1' color='#fff' fontSize='40px' mb='15px' fontFamily='Poppins-bold'> <span style={{color:'#ffa31a'}}>Focus </span> on growing and let us worry about getting you the tenants that you need</Heading>
+            </Center>
+            </StyledContainer>
             <AddNewItem isAddNewPropertyModalvisible={isAddNewPropertyModalvisible} setIsAddNewPropertyModalModalVisible={setIsAddNewPropertyModalModalVisible}/>
-            <Flex gap='3'>
+            <Flex gap='3' mt='3'>
                 <Button bg='#212222' flex='1' color='#fff' fontFamily={'Poppins-bold'} onClick={(()=>{setIsAddNewPropertyModalModalVisible(true)})}><AddBox/>Add Property</Button>
                 <Button onClick={(()=>setActive(false))} bg='#eee' >Logout</Button>
             </Flex>
             <Flex direction='column' borderTop='1px solid #212222' mt='2'>
-                <Text>Listed Apartments</Text>
+                <Text fontSize='20px'>Listed Apartments</Text>
                 {data.length !== 0 ?
                 
                     <StyledSlider className={styles.scrollbar}>
                         {data.map((item)=>{
                             return(
                                 <StyledDiv key={item.id}>
-                                    <Property  item={item} value='promoted' />                         
+                                    <Property  item={item} />                         
                                 </StyledDiv>
                             )
                         })}
@@ -139,7 +146,7 @@ function Landlords(){
                 }
             </Flex>
             <Flex direction='column' borderTop='1px solid #212222' mt='2'>
-                <Text>Promoted Apartments</Text>
+                <Text fontSize='20px'>Promoted Apartments</Text>
                 <Text fontSize={'12px'} color='grey'>Promote your apartments to rank high in our search sections</Text>
                 {data.length !== 0 ?
                     <StyledSlider className={styles.scrollbar}>
@@ -148,7 +155,7 @@ function Landlords(){
                         .map((item)=>{
                             return(
                                 <StyledDiv key={item.id}>
-                                    <Property  item={item} value='sponsored'/>                         
+                                    <Property  item={item} value={true}/>                         
                                 </StyledDiv>
                             )
                         })}
@@ -160,7 +167,9 @@ function Landlords(){
                 }
                 <Flex direction={'column'} borderTop='1px solid #212222' mt='2'>
                     <Text>Contact Support</Text>
-                    <Text bg='#ffa31a' w='100px' p='1'>0771712005</Text>
+                    <Button borderRadius={'0'} bg='#ffa31a' fontFamily={'Poppins-bold'}>
+                        <a style={{color:'#fff'}}href={`tel:0771712005`}>click to call </a>
+                    </Button>
                 </Flex>
             </Flex>
         </Flex>
@@ -191,6 +200,7 @@ const Property=({item,value})=>{
     const [isPropertyEditingModalvisible,setisPropertyEditingModalvisible]=useState(false);
     const [isModalvisible,setIsModalVisible]=useState(false);//promote modal
     let id = item._id
+
     const HandleDelete = async()=>{
         try{
             await axios.post('https://keja--app.herokuapp.com/api/deleteproperty',{
@@ -207,7 +217,7 @@ const Property=({item,value})=>{
     return(
         <Flex direction='column' w='200px' position={'relative'}>
             <EditProperty isPropertyEditingModalvisible={isPropertyEditingModalvisible} setisPropertyEditingModalvisible={setisPropertyEditingModalvisible} item={item}/>
-            <PromoteProperty isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
+            <PromoteProperty isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible} item={item}/>
             <Image h='150px' w='100%' borderRadius='10px' objectFit={'cover'} src={item.images[0]} alt='photo'/>
             <Flex position='absolute' top='10px' right={'5px'} direction='column'>
                 {item.sponsored === true ? 
@@ -216,7 +226,7 @@ const Property=({item,value})=>{
                 <BookmarkBorder />
                 }
                 {value === item.sponsored ? null : 
-                    <Delete style={{color:'red',opacity:'0.5'}} onClick={HandleDelete}/>
+                    <Delete style={{color:'red',opacity:'0.9'}} onClick={HandleDelete}/>
                 }
             </Flex>
             <Flex direction='column' p='1' gap='1'>
@@ -226,12 +236,14 @@ const Property=({item,value})=>{
                 <Text fontSize='10px' >
                     {item.area}
                 </Text>
-                {item.promoted  === true ? 
+                {value === item.sponsored ? 
                     null
                 :
                 <Flex direction={'column'}>
                     <Button fontSize='12px' color='#fff' bg='#212222' h='5' m='10px 0' onClick={(()=>{setisPropertyEditingModalvisible(true)})}>Edit property</Button>
-                    <Button fontSize='12px' bg='#ffa31a' h='5' onClick={(()=>{setIsModalVisible(true)})}>Promote</Button>
+                    {/*
+                        //<Button fontSize='12px' bg='#ffa31a' h='5' onClick={(()=>{setIsModalVisible(true)})}>Promote</Button>
+                    */}
                 </Flex>
                 
                 }
@@ -261,4 +273,12 @@ const StyledDiv = styled.div`
     flex-direction: column;
     border-radius: 10px;
     margin: 10px
+`
+const StyledContainer = styled.div`
+height: 430px;
+width:100%;
+    background-image: url("https://img.freepik.com/free-vector/happy-freelancer-with-computer-home-young-man-sitting-armchair-using-laptop-chatting-online-smiling-vector-illustration-distance-work-online-learning-freelance_74855-8401.jpg?w=740&t=st=1658958615~exp=1658959215~hmac=481e6845dae9181adfed9cfabb93ab53c3221d9947261e23f8df74df8c2ddb25");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover
 `

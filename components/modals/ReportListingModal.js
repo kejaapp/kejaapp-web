@@ -51,11 +51,11 @@ export function ReportListingModal({id,isreportingModalvisible,setisreportingMod
     }
 
     const ReportListing=async()=>{
-      console.log(report)
+      //console.log(report)
         await axios.post('https://keja--app.herokuapp.com/api/reportproperty',{
             report
         }).then((res)=>{
-            console.log(res.data)
+            //console.log(res.data)
         }).catch((err)=>{
             console.log(err)
         })
