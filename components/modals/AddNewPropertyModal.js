@@ -139,7 +139,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
           })
       setissubmitting(true)
       //check if all fields have been filled
-      if(name === '' && type === '' && landlordname === '' && mobile === '' && price === '' && school === '' && size === '' && area === '' && location === '' && description === '' && amenities === '' && policies === '' ){
+      if(name === '' && type === '' && landlordname === '' && mobile === '' && price === '' && school === '' && size === '' && area === '' && description === '' && amenities === '' && policies === '' ){
         
         toast({
               title: '',
@@ -176,7 +176,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                       })
                 }
                 //success listing
-                
+                if(res.status === 200){
                 toast({
                   title: '',
                   description: "Your property has been uploaded successful",
@@ -184,8 +184,8 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                   duration: 9000,
                   isClosable: true,
                 })
-                setissubmitting(false);
                 router.reload()
+              }
           }).catch((err)=>{
             console.log(err)
           })
