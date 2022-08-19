@@ -19,7 +19,7 @@ export default function Property({item}){
     }
     return(
         <Flex direction='column' w='350px' h='' onClick={HandleView}>
-            // <SubscriptionModal isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
+            <SubscriptionModal isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
             <Carousel fade>
                         {images.map((item)=>{
                             return(
