@@ -177,14 +177,15 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                 }
                 //success listing
                 if(res.status === 200){
-                toast({
-                  title: '',
-                  description: "Your property has been uploaded successful",
-                  status: 'success',
-                  duration: 9000,
-                  isClosable: true,
-                })
-                router.reload()
+                  reset()
+                  onClose()
+                  return toast({
+                    title: '',
+                    description: "Your property has been uploaded successful",
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                  })
               }
           }).catch((err)=>{
             console.log(err)
