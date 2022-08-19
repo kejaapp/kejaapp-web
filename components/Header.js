@@ -130,9 +130,9 @@ trigger="loop"
                           <Button bg='#212222' color='#fff' m='3' fontFamily='Poppins-bold' onClick={(()=>{cookies.remove('usertoken'); 
                           
                           setTimeout(()=>{
+                            router.push('/');
                             router.reload();
-                            router.replace('/');
-                          },5000)
+                          },2000)
                           })}>
                             Logout
                           </Button>

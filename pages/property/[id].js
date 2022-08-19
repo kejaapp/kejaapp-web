@@ -161,7 +161,7 @@ export default function PropertyView(){
                 </Stack>
                 <Spacer />
                 <Flex className={styles.boxSideImageContainer} direction='column' gap='2' >
-                    <Image h='30vh' w='100%' objectFit={'cover'} borderRadius='10px' src={images? images[0] : null}/>
+                    <Image h='30vh' w='100%' objectFit={'cover'} borderRadius='10px' src={images? images[0] : null} alt='image'/>
                     <Flex justify='space-around' height={'40%'}>
                         <Image alt='image' h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[1] : null}/>
                         <Image alt='image' h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[3] : null}/>

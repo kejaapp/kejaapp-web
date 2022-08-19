@@ -1,18 +1,25 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Flex, Image,Text} from '@chakra-ui/react'
 import {useRouter} from 'next/router'
 import { Carousel } from 'antd';
-import 'antd/dist/antd.css'
+import 'antd/dist/antd.css';
+import { SubscriptionModal } from './modals/SubscriptionModal';
 
 export default function Property({item}){
     const router = useRouter();
     // console.log(item.name)
     const images = item.images;
+    const [isModalvisible,setIsModalVisible] = useState(false);
+
     const HandleView=()=>{
-        window.open(`/property/${item._id}`, '_blank');
+       window.open(`/property/${item._id}`, '_blank');
+       // console.log('sefe')
+       // setIsModalVisible(true)
+       // console.log(isModalvisible)
     }
     return(
         <Flex direction='column' w='350px' h='' onClick={HandleView}>
+            // <SubscriptionModal isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
             <Carousel fade>
                         {images.map((item)=>{
                             return(

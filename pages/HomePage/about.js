@@ -7,6 +7,7 @@ import {
 import React,{useState,useEffect} from 'react'
 import styled from 'styled-components'
 import styles from '../../styles/Home.module.css'
+import axios from 'axios'
 
 const OurNumbers=[
     {

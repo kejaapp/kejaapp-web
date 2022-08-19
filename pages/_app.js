@@ -1,4 +1,6 @@
-import { ChakraProvider,Flex,useToast } from '@chakra-ui/react';
+import { ChakraProvider,Flex,useToast,extendTheme} from '@chakra-ui/react';
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
+
 import '../styles/globals.css'
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
@@ -12,6 +14,11 @@ const Header = dynamic(
   { ssr: false }
 )
 
+const theme = extendTheme({
+  components: {
+    Steps,
+  },
+});
 
 function MyApp({ Component, pageProps }) {
   const [active,setActive]=useState(false)
@@ -34,7 +41,7 @@ function MyApp({ Component, pageProps }) {
     
   },[cookies])
   return (
-    <ChakraProvider >
+    <ChakraProvider theme={theme} >
       <Head>
         <title>Keja.App || Student housing</title>
         <meta name="description" content="Apartments for univeristy and campus students in Jomo Kenyatta University, Mount Kenya university, Kenyatta University " />
