@@ -176,14 +176,15 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                       })
                 }
                 //success listing
-                setissubmitting(false);
-                return toast({
+                
+                toast({
                   title: '',
                   description: "Your property has been uploaded successful",
                   status: 'success',
                   duration: 9000,
                   isClosable: true,
                 })
+                setissubmitting(false);
           }).catch((err)=>{
             console.log(err)
           })
