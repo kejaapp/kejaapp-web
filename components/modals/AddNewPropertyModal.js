@@ -185,6 +185,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
                   isClosable: true,
                 })
                 setissubmitting(false);
+                router.reload()
           }).catch((err)=>{
             console.log(err)
           })
