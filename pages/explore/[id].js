@@ -155,7 +155,7 @@ const Filter=({onOpen,onClose,isOpen,getproperties})=>{
     const schools = [
         {
             name:'Jomo Kenyatta University of Agriculture',
-            value:'JKUAT',
+            value:'jkuat',
         },
         {
             name:'Kenyatta University ',
@@ -172,7 +172,7 @@ const Filter=({onOpen,onClose,isOpen,getproperties})=>{
     ]
     
 
-    const [schoolv,setschool]=useState('JKUAT');
+    const [schoolv,setschool]=useState('jkuat');
     const [areav,setarea]=useState('');
     const [typev,settype]=useState('');
     const [value,setValue]=useState('');

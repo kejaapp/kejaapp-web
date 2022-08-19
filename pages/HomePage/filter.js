@@ -63,7 +63,7 @@ export default function Filter (){
                 </Center>
                 <Center bg='#fff' position={'relative'} m='2' boxShadow='lg' borderRadius='lg'  h='50px'>
                     <Select p='2'  m='2' color='#ffa31a' fontFamily='Poppins-bold' variant='unstyled' placeholder='School' onChange={((e)=>{setschool(e.target.value); setarea("")})}>
-                        <option value='JKUAT'>Jomo Kenyatta University of Agriculture</option>
+                        <option value='jkuat'>Jomo Kenyatta University of Agriculture</option>
                     </Select>
                     <Select variant='unstyled' fontFamily='Poppins-bold' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
                         <option value='gate A'>Gate A</option>

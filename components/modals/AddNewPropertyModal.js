@@ -357,7 +357,7 @@ const HouseLocation=({setlocation,setschool,setarea})=>{
         <FormLabel>Nearest School/Institution your Apartment is in</FormLabel>
         <Select variant='filled' placeholder='Nearest School Your House is in'  required onChange={((e)=>{setschool(e.target.value)})}>
           <option value='jkuat'>Jomo Kenyatta University of Agriculture and Technology</option>
-          <option value='002'>Kenyatta University</option>
+          <option value='ku'>Kenyatta University</option>
         </Select>
         <FormLabel>Area your apartment is located:</FormLabel>
         <Select variant='filled' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
