@@ -97,11 +97,10 @@ function Personalinfo({data}){
             }
             <Flex gap='2'>
                 {active === true ? <Button bg='#eeeee' fontFamily={'Poppins-bold'} flex='1' color='#212222' onClick={editProfile}>Update Profile</Button> : <Button flex='1' bg='#ffa31a' fontFamily={'Poppins-bold'} color='#212222' onClick={(()=>{setactive(true)})}>Edit Profile</Button> }
-            // <Button bg='#212222' fontFamily={'Poppins-bold'} color='#fff' onClick={(()=>{cookies.remove('usertoken'); 
-            //             setTimeout(()=>{
-            //                 router.push('/');
-            //                 router.reload();
-            //               },2000)})}>Log Out</Button>
+            <Button bg='#212222' fontFamily={'Poppins-bold'} color='#fff' onClick={(()=>{cookies.remove('usertoken'); 
+                        setTimeout(()=>{
+                            router.push('/');                            
+                          },2000)})}>Log Out</Button>
             </Flex>
             
         </Flex>
