@@ -85,7 +85,7 @@ export default function Filter (){
                         <Search color='#212222'/>                        
                     </Button>
                     {data ? 
-                    <Center position={'absolute'} top='52px'  w='100%' bg='#fff' zIndex='999px'>
+                    <Center position={'absolute'} top='52px'  w='100%' bg='#fff' zIndex={1}>
                         <Flex direction={'column'}  borderRadius={'10px'} boxShadow='dark-lg' w='100%'>
                             {
                                 data.slice(0,3).map((item)=>{
@@ -99,7 +99,7 @@ export default function Filter (){
                             {data?.length === 0?
                                 null:
                             <Center>
-                                <Text fontFamily='poppins-bold' color='#ffa31a' onClick={(()=>{router.push('explore/all')})}>view all</Text>
+                                <Button bg='#ffa31a' color='#fff' onClick={(()=>{window.open(`/explore/all`, '_blank');})}> Click to Browse from a list of Aparments </Button>
                             </Center>
                             }
                         </Flex>
@@ -109,9 +109,20 @@ export default function Filter (){
                         }
                 </Center>
 
-                <Center mt='10' zIndex='0px'> 
+                <Center mt='10' zIndex={0}> 
                     <Flex direction='column' alignItems={'center'}>
-                            <Button bg='#ffa31a' onClick={(()=>{window.open(`/explore/all`, '_blank');})}> Click to Browse from a list of Aparments </Button>
+                            <Text  mt='10' size='md' fontFamily='Poppins-bold' >
+                                Scroll to Explore
+                            </Text>
+                            <Script src='https://cdn.lordicon.com/xdjxvujz.js'></Script>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/xhdhjyqy.json"
+                                  trigger="loop"
+                                    delay="2000"
+                                style={{marginTop:'20px',width:'50px',height:"50px",zIndex:"0"}}
+                                >
+                            </lord-icon>
+                            
                     </Flex>
                 </Center>
         </StyledDiv>
