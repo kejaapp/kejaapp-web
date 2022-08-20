@@ -194,7 +194,7 @@ export default function PropertyView(){
                                 <RWebShare
                                 data={{
                                 text: 'Click to checkout this amazing house',
-                                url: `https:www.keja.app/property/${id}`,
+                                url: ``,
                                 title: `${data?.name}`,
                                 }}
                                 onClick={() => console.log("shared successfully!")}

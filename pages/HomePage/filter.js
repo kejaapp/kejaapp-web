@@ -54,7 +54,7 @@ export default function Filter (){
                 <Center >
                     <Flex direction='column'>
                         <Heading as='h1' align='center' fontSize='42px' fontWeight='bold' fontFamily='Poppins-bold' >
-                          Find the <span style={{color:"#ffa31a",textDecoration:'2px underline solid #212222',backgroundColor:"rgb(0,0,0,0.4) ",padding:"5px"}}>Perfect</span> home.
+                          Finding the right home.
                         </Heading>
                         <Text mt='2' size='xs' align='center' fontFamily='Poppins-regular'>
                             Find a home around your institution or school
@@ -108,19 +108,10 @@ export default function Filter (){
                     null
                         }
                 </Center>
+
                 <Center mt='10' zIndex='0px'> 
                     <Flex direction='column' alignItems={'center'}>
-                            <Text  mt='10' size='md' fontFamily='Poppins-bold' >
-                                Scroll to Explore
-                            </Text>
-                            <Script src='https://cdn.lordicon.com/xdjxvujz.js'></Script>
-                            <lord-icon
-                                src="https://cdn.lordicon.com/xhdhjyqy.json"
-                                  trigger="loop"
-                                    delay="2000"
-                                style={{marginTop:'20px',width:'50px',height:"50px",zIndex:"0"}}
-                                >
-                            </lord-icon>
+                            <Button bg='#ffa31a' onClick={(()=>{window.open(`/explore/all`, '_blank');})}> Click to Browse from a list of Aparments </Button>
                     </Flex>
                 </Center>
         </StyledDiv>
