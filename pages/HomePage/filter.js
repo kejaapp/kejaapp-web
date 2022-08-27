@@ -49,7 +49,7 @@ export default function Filter (){
           })
     }
     return(
-        <Flex className={styles.indexfilterbody} >
+        <Flex className={styles.indexfilterbody} zIndex='0'>
             <Flex className={styles.indexfiltercontainer} > 
                 <Flex className={styles.filterform} gap='3' >
                     <Text className={styles.filterformHeading} color='#fff'>Student Housing</Text>

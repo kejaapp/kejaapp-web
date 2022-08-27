@@ -134,7 +134,7 @@ export default function Explore(){
                             </lord-icon>
                     </Button>
                     <Filter onOpen={onOpen} onClose={onClose} isOpen={isOpen} getproperties={getproperties}/>
-                    <Stack pt='4' ml='4' fontFamily='Poppins-bold'>
+                    <Stack pt='3' ml='4' fontFamily='Poppins-bold'>
                     <Breadcrumb separator='>' >
                       <BreadcrumbItem>
                         <BreadcrumbLink >{router.query.type === "" ? category : router.query.type }</BreadcrumbLink>

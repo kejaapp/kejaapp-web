@@ -62,11 +62,7 @@ export default function Nav() {
             <Flex alignItems={'center'} gap='4'>
               <AccountModal isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
               <Stack direction={'row'} spacing={3}>
-                <Menu >
-                    <Flex align='center' onClick={(()=>{window.open('/jkuat/all')})} className={styles.headernav}>
-                      <TravelExplore /> 
-                      <Text m='0' color='#000' > Browse</Text>
-                    </Flex>                  
+                <Menu >                 
                         <a href="/listing" 
                         target="_blank"
                         rel="noopener noreferrer"> 
@@ -99,7 +95,7 @@ trigger="loop"
 
                     </Center>
                     <Center mt='4'>
-                    <Text w='80%' fontSize='14px' color='grey'>signed in :{useremail}</Text>
+                    <Text w='80%' fontSize='14px' color='grey'>{useremail}</Text>
                     </Center>
                       <a href='/help/listing' target='_blank'>
                         <MenuItem m='0' >
