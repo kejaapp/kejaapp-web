@@ -49,9 +49,9 @@ export default function Filter (){
           })
     }
     return(
-        <Flex className={styles.indexfilterbody} zIndex='0'>
+        <Flex className={styles.indexfilterbody} >
             <Flex className={styles.indexfiltercontainer} > 
-                <Flex className={styles.filterform} gap='3' >
+                <Flex className={styles.filterform} gap='3' zIndex='0'>
                     <Text className={styles.filterformHeading} color='#fff'>Student Housing</Text>
                     <Text className={styles.filterforminfo} color='#fff'>Find aparments around institutions anywhere anytime.</Text>
                     <Select borderRadius='0' p='1' bg='#fff' h='60px' fontFamily='Poppins-bold' variant='unstyled' placeholder='Select Institution' onChange={((e)=>{setschool(e.target.value); setarea("")})}>

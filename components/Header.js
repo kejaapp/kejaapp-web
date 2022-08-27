@@ -94,9 +94,6 @@ trigger="loop"
                             </lord-icon>
 
                     </Center>
-                    <Center mt='4'>
-                    <Text w='80%' fontSize='14px' color='grey'>{useremail}</Text>
-                    </Center>
                       <a href='/help/listing' target='_blank'>
                         <MenuItem m='0' >
                       <Text >List an apartment</Text>
