@@ -99,11 +99,7 @@ export default function Explore(){
                 maxprice:parseInt(maxprice)
             }
             //console.log(query)
-            if(query.school !== ""){
-                router.reload()
-            }else{
-                getproperties(query)
-            }
+            getproperties(query)
         }else{
         //router.reload()
         if(router.query.id === undefined){
@@ -115,6 +111,7 @@ export default function Explore(){
                 }
             }
         }
+        getproperties(query)
     },[param?.area])
         
     const { isOpen, onOpen, onClose } = useDisclosure();
