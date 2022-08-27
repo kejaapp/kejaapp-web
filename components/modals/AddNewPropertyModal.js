@@ -193,6 +193,7 @@ export function AddNewItem({isAddNewPropertyModalvisible,setIsAddNewPropertyModa
         }
         setissubmitting(false)
       },10000)
+      onClose()
       //exit out of listing
       
     }

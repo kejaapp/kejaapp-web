@@ -26,7 +26,7 @@ import ReactCardCarousel from 'react-card-carousel';
 export function SubscriptionModal({isModalvisible,setIsModalVisible,setActive}){
     const { isOpen, onOpen, onClose } = useDisclosure();
     
-    console.log(isModalvisible);
+    //console.log(isModalvisible);
 
     const HandleModalOpen=()=>{
     	if(isModalvisible === true){

@@ -18,19 +18,19 @@ export default function Property({item}){
        // console.log(isModalvisible)
     }
     return(
-        <Flex direction='column' w='350px' h='' onClick={HandleView}>
+        <Flex direction='column' w='300px' h='' onClick={HandleView}>
             <SubscriptionModal isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
             <Carousel fade>
                         {images.map((item)=>{
                             return(
                                 <div key={item.id}>
-                                    <Image h='300px' w='100%' objectFit={'cover'} borderRadius='10px' src={item} alt='school photo' />
+                                    <Image h='250px' w='100%' objectFit={'cover'} borderRadius='10px' src={item} alt='school photo' />
                                 </div>
                                 )
                             })}
                     </Carousel>
             <Flex p='2' direction='column'>
-                <Flex justify='space-between' alignItems={'center'}>
+                <Flex direction='column' justify='space-between'>
                     <Text mb='0' fontFamily='Poppins-bold' color='#ffa31a' fontSize='22px' noOfLines={1}>
                         {item.name}
                     </Text>

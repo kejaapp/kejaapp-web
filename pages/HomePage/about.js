@@ -2,7 +2,7 @@ import {
     Heading,
     Flex,
     Text,
-    Center,
+    Center,Stack
  } from '@chakra-ui/react'
 import React,{useState,useEffect} from 'react'
 import styled from 'styled-components'
@@ -69,32 +69,31 @@ export default function About(){
     
     return(
         <StyledDivContainer className={styles.mobileresp}>
+                <Flex textAlign='left' direction='column' w='100%' >
                     <StyledHeading>
-                        About Us
+                        Who we are
                     </StyledHeading>
-                        <StyledText  >
+                    <Stack>
+                    <Text fontSize='20px' textAlign='left' w='70%' mr='auto' borderRight='1px solid #212222'>
+                             Keja. app is campus based house hunting platform tuned to help students find apartments
+                        around institutions with ease.
+                        
+                    </Text>
+                    </Stack> 
+                </Flex>
+                <Flex textAlign='right' direction='column' w='100%' mt='4' >
+                    <StyledHeading>
+                        What we do?
+                    </StyledHeading>
+                    <Stack>
+                    <Text fontSize='20px' textAlign='right' w='70%' ml='auto' borderLeft='1px solid #212222'>
                             Keja.app aims to provide an extensive list of apartments around institutions to equip students
                             with comprehensive information to which houses offer the most advantageous options that also sideLine 
                             with their academic, social, economic and extracurricular goals.
-                        </StyledText>
-                    <Flex direction={'column'}>
-                        <StyledHeading>
-                            Our Numbers
-                        </StyledHeading>
-                        {OurNumbers.map((item)=>{
-                            return(
-                                <Flex key={item.id} justify='space-between'>
-                                    <Text color='#ffa31a' fontSize={'20px'}>
-                                        {item.stats}
-                                    </Text>
-                                    <Text>
-                                        {item.title}
-                                    </Text>
-                                </Flex>
-                            )
-                        })}
-                    </Flex>               
-                    <Center w='100%'>
+                    </Text>
+                    </Stack> 
+                </Flex> 
+                    <Center w='100%' mt='5'>
                         <StyledSlider className={styles.scrollbar}>
                             {features.map((features)=>{
                                 return(
@@ -110,8 +109,8 @@ export default function About(){
 }
 const Item=({features})=>{
     return(
-        <Flex borderRadius='5px' textAlign='center' align='center' direction='column' p='10px' m='0 10px'  h='150px' w='225px' key={features.id}>
-            <Heading as='h5' fontSize='20px' color="#fff" fontFamily='Poppins-bold' mb='10px' textDecoration=' underline 5px solid #ffa31a'>{features.title}</Heading>
+        <Flex borderRadius='5px' textAlign='center' align='center' direction='column' p='10px' m='0 10px'  h='200px' w='225px' key={features.id}>
+            <Heading as='h5' fontSize='20px' color="#000" fontFamily='Poppins-bold' mb='10px' textDecoration=' underline 5px solid #ffa31a'>{features.title}</Heading>
             <Center w='100%'>
                 <Text fontSize='16px' >{features.content}</Text>
             </Center> 
@@ -121,33 +120,43 @@ const Item=({features})=>{
 
 const StyledDivContainer = styled.div`
     width: 100%;
-    height: 100vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background-color: #212222;
-    color: #fff;
-    text-align:center;
+    background-color: #fff;
+    color: #212222;
     padding: 10% 5%;
 `
 const StyledHeading = styled.h1`
-    font-size: clamp(36px, 2.5vw, 64px);
-    font-family: Poppins-bold; 
-    text-decoration: underline #ffa31a;
+    font-size: 32px;
     width: 100%;
-    color: #fff
+    color: #ffa31a;
+    margin-top: 10px;
+    text-decoration: 2px solid underline #212222;
+    font-weight: bold
+
 `
 
 const StyledText = styled.p`
-    font-size: clamp(16px, 2.5vw, 20px);
-    width: 100%;
+    font-size: 18px;
+    width: 60%;
 `
 const StyledDiv = styled.div`
     box-shadow:
-    2px 10.9px 10px rgba(0, 0, 0, 0.075),
-    16px 87px 80px rgba(0, 0, 0, 0.15)
-    ;
+  0px 0px 1.2px rgba(0, 0, 0, 0.019),
+  0px 0px 2.7px rgba(0, 0, 0, 0.028),
+  0px 0px 4.6px rgba(0, 0, 0, 0.034),
+  0px 0px 6.9px rgba(0, 0, 0, 0.04),
+  0px 0px 10px rgba(0, 0, 0, 0.045),
+  0px 0px 14.2px rgba(0, 0, 0, 0.05),
+  0px 0px 20.1px rgba(0, 0, 0, 0.056),
+  0px 0px 29.2px rgba(0, 0, 0, 0.062),
+  0px 0px 45px rgba(0, 0, 0, 0.071),
+  0px 0px 80px rgba(0, 0, 0, 0.09)
+;
+
+
     border-radius: 10px;
     margin: 10px
 `

@@ -15,9 +15,7 @@ export default function Index(){
   return(
       <StyledContainer className={styles.scrollbar} >
         <Filter />
-        <Intro/>
-        <About/>
-        <School/>
+        <About />
         <StudSec />
       </StyledContainer>
   )

@@ -53,7 +53,13 @@ function Landlords(){
 
             //console.log(email)
             if(!email){
-                return console.log('please provide an email')
+                return toast({
+                            title: 'Could not log in ',
+                            description: 'try refreshing the page after logg in',
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                          });
             }
             //'https://keja--app.herokuapp.com/api/listinglogin'
             try{
@@ -104,9 +110,6 @@ function Landlords(){
     }
 
     useEffect(()=>{
-        if(email){
-            login()
-        }
         getProperties();
     },[email])
 
@@ -174,7 +177,7 @@ function Landlords(){
             </Flex>
         </Flex>
         :
-        <Center mt='20vh' p='5'>
+        <Center mt='' p='5' h='100vh'>
             <Flex direction='column' gap='2'>
                     <Text >
                         Welcome, Make your property visible to thousands of students

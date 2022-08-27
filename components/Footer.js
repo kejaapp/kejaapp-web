@@ -22,6 +22,9 @@ export default function Footer(){
             </Center>
             <Center>
                 <Flex gap='2' >
+                    <Text fontFamily='Poppins-bold' fontSize='sm' onClick={(()=>{router.push('/aboutus')})}>
+                        About Us
+                    </Text>
                     <Text fontFamily='Poppins-bold' fontSize='sm' onClick={(()=>{router.push('/help/terms&conditions')})}>
                         Terms&Conditions
                     </Text>

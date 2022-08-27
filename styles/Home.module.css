@@ -17,15 +17,17 @@
     -webkit-transform: none;
     transform: none;
     }
-  }
+  } 
   .boxMainImageContainer{
     width: 70%;
     margin: 0 5px;
     height: 60vh;
+    background-color: blue
   }
   .boxSideImageContainer{
     margin: 0 10px;
     width: 30%;
+    height: 60vh
   }
   .decoration {
     display: flex;
@@ -104,6 +106,50 @@
   .nextbtns {
     margin-top: 10px; 
   }
+  .indexfilterbody{
+    height: 100vh;
+    width: 100vw;
+  }
+  .indexfiltercontainer{
+    width: 50%;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .filterform{
+    display: flex;
+    background-color: #000;
+    width: 60vw;
+    padding: 10px;
+    top:30vh;
+    left: 5vw;
+    border-radius: 15px;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1;
+    box-shadow:
+      0.2px 0.3px 1.2px rgba(0, 0, 0, 0.065),
+      0.5px 0.7px 2.7px rgba(0, 0, 0, 0.096),
+      0.8px 1.2px 4.6px rgba(0, 0, 0, 0.119),
+      1.2px 1.7px 6.9px rgba(0, 0, 0, 0.138),
+      1.8px 2.5px 10px rgba(0, 0, 0, 0.155),
+      2.5px 3.5px 14.2px rgba(0, 0, 0, 0.172),
+      3.5px 5px 20.1px rgba(0, 0, 0, 0.191),
+      5.1px 7.3px 29.2px rgba(0, 0, 0, 0.214),
+      7.9px 11.3px 45px rgba(0, 0, 0, 0.245),
+      14px 20px 80px rgba(0, 0, 0, 0.31)
+    ;  
+  }
+  .imagefiltercontainer{
+      flex:1;
+        height: 100vh;
+        display: flex;
+    }
+  .filterformHeading{
+    font-size: 36px;
+  }
+  .filterforminfo{
+    font-size: 20px
+  }
   @media screen and (max-width: 48em) {
     .decoration {
       display: none;
@@ -136,5 +182,37 @@
     }
     .scrollbar::-webkit-scrollbar{
       display: none; 
+    }
+    .indexfilterbody{
+      height: 100vh;
+      width: 100vw
+    }
+    .indexfiltercontainer{
+      width: 0
+    }
+    .filterform{
+      display: flex;
+      background-color: #212222;
+      width: 90vw;
+      padding: 10px;
+      top:-50px;
+      left: 5vw;
+      border-radius: 15px;
+      flex-direction: column;
+      position: relative;
+      z-index: 1
+    }
+    .imagefiltercontainer{
+      width: 100vw;
+      height: 100vh
+    }
+    .filterformHeading{
+    font-size: 32px;
+    }
+    .filterforminfo{
+      font-size: 16px
+    }
+    .headernav{
+      display:none;
     }
   }

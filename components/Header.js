@@ -15,17 +15,20 @@ import {
     Text,
     Circle
   } from '@chakra-ui/react';
-import {Room, AccountCircle} from '@mui/icons-material';
+import {Room, AccountCircle,TravelExplore} from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { AccountModal } from './modals/AccountModal';
 import {useRouter} from 'next/router'
 import Cookies from 'universal-cookie';
 import jwt_decode from "jwt-decode";
 import Script from 'next/script'
+import styles from '../styles/Home.module.css'
 
 export default function Nav() {
   const router = useRouter();
   const [isModalvisible,setIsModalVisible]=useState(false);
   const [userid,setUserId] = useState('')
+  const [useremail,setUseremail] = useState('')
   //get usertoken
   
   const cookies = new Cookies();
@@ -34,8 +37,9 @@ export default function Nav() {
   useEffect(()=>{
     if(token){
       let decoded = jwt_decode(token);
-      console.log(decoded.id);
+      //console.log(decoded);
       setUserId(decoded.id);
+      setUseremail(decoded.email)
     }
 
     //console.log('signedin')
@@ -59,40 +63,30 @@ export default function Nav() {
               <AccountModal isModalvisible={isModalvisible} setIsModalVisible={setIsModalVisible}/>
               <Stack direction={'row'} spacing={3}>
                 <Menu >
-                <a href="/listing" 
+                    <Flex align='center' onClick={(()=>{window.open('/jkuat/all')})} className={styles.headernav}>
+                      <TravelExplore /> 
+                      <Text m='0' color='#000' > Browse</Text>
+                    </Flex>                  
+                        <a href="/listing" 
                         target="_blank"
                         rel="noopener noreferrer"> 
                     <Button bg='#ffa31a' color='#fff'>
                           <Text m='0'>List Apartment</Text>
                     </Button>
                         </a>
-                        {isloggedin ? 
-                          
-                          <MenuButton
-                    rounded={'full'}
-                    variant={'link'}
-                    cursor={'pointer'}>
-                    <Circle  bg={`${randomHex()}`}  w='35px' h='35px' alignItems='center'>
-                            <AccountCircle />
-                          </Circle>
-                  </MenuButton>
-                        :
-                  <MenuButton
-                    as={Button}
-                    rounded={'full'}
-                    variant={'link'}
-                    cursor={'pointer'}
-                    minW={0}>
-                    <lord-icon
-                                src="https://cdn.lordicon.com/dklbhvrt.json"
-trigger="loop"
-                                    delay="2000"
-                                style={{width:'40px',height:"40px",}}
-                                >
-                            </lord-icon>
-                  </MenuButton>}
+                        <MenuButton
+                      as={Button}
+                      rounded={'full'}
+                      variant={'link'}
+                      cursor={'pointer'}
+                      minW={0}
+                      pt='1'
+                      color='#000'
+                      >
+                        <MenuIcon />
+                    </MenuButton>
                   <MenuList alignItems={'center'} >
-                    <br />
+                   <br />
                     <Center>
                       <Script src="https://cdn.lordicon.com/xdjxvujz.js"></Script>
                     <lord-icon
@@ -102,24 +96,22 @@ trigger="loop"
                                 style={{marginTop:'20px',width:'70px',height:"70px",}}
                                 >
                             </lord-icon>
+
                     </Center>
-                    <br />
-                    <MenuDivider />
-                    <a href="/help/listing" 
-                    target="_blank"
-                    rel="noopener noreferrer"> 
-                      <MenuItem m='0'>List an apartment</MenuItem>
-                    </a>
-                    <a href="/help/refer" 
-                    target="_blank"
-                    rel="noopener noreferrer"> 
-                      <MenuItem m='0'>Refer your apartment</MenuItem>
-                    </a>
-                    {/* <a href="/help/ambassador" 
-                    target="_blank"
-                    rel="noopener noreferrer"> 
-                      <MenuItem m='0'>Become an Ambassador</MenuItem>
-                    </a> */}
+                    <Center mt='4'>
+                    <Text w='80%' fontSize='14px' color='grey'>signed in :{useremail}</Text>
+                    </Center>
+                      <a href='/help/listing' target='_blank'>
+                        <MenuItem m='0' >
+                      <Text >List an apartment</Text>
+                      </MenuItem>
+                      </a>
+                      <a href='/jkuat/all' target='_blank'>
+                        <MenuItem m='0' >
+                      <Text >Browse apartments</Text>
+                      </MenuItem>
+                      </a>
+                    
                     <Flex borderTop="1px solid #212222" direction='column'>
                       {isloggedin ?
                         <MenuItem onClick={(()=>router.push(`/profile/${userid}`))} m='0'>Account Settings</MenuItem>

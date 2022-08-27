@@ -6,6 +6,7 @@ import {Button,
         Text,
         Heading,
         Image,
+        useToast
     } from "@chakra-ui/react";
 import {Search,ArrowDownward }from '@mui/icons-material';
 import styled from 'styled-components';
@@ -13,6 +14,7 @@ import styles from '../../styles/Home.module.css';
 import axios from 'axios';
 import {useRouter} from 'next/router'
 import Script from 'next/script'
+import Cookies from 'universal-cookie';
 
 export default function Filter (){
     const router = useRouter();
@@ -28,44 +30,34 @@ export default function Filter (){
         type
     }
     //www.keja.app
-    const getproperties=()=>{
-        
-        try{
-            axios.post( `https://keja--app.herokuapp.com/api/getproperties`,{
-                query
-            }).then((res)=>{
-                //console.log(res.data)
-                setData(res.data)
-            }).catch((err)=>{
-                console.log(err)
-            })
-        }catch(err){
-            console.log(err)
+    const toast = useToast();
+    const cookies = new Cookies();
+
+    const SubmitRequest=()=>{
+        //console.log(query)
+
+        if(school !== "" && area !== "" && type !== ""){
+            cookies.set('param', query, { path: '/' });
+            window.open(`/${school}/${area}-${type}`, '_blank');    
         }
+        return toast({
+            title: '',
+            description: "All inputs are required",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
     }
-    useEffect(()=>{
-        if(school === ''){
-            return setData([])
-        }
-        return getproperties(query)
-    },[school,area,type]);
     return(
-        <StyledDiv >
-                <Center >
-                    <Flex direction='column'>
-                        <Heading as='h1' align='center' fontSize='42px' fontWeight='bold' fontFamily='Poppins-bold' >
-                          Finding the right home.
-                        </Heading>
-                        <Text mt='2' size='xs' align='center' fontFamily='Poppins-regular'>
-                            Find a home around your institution or school
-                        </Text>
-                    </Flex>
-                </Center>
-                <Center bg='#fff' position={'relative'} m='2' boxShadow='lg' borderRadius='lg'  h='50px'>
-                    <Select p='2'  m='2' color='#ffa31a' fontFamily='Poppins-bold' variant='unstyled' placeholder='School' onChange={((e)=>{setschool(e.target.value); setarea("")})}>
+        <Flex className={styles.indexfilterbody} >
+            <Flex className={styles.indexfiltercontainer} > 
+                <Flex className={styles.filterform} gap='3' >
+                    <Text className={styles.filterformHeading} color='#fff'>Student Housing</Text>
+                    <Text className={styles.filterforminfo} color='#fff'>Find aparments around institutions anywhere anytime.</Text>
+                    <Select borderRadius='0' p='1' bg='#fff' h='60px' fontFamily='Poppins-bold' variant='unstyled' placeholder='Select Institution' onChange={((e)=>{setschool(e.target.value); setarea("")})}>
                         <option value='jkuat'>Jomo Kenyatta University of Agriculture</option>
                     </Select>
-                    <Select variant='unstyled' fontFamily='Poppins-bold' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
+                    <Select borderRadius='0' p='1' bg='#fff' h='60px' variant='unstyled' fontFamily='Poppins-bold' placeholder='Select desired area/location'  required onChange={((e)=>{setarea(e.target.value)})}>
                         <option value='gate A'>Gate A</option>
                         <option value='gate B'>Gate B</option>
                         <option value='gate C'>Gate C</option>
@@ -73,7 +65,7 @@ export default function Filter (){
                         <option value='gate E'>Gate E</option>
                         <option value='Gachororo'>Gachororo</option>
                     </Select>
-                    <Select focusBorderColor = "#ffa31a" borderRadius='md' fontFamily='Poppins-bold' variant='unstyled' placeholder='Type' onChange={((e)=>{settype(e.target.value)})}>
+                    <Select borderRadius='0' p='1' bg='#fff' h='60px' focusBorderColor = "#ffa31a" fontFamily='Poppins-bold' variant='unstyled' placeholder='Choose the type of aparment' onChange={((e)=>{settype(e.target.value)})}>
                         <option value='bedsitter'>Bedsitter</option>
                         <option value='single'>Single</option>
                         <option value='hostel'>Hostel</option>
@@ -81,54 +73,27 @@ export default function Filter (){
                         <option value='twobedroom'>Two-Bedroom</option>
                         <option value='threebedroom'>Three-Bedroom</option>
                     </Select>
-                    <Button colorScheme='#ffa31a' bg='#ffa31a' h='100%' borderRadius='0' onClick={getproperties}>
-                        <Search color='#212222'/>                        
+                    <Button m='1' colorScheme='#ffa31a' bg='#ffa31a' h='50px' borderRadius='0' onClick={SubmitRequest} fontSize='24px'>
+                        Find your aparment            
                     </Button>
-                    {data ? 
-                    <Center position={'absolute'} top='52px'  w='100%' bg='#fff' zIndex={1}>
-                        <Flex direction={'column'}  borderRadius={'10px'} boxShadow='dark-lg' w='100%'>
-                            {
-                                data.slice(0,3).map((item)=>{
-                                    return(
-                                        <div key={item._id}>
-                                            <SearchModal item={item} />
-                                        </div>
-                                    )
-                                })
-                            }
-                            {data?.length === 0?
-                                null:
-                            <Center>
-                                <Button bg='#ffa31a' color='#fff' onClick={(()=>{window.open(`/explore/all`, '_blank');})}> Click to Browse from a list of Aparments </Button>
-                            </Center>
-                            }
-                        </Flex>
-                    </Center>
-                    :
-                    null
-                        }
-                </Center>
-
-                <Center mt='10' zIndex={0}> 
-                    <Flex direction='column' alignItems={'center'}>
-                            <Text  mt='10' size='md' fontFamily='Poppins-bold' >
-                                Scroll to Explore
-                            </Text>
-                            <Script src='https://cdn.lordicon.com/xdjxvujz.js'></Script>
-                            <lord-icon
-                                src="https://cdn.lordicon.com/xhdhjyqy.json"
-                                  trigger="loop"
-                                    delay="2000"
-                                style={{marginTop:'20px',width:'50px',height:"50px",zIndex:"0"}}
-                                >
-                            </lord-icon>
-                            
-                    </Flex>
-                </Center>
-        </StyledDiv>
+                </Flex>
+            </Flex>
+            <StyledDiv className={styles.imagefiltercontainer} />
+        </Flex>
     )                 
 }
 
+const FilterBody =()=>{
+    return
+    (
+        <Flex bg='blue' w='60vw' zIndex='200px'>
+            <Text>Bpdy</Text>
+            <Text>Bpdy</Text>
+            <Text>Bpdy</Text>
+            <Text>Bpdy</Text>
+        </Flex>
+    )
+}
 
 const SearchModal=({item})=>{
     const router = useRouter();
@@ -147,14 +112,7 @@ const SearchModal=({item})=>{
 
 
 const StyledDiv= styled.div`
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        flex-direction: column; 
-        justify-content: center;
-        align-items: center;
-        z-index: 100;
-        background-image: url("https://img.freepik.com/free-vector/silhouette-skyline-illustration_53876-78786.jpg?w=740&t=st=1658941275~exp=1658941875~hmac=224e4ec9abb37db60c8f242fdcc22b8c04f4c720087106e23bb8d39df219f5cf");
+        background-image: url("./b1.jpg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;

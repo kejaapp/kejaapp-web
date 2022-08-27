@@ -149,7 +149,7 @@ export default function PropertyView(){
             <Flex>
                 {/* main -70% */}
                 <Stack className={styles.boxMainImageContainer}>
-                    <Carousel autoplay style={{margin:'0',}}>
+                    <Carousel autoplay style={{height:'',}}>
                         {images?.map((item)=>{
                             return(
                                 <div key={item.id}>
@@ -160,13 +160,15 @@ export default function PropertyView(){
                     </Carousel>
                 </Stack>
                 <Spacer />
+                {images?.length === 1 ? null : 
                 <Flex className={styles.boxSideImageContainer} direction='column' gap='2' >
-                    <Image h='30vh' w='100%' objectFit={'cover'} borderRadius='10px' src={images? images[0] : null} alt='image'/>
+                    <Image h='60%' w='100%' objectFit={'cover'} borderRadius='10px' src={images? images[0] : null} alt='image'/>
                     <Flex justify='space-around' height={'40%'}>
                         <Image alt='image' h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[1] : null}/>
                         <Image alt='image' h='100%' w='48%' objectFit={'cover'} borderRadius='10px' src={images? images[3] : null}/>
                     </Flex>    
                 </Flex>
+            }
             </Flex>
             {/* Info Section */}
             <Flex className={styles.infoSection}>
@@ -184,8 +186,7 @@ export default function PropertyView(){
                             <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Property Type:</span> {data?.type}</Text>
                             <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Area:</span> {data?.area}</Text>
                             <Text mb='0' ><span style={{fontFamily:"Poppins-bold"}}>Size:</span> {data?.size}sq.ft</Text>
-                            <Text mt='5' ><a href={`https://maps.google.com/?q=${data?.location}`} target="_blank" style={{color:" #ffa31a", fontFamily:"Poppins-bold", padding:'10px', border:'1px solid #000'}}
-                            rel="noopener noreferrer">Find this apartment:</a></Text>
+                           
                             
                             <Flex gap='4' mt='3'>
                                 <Button borderRadius={'0'} bg='#ffa31a' fontFamily={'Poppins-bold'}>
