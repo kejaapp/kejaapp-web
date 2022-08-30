@@ -46,7 +46,7 @@ const features=[
 ]
 
 
-export default function About(){
+export default function How(){
     const [sizestate, setSizeState] = useState(false);
     const [size, setSize] = useState(500);
     if (typeof window !== 'undefined') {
@@ -61,7 +61,7 @@ export default function About(){
         	<Text>These are steps for renting a house</Text>
         	{Howto.map((item)=>{
         		return(
-        			<Flex m='20px 0'>
+        			<Flex m='20px 0' key={item.id}>
 		        		<div style={{width:'50px',height:'50px',backgroundColor:'#ffa31a',borderRadius:'100px',padding:'13px 21px'}}>{item.id}</div>
 		        		<Flex direction='column' p='1' ml='2' borderLeft='1px solid #e5e5e5'>
 			        		<Text mb='2' fontFamily='Poppins-bold' fontSize='18px'>{item.title}</Text>
@@ -75,16 +75,7 @@ export default function About(){
         </Flex>
     )
 }
-const Item=({features})=>{
-    return(
-        <Flex borderRadius='5px' textAlign='center' align='center' direction='column' p='10px' m='0 10px'  h='200px' w='225px' key={features.id}>
-            <Heading as='h5' fontSize='20px' color="#000" fontFamily='Poppins-bold' mb='10px' textDecoration=' underline 5px solid #ffa31a'>{features.title}</Heading>
-            <Center w='100%'>
-                <Text fontSize='16px' >{features.content}</Text>
-            </Center> 
-        </Flex>
-    )
-}
+
 
 const StyledHeading = styled.h1`
     font-size: 32px;

@@ -271,18 +271,6 @@ const Filter=({onOpen,onClose,isOpen})=>{
           <ModalCloseButton />
           <ModalBody>
           <Flex align={'center'} gap='1' direction='column'>
-                        // <Input focusBorderColor = "#212222" borderRadius='0' placeholder='search name of apartment' onChange={((e)=>{setValue(e.target.value)})}/>
-                        // <HStack w='100%' gap='2'>
-                        //  <Text w='' mb='0' bg='#eee' p='2' borderRadius='5'>{pval[0]? pval[0] :"6500"}</Text>
-                        //  <RangeSlider aria-label={['min', 'max']}  defaultValue={[6500, 20000]}  max={20000} step={100} onChangeEnd={(val) => setpval(val)} flex='1'>
-                        //   <RangeSliderTrack>
-                        //     <RangeSliderFilledTrack />
-                        //   </RangeSliderTrack>
-                        //   <RangeSliderThumb index={0} />
-                        //   <RangeSliderThumb index={1} />
-                        //     </RangeSlider>
-                        //  <Text mb='0' bg='#eee' p='2' borderRadius='5'>{pval[1]? pval[1] : "12000"  }</Text>
-                        // </HStack>
                         <Flex direction='column' w='100%'>
                             <Text m='0' fontFamily='Poppins-bold'>School</Text>
                                 <StyledSlider className={styles.scrollbar}>

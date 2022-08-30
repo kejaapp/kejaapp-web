@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }) {
       },4000)
     }
     
-  },[cookies])
+  },[cookies,toast])
   return (
     <ChakraProvider theme={theme} >
       <Head>
