@@ -31,13 +31,11 @@ export default function Filter (){
     }
     //www.keja.app
     const toast = useToast();
-    const cookies = new Cookies();
 
     const SubmitRequest=()=>{
         //console.log(query)
 
         if(school !== "" && area !== "" && type !== ""){
-            cookies.set('param', query, { path: '/' });
             window.open(`/${school}/${area}-${type}`, '_blank');    
         }
         return toast({
@@ -58,11 +56,11 @@ export default function Filter (){
                         <option value='jkuat'>Jomo Kenyatta University of Agriculture</option>
                     </Select>
                     <Select borderRadius='0' p='1' bg='#fff' h='60px' variant='unstyled' fontFamily='Poppins-bold' placeholder='Select desired area/location'  required onChange={((e)=>{setarea(e.target.value)})}>
-                        <option value='gate A'>Gate A</option>
-                        <option value='gate B'>Gate B</option>
-                        <option value='gate C'>Gate C</option>
-                        <option value='gate D'>Gate D</option>
-                        <option value='gate E'>Gate E</option>
+                        <option value='gateA'>Gate A</option>
+                        <option value='gateB'>Gate B</option>
+                        <option value='gateC'>Gate C</option>
+                        <option value='gateD'>Gate D</option>
+                        <option value='gateE'>Gate E</option>
                         <option value='Gachororo'>Gachororo</option>
                     </Select>
                     <Select borderRadius='0' p='1' bg='#fff' h='60px' focusBorderColor = "#ffa31a" fontFamily='Poppins-bold' variant='unstyled' placeholder='Choose the type of aparment' onChange={((e)=>{settype(e.target.value)})}>
@@ -112,7 +110,7 @@ const SearchModal=({item})=>{
 
 
 const StyledDiv= styled.div`
-        background-image: url("./b1.jpg");
+        background-image: url("https://img.freepik.com/free-photo/positive-man-giggles-positively-concentrated-smartphone-screen-watches-funny-video-internet-laughs-received-message-dressed-casual-bright-clothes-isolated-orange-wall_273609-44605.jpg?size=626&ext=jpg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;

@@ -99,7 +99,7 @@ trigger="loop"
                       <Text >List an apartment</Text>
                       </MenuItem>
                       </a>
-                      <a href='/jkuat/all' target='_blank'>
+                      <a href='/explore/all' target='_blank'>
                         <MenuItem m='0' >
                       <Text >Browse apartments</Text>
                       </MenuItem>

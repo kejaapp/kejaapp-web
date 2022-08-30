@@ -35,85 +35,82 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Cookies from 'universal-cookie';
 
 export default function Explore(){
-    const router = useRouter();
-    
-    const cookies = new Cookies();
-    const param = cookies.get('param');    
+    const router = useRouter();   
 
-    let [school,setschool]=useState(param?.school ? param?.school : '');
-    let [area,setarea]=useState(param?.area ? param?.area : "");
-    let [type,settype]=useState(param?.type ? param?.type : "");
-    let [minprice,setminprice]=useState(param?.minprice ? param?.minprice : "");
-    let [maxprice,setmaxprice]=useState(param?.maxprice ? param?.maxprice : "");
+    let [school,setschool]=useState('');
+    let [area,setarea]=useState('');
+    let [type,settype]=useState('');
+    let [minprice,setminprice]=useState("");
+    let [maxprice,setmaxprice]=useState("");
 
-    const [data,setData]=useState([]);
+    let [data,setData]=useState([]);
+
     const [isquerrying,setisQuerrying]=useState(false)
 
     //handle number of pages
     const [pageNumber, setPageNumber]=useState(0)
     const propertyPerPage= 7;
     const pagesVisted = pageNumber * propertyPerPage;
-
     const pageCount = Math.ceil(data.length/propertyPerPage)
+
     const handlePageClick = ({selected})=>{
         setPageNumber(selected)
     }
-    const query = {
-    	school,
-    	area,
-    	type,
-    	minprice:parseInt(minprice),
-        maxprice:parseInt(maxprice)
+    
+    const getQuery=()=>{
+        if(typeof window !== 'undefined'){
+                    console.log(window.location.href)
+                    let currentUrl = window.location.href.split('/');
+                    console.log(currentUrl)
+                    let typearr = currentUrl[4].split('-')
+                    console.log(typearr)
+                    setschool(currentUrl[3])
+                    setarea(typearr[0])
+                    settype(typearr[1])
+                    console.log(area)
+                    console.log(type)
+                    console.log(school)
+                }
+                getproperties(query)
     }
+    
     //https://keja--app.herokuapp.com/
+    const query = {
+            school,
+            area,
+            type,
+        } 
     const getproperties=async(query)=>{
-        //console.log(query)
+        console.log(query)
         setisQuerrying(true)
+
         //https://keja--app.herokuapp.com
-        try{
-            await axios.post('https://keja--app.herokuapp.com/api/getproperties',{
-                query
-            }).then((res)=>{
-                //console.log(res.data)
-                setTimeout(()=>{
-                    setisQuerrying(false)
-                    setData(res.data)
-                },4000)
-                
-            }).catch((err)=>{
+            try{
+                await axios.post('https://keja--app.herokuapp.com/api/getproperties',{
+                    query
+                }).then((res)=>{
+                    //console.log(res.data)
+                    setTimeout(()=>{
+                        setisQuerrying(false)
+                        setData(res.data)
+                    },4000)
+                    
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }catch(err){
                 console.log(err)
-            })
-        }catch(err){
-            console.log(err)
-        }
-        
+            }
     }
     useEffect(()=>{
-        //console.log(router.query.id)
-        if(router?.query?.id === 'all'  ){
-            const query = {
-                school:'jkuat',
-                area:'',
-                type:'',
-                minprice:parseInt(minprice),
-                maxprice:parseInt(maxprice)
-            }
-            //console.log(query)
-            getproperties(query)
+        console.log(router.query.id)
+        if(router.query.id === 'all'){
+            return getproperties(query)
         }else{
-        //router.reload()
-        if(router.query.id === undefined){
-            //console.log('undefined')
-        }else{
-                getproperties(query)
-                if(param?.area !== area || param?.type !== type){
-                    router.reload()
-                }
-            }
+            getQuery()
         }
-        getproperties(query)
-    },[param?.area])
-        
+    },[router.query.id])
+    
     const { isOpen, onOpen, onClose } = useDisclosure();
     
 
@@ -131,7 +128,7 @@ export default function Explore(){
                             </lord-icon>
                     </Button>
                     <Filter onOpen={onOpen} onClose={onClose} isOpen={isOpen} getproperties={getproperties}/>
-                    <Stack pt='3' ml='4' fontFamily='Poppins-bold'>
+                    <Stack pt='2' ml='4' fontFamily='Poppins-bold'>
                     <Breadcrumb separator='>' >
                       <BreadcrumbItem>
                         <BreadcrumbLink >{router.query.type === "" ? category : router.query.type }</BreadcrumbLink>
@@ -215,11 +212,11 @@ const Filter=({onOpen,onClose,isOpen})=>{
         },
     ]
     const areas = [
-        {name:'gate A'},
-        {name:'gate B'},
-        {name:'gate C'},
-        {name:'gate D'},
-        {name:'gate E'},
+        {name:'gateA'},
+        {name:'gateB'},
+        {name:'gateC'},
+        {name:'gateD'},
+        {name:'gateE'},
         {name:'Gachororo'},
     ]
     
@@ -246,20 +243,16 @@ const Filter=({onOpen,onClose,isOpen})=>{
         }
         //console.log(query)
     const handleSubmitFilter=()=>{
-        cookies.remove('param');
         setTimeout(()=>{
             
             //console.log(query)
                 if(query.school !== "" && query.area !== "" && query.type !== ""){
-                        cookies.set('param', query, { path: '/' });
-                        router.push(`/${query.school}/${query.area}-${query.type}`); 
+                        window.open(`/${schoolv}/${areav}-${typev}`,'_blank');
                         onClose()
                 }
         },1000)
     }
-    const getproperties=async(query)=>{
-        window.open(`/${schoolv}/${areav}-${typev}`);
-    }
+    
     const handleClearFilter=()=>{
         setschool('')
         setarea('')
@@ -278,18 +271,18 @@ const Filter=({onOpen,onClose,isOpen})=>{
           <ModalCloseButton />
           <ModalBody>
           <Flex align={'center'} gap='1' direction='column'>
-                        <Input focusBorderColor = "#212222" borderRadius='0' placeholder='search name of apartment' onChange={((e)=>{setValue(e.target.value)})}/>
-                        <HStack w='100%' gap='2'>
-                         <Text w='' mb='0' bg='#eee' p='2' borderRadius='5'>{pval[0]? pval[0] :"6500"}</Text>
-                         <RangeSlider aria-label={['min', 'max']}  defaultValue={[6500, 20000]}  max={20000} step={100} onChangeEnd={(val) => setpval(val)} flex='1'>
-                          <RangeSliderTrack>
-                            <RangeSliderFilledTrack />
-                          </RangeSliderTrack>
-                          <RangeSliderThumb index={0} />
-                          <RangeSliderThumb index={1} />
-                            </RangeSlider>
-                         <Text mb='0' bg='#eee' p='2' borderRadius='5'>{pval[1]? pval[1] : "12000"  }</Text>
-                        </HStack>
+                        // <Input focusBorderColor = "#212222" borderRadius='0' placeholder='search name of apartment' onChange={((e)=>{setValue(e.target.value)})}/>
+                        // <HStack w='100%' gap='2'>
+                        //  <Text w='' mb='0' bg='#eee' p='2' borderRadius='5'>{pval[0]? pval[0] :"6500"}</Text>
+                        //  <RangeSlider aria-label={['min', 'max']}  defaultValue={[6500, 20000]}  max={20000} step={100} onChangeEnd={(val) => setpval(val)} flex='1'>
+                        //   <RangeSliderTrack>
+                        //     <RangeSliderFilledTrack />
+                        //   </RangeSliderTrack>
+                        //   <RangeSliderThumb index={0} />
+                        //   <RangeSliderThumb index={1} />
+                        //     </RangeSlider>
+                        //  <Text mb='0' bg='#eee' p='2' borderRadius='5'>{pval[1]? pval[1] : "12000"  }</Text>
+                        // </HStack>
                         <Flex direction='column' w='100%'>
                             <Text m='0' fontFamily='Poppins-bold'>School</Text>
                                 <StyledSlider className={styles.scrollbar}>

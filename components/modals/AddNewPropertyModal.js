@@ -365,11 +365,11 @@ const HouseLocation=({setlocation,setschool,setarea})=>{
         </Select>
         <FormLabel>Area your apartment is located:</FormLabel>
         <Select variant='filled' placeholder='Area'  required onChange={((e)=>{setarea(e.target.value)})}>
-          <option value='gate A'>Gate A</option>
-          <option value='gate B'>Gate B</option>
-          <option value='gate C'>Gate C</option>
-          <option value='gate D'>Gate D</option>
-          <option value='gate E'>Gate E</option>
+          <option value='gateA'>Gate A</option>
+          <option value='gateB'>Gate B</option>
+          <option value='gateC'>Gate C</option>
+          <option value='gateD'>Gate D</option>
+          <option value='gateE'>Gate E</option>
           <option value='Gachororo'>Gachororo</option>
         </Select>
         <FormLabel>Link to your physical location of your property</FormLabel>

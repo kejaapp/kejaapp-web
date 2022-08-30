@@ -6,6 +6,8 @@ import About from '../pages/HomePage/about';
 import School from '../pages/HomePage/school';
 import StudSec from '../pages/HomePage/studSec';
 import Review from '../pages/HomePage/Review';
+import How from '../pages/HomePage/How';
+import Pitchsec from '../pages/HomePage/pitchsec';
 
 import {Room,Instagram,Twitter} from '@mui/icons-material';
 import {Flex,Text,Center} from '@chakra-ui/react';
@@ -15,7 +17,8 @@ export default function Index(){
   return(
       <StyledContainer className={styles.scrollbar} >
         <Filter />
-        <About />
+        <How />
+        <Pitchsec />
         <StudSec />
       </StyledContainer>
   )

@@ -74,7 +74,7 @@ export default function About(){
                         Who we are
                     </StyledHeading>
                     <Stack>
-                    <Text fontSize='20px' textAlign='left' w='70%' mr='auto' borderRight='1px solid #212222'>
+                    <Text fontSize='20px' textAlign='left' w='70%' mr='auto' >
                              Keja. app is campus based house hunting platform tuned to help students find apartments
                         around institutions with ease.
                         
@@ -86,7 +86,7 @@ export default function About(){
                         What we do?
                     </StyledHeading>
                     <Stack>
-                    <Text fontSize='20px' textAlign='right' w='70%' ml='auto' borderLeft='1px solid #212222'>
+                    <Text fontSize='20px' textAlign='right' w='70%' ml='auto'>
                             Keja.app aims to provide an extensive list of apartments around institutions to equip students
                             with comprehensive information to which houses offer the most advantageous options that also sideLine 
                             with their academic, social, economic and extracurricular goals.

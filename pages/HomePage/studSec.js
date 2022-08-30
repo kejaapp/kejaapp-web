@@ -25,11 +25,11 @@ export default function StudSec(){
                         <a href="/help/refer" 
                         target="_blank"
                         rel="noopener noreferrer"> 
-                        <Button bg='#ffa31a' color='#fff' borderRadius='999px' w='100%'> 
-                        start earning
+                        <Button bg='#ffa31a' color='#fff' borderRadius='0' w='100%'> 
+                        start referring
                         </Button>
                         </a>
-                        <Button bg='#212222' color='#ffffff' borderRadius='999px' >
+                        <Button bg='#212222' color='#ffffff' borderRadius='0' >
                             <a href="/help/ambassador" 
                                 target="_blank"
                                 rel="noopener noreferrer" style={{color:'#fff'}}> 
